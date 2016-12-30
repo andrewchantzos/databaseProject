@@ -13,16 +13,21 @@ public class Sell {
 	
 	private int price;
 
+	private int companyId;
 	
 	public Sell(){}
+
 	
 	
-	public Sell(int pharmacyId, int drugId, int price) {
+	public Sell(int pharmacyId, int drugId, int price, int companyId) {
 		super();
 		this.pharmacyId = pharmacyId;
 		this.drugId = drugId;
 		this.price = price;
+		this.companyId = companyId;
 	}
+
+
 
 	public int getPharmacyId() {
 		return pharmacyId;
@@ -48,9 +53,18 @@ public class Sell {
 		this.price = price;
 	}
 
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
 	@Override
 	public String toString() {
-		return "Sell [pharmacyId=" + pharmacyId + ", drugId=" + drugId + ", price=" + price + "]";
+		return "Sell [pharmacyId=" + pharmacyId + ", drugId=" + drugId + ", price=" + price + ", companyId=" + companyId
+				+ "]";
 	}
 	
 	
