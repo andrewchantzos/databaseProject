@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.PharmacyDAO;
-import model.Doctor;
 import model.Pharmacy;
 import util.DBUtil;
 

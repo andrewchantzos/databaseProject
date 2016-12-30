@@ -17,7 +17,9 @@ public class Patient {
 	
 	private String streetName;
 	
-	private int number;
+	private int streetNumber;
+	
+	private String phone;
 	
 	private String postalCode;
 	
@@ -27,16 +29,18 @@ public class Patient {
 
 	
 	public Patient(){}
-	
-	public Patient(int patientId, String firstName, String lastName, String town, String streetName, int number,
-			String postalCode, int age, int doctorId) {
+
+
+	public Patient(int patientId, String firstName, String lastName, String town, String streetName, int streetNumber,
+			String phone, String postalCode, int age, int doctorId) {
 		super();
 		this.patientId = patientId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.town = town;
 		this.streetName = streetName;
-		this.number = number;
+		this.streetNumber = streetNumber;
+		this.phone = phone;
 		this.postalCode = postalCode;
 		this.age = age;
 		this.doctorId = doctorId;
@@ -46,81 +50,109 @@ public class Patient {
 		return patientId;
 	}
 
+
 	public void setPatientId(int patientId) {
 		this.patientId = patientId;
 	}
+
 
 	public String getFirstName() {
 		return firstName;
 	}
 
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 
 	public String getLastName() {
 		return lastName;
 	}
 
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 
 	public String getTown() {
 		return town;
 	}
 
+
 	public void setTown(String town) {
 		this.town = town;
 	}
+
 
 	public String getStreetName() {
 		return streetName;
 	}
 
+
 	public void setStreetName(String streetName) {
 		this.streetName = streetName;
 	}
 
-	public int getNumber() {
-		return number;
+
+	public int getStreetNumber() {
+		return streetNumber;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+
+	public void setStreetNumber(int streetNumber) {
+		this.streetNumber = streetNumber;
 	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 
 	public String getPostalCode() {
 		return postalCode;
 	}
 
+
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
+
 
 	public int getAge() {
 		return age;
 	}
 
+
 	public void setAge(int age) {
 		this.age = age;
 	}
+
 
 	public int getDoctorId() {
 		return doctorId;
 	}
 
+
 	public void setDoctorId(int doctorId) {
 		this.doctorId = doctorId;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Patient [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", town="
-				+ town + ", streetName=" + streetName + ", number=" + number + ", postalCode=" + postalCode + ", age="
-				+ age + ", doctorId=" + doctorId + "]";
+				+ town + ", streetName=" + streetName + ", streetNumber=" + streetNumber + ", phone=" + phone
+				+ ", postalCode=" + postalCode + ", age=" + age + ", doctorId=" + doctorId + "]";
 	}
-	
-	
-	
+
+
+
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.SellDAO;
-import model.Doctor;
 import model.Sell;
 import util.DBUtil;
 
@@ -83,9 +82,9 @@ public class SellDAOImpl implements SellDAO {
 			while(resultSet.next()) {
 				Sell sell = new Sell();
 				sell.setPrice(resultSet.getInt("price"));
-				sell.setCompanyId(resultSet.getInt("company_id"));
+				sell.setCompanyId(resultSet.getInt("drug_company_id"));
 				sell.setDrugId(resultSet.getInt("drug_id"));
-				sell.setPharmacyId(resultSet.getInt("drug_company_id"));
+				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
 				sells.add(sell);
 			}
 			resultSet.close();
@@ -105,9 +104,9 @@ public class SellDAOImpl implements SellDAO {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				sell.setPrice(resultSet.getInt("price"));
-				sell.setCompanyId(resultSet.getInt("company_id"));
+				sell.setCompanyId(resultSet.getInt("drug_company_id"));
 				sell.setDrugId(resultSet.getInt("drug_id"));
-				sell.setPharmacyId(resultSet.getInt("drug_company_id"));
+				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
 			}
 			resultSet.close();
 			preparedStatement.close();

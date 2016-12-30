@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import dao.PharmacyDAO;
 import daoImpl.PharmacyDAOImpl;
-import model.Doctor;
 import model.Pharmacy;
 
 public class PharmacyDaoTest {

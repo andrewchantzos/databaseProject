@@ -16,14 +16,21 @@ public class SellDaoTest {
 	
 	@Test
 	public void insertTest() {
-		Sell sell = new Sell(2,1,1,40);
-
+		Sell sell = new Sell();
+		sell.setCompanyId(1);
+		sell.setDrugId(1);
+		sell.setPharmacyId(2);
+		sell.setPrice(45);
 		sellDao.insert(sell);
 	}
 	
 	@Test
 	public void updateTest() {
-		Sell sell = new Sell(2,1,1,45);
+		Sell sell = new Sell();
+		sell.setCompanyId(1);
+		sell.setDrugId(1);
+		sell.setPharmacyId(2);
+		sell.setPrice(50);
 		sellDao.update(sell);
 	}
 	
