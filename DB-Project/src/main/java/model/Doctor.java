@@ -9,11 +9,11 @@ public class Doctor {
 
 	private int doctorId;
 	
-	private String firstName;
+	private String firstName = "";
 	
-	private String lastName;
+	private String lastName = "";
 	
-	private String speciality;
+	private String speciality = "";
 	
 	private int experience;
 

@@ -1,0 +1,23 @@
+@import "mytheme.scss";
+@import "addons.scss";
+@import "styles.css";
+
+
+// This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
+// The actual styles should be defined in mytheme.scss
+
+.mytheme {
+  @include addons;
+  @include mytheme;
+
+}
+
+// .mytheme .v-grid-row-stripe > td {
+//	background-color: rgba(9, 146, 171, 0.79);
+//	color:white;
+//}
+
+/* grid header aligment */
+.mytheme .v-grid-header-deco{
+  background: #0fa6c1;
+}
