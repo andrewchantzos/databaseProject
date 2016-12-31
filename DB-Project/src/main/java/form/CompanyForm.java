@@ -8,39 +8,36 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.DoctorDAO;
-import daoImpl.DoctorDAOImpl;
-import model.Doctor;
-import ui.DoctorView;
+import dao.PharmaceuticalCompanyDAO;
+import daoImpl.PharmaceuticalCompanyDAOImpl;
+import model.PharmaceuticalCompany;
+import ui.CompanyView;
 
-public class DoctorForm  extends FormLayout {
-	
+public class CompanyForm extends FormLayout{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private TextField firstName = new TextField("Firstname");
-	private TextField lastName = new TextField("Lastname");
-	private TextField speciality = new TextField("Speciality");
-	private TextField experience = new TextField("Experience");
+	private TextField name = new TextField("Name");
+	private TextField phoneNumber = new TextField("Phone Number");
+	
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	private boolean insert = false;
 	
-	private DoctorDAO doctorDao = new DoctorDAOImpl();
-	private Doctor doctor;
-	private DoctorView myUI;
+	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
+	private PharmaceuticalCompany company;
+	private CompanyView myUI;
 	
 	
-	public DoctorForm(DoctorView myUI) {
+	public CompanyForm(CompanyView myUI) {
 		this.myUI = myUI;
 
 		// Set input prompts
-		firstName.setInputPrompt("First Name");
-		lastName.setInputPrompt("Last Name");
-		speciality.setInputPrompt("Speciality");
-		experience.setConverter(Integer.class);
-		experience.setInputPrompt("Experience");
+		//phone.setConverter(Long.class);
+		name.setInputPrompt("Name");
+		phoneNumber.setInputPrompt("Phone Number");
+
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
@@ -52,32 +49,32 @@ public class DoctorForm  extends FormLayout {
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 		
 		buttons.setSpacing(true);
-		addComponents(firstName, lastName, speciality, experience, buttons);
+		addComponents(name, phoneNumber, buttons);
 	}
 	
-	public void setDoctor(Doctor doctor, boolean insert) {
-		this.doctor = doctor;
+	public void setCompany(PharmaceuticalCompany company, boolean insert) {
+		this.company = company;
 		this.insert = insert;
-		BeanFieldGroup.bindFieldsUnbuffered(doctor, this);
+		BeanFieldGroup.bindFieldsUnbuffered(company, this);
 		
 		
 		// Show delete button only for persisted clients
 		delete.setVisible(true);
 		setVisible(true);
-		firstName.selectAll();
+		name.selectAll();
 	}
 	
 	private void save() {
 		if (insert)
-			doctorDao.insert(doctor);
+			companyDao.insert(company);
 		else
-			doctorDao.update(doctor);
+			companyDao.update(company);
 		myUI.updateList();
 		setVisible(false);
 	}
 	
 	private void delete() {
-		doctorDao.delete(doctor.getDoctorId());
+		companyDao.delete(company.getPharmaceuticalCompanyId());
 		myUI.updateList();
 		setVisible(false);
 	}

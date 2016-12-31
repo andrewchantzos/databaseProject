@@ -9,9 +9,9 @@ public class Drug {
 
 	private int drugId;
 	
-	private String name;
+	private String name = "";
 	
-	private String formula;
+	private String formula = "";
 	
 	private int pharmaceuticalCompanyId;
 

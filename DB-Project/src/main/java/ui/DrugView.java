@@ -7,48 +7,44 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.DoctorDAO;
-import daoImpl.DoctorDAOImpl;
-import form.DoctorForm;
-import model.Doctor;
+import dao.DrugDAO;
+import daoImpl.DrugDAOImpl;
+import form.DrugForm;
+import model.Drug;
 import uiComponents.MyComponents;
 
 
 @Theme("mytheme")
-public class DoctorView extends VerticalLayout implements View {
+public class DrugView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DoctorDAO doctorDao = new DoctorDAOImpl();
+	private DrugDAO drugDao = new DrugDAOImpl();
 	private Grid grid = new Grid();
-	private DoctorForm form = new DoctorForm(this);
+	private DrugForm form = new DrugForm(this);
 	private Navigator navigator;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoctorView(Navigator navigator) {
+	public DrugView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
         
-		List<Doctor> doctors = doctorDao.findAll();
+		List<Drug> drugs = drugDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer(Drug.class, drugs));
 		// Order firstName, lastName first
-		grid.setColumnOrder("doctorId", "firstName", "lastName");
+		grid.setColumnOrder("drugId", "name");
 
 		CssLayout filtering = new CssLayout();
 
@@ -64,17 +60,17 @@ public class DoctorView extends VerticalLayout implements View {
 
 
 		
-		Button addNewDoctor = new Button("Add new doctor");
-		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		addNewDoctor.addClickListener(e -> {
+		Button addNewDrug = new Button("Add new drug");
+		addNewDrug.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewDrug.addClickListener(e -> {
 			grid.select(null);
-			form.setDoctor(new Doctor(), true);
+			form.setDrug(new Drug(), true);
 		});
 
 
 
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, addNewDoctor);
+		HorizontalLayout toolbar = new HorizontalLayout(home, addNewDrug);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
@@ -89,37 +85,23 @@ public class DoctorView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
 			} else {
-				Doctor doctor = (Doctor) e.getSelected().iterator().next();
-				form.setDoctor(doctor, false);
+				Drug drug = (Drug) e.getSelected().iterator().next();
+				form.setDrug(drug, false);
 			}
 		});
 	
-		Button button = new Button("Skata",
-                new Button.ClickListener() {
-					 /* 
-					 */
-					private static final long serialVersionUID = 1L;
-
-			@Override
-            public void buttonClick(ClickEvent event) {
-        		Notification.show("Andreas");
-        		navigator.navigateTo("StartView");
-            }
-        });
-        addComponent(button);
-        setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 	}
 
 	public void updateList() {
-		List<Doctor> doctors = doctorDao.findAll();
+		List<Drug> drugs = drugDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer<>(Drug.class, drugs));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor Table");
+		Notification.show("Welcome to Drug Table");
 	}
 
 	public Navigator getNavigator() {

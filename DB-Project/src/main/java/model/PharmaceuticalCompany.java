@@ -9,9 +9,9 @@ public class PharmaceuticalCompany {
 
 	private int pharmaceuticalCompanyId;
 	
-	private String name;
+	private String name = "";
 	
-	private String phoneNumber;
+	private String phoneNumber = "";
 
 	public PharmaceuticalCompany(){}
 	

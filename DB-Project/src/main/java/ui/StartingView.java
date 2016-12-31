@@ -35,44 +35,36 @@ public class StartingView extends VerticalLayout implements View {
 		MenuBar menu = new MenuBar();
 
 		final Label selection = new Label("-");
-		
+
 		// Define a common menu command for all the menu items.
-				MenuBar.Command mycommand = new MenuBar.Command() {
-					public void menuSelected(MenuItem selectedItem) {
-						navigator.navigateTo("DoctorView");
-					}
-				};
+		MenuBar.Command mycommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				String view = selectedItem.getText() + "View";
+				navigator.navigateTo(view);
+			}
+		};
 
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
-		tables.addItem("Patient", null);
-		tables.addItem("Prescription", null);
-		tables.addItem("Contract", null);
-		tables.addItem("Drug", null);
-		tables.addItem("Pharmacy", null);
-		tables.addItem("Sell", null);
-		tables.addItem("Company", null);
+		tables.addItem("Patient", mycommand);
+		tables.addItem("Prescription", mycommand);
+		tables.addItem("Contract", mycommand);
+		tables.addItem("Drug", mycommand);
+		tables.addItem("Pharmacy", mycommand);
+		tables.addItem("Sell", mycommand);
+		tables.addItem("Company", mycommand);
 
 		MenuItem queries = menu.addItem("Queries", null);
 
 		addComponent(menu);
-        setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
+		setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
 
-		/*
-		 * Setup views
-		 */
-		//navigator = new Navigator(layout);
-		//navigator = new Navigator(UI.getCurrent(), viewDisplay);
-		//navigator.addView("DoctorView", new DoctorView(navigator));
-
-		
-		// navigator.navigateTo("CustomerView");
 
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

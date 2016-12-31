@@ -11,6 +11,8 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import uiComponents.Views;
+
 @Theme("mytheme")
 public class MainUI extends UI {
 
@@ -28,9 +30,19 @@ public class MainUI extends UI {
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
         //navigator.addView("", new StartView());
-        navigator.addView("StartingView", new StartingView(navigator));
-        navigator.addView("DoctorView", new DoctorView(navigator));
-        navigator.navigateTo("StartingView");
+		
+		
+        navigator.addView(Views.StartingView.toString(), new StartingView(navigator));
+        navigator.addView(Views.DoctorView.toString(), new DoctorView(navigator));
+        navigator.addView(Views.DrugView.toString(), new DrugView(navigator));
+        //navigator.addView(Views.PatientView.toString(), new PatientView(navigator));
+        navigator.addView(Views.CompanyView.toString(), new CompanyView(navigator));
+        //navigator.addView(Views.SellView.toString(), new SellView(navigator));
+        navigator.addView(Views.PharmacyView.toString(), new PharmacyView(navigator));
+        //navigator.addView(Views.PrescriptionView.toString(), new PrescriptionView(navigator));
+        //navigator.addView(Views.ContractView.toString(), new ContractView(navigator));
+
+        navigator.navigateTo(Views.StartingView.toString());
 
     }
 

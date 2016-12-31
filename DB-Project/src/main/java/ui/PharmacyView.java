@@ -1,5 +1,6 @@
 package ui;
 
+
 import java.util.List;
 
 import com.vaadin.annotations.Theme;
@@ -7,48 +8,43 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.DoctorDAO;
-import daoImpl.DoctorDAOImpl;
-import form.DoctorForm;
-import model.Doctor;
+import dao.PharmacyDAO;
+import daoImpl.PharmacyDAOImpl;
+import form.PharmacyForm;
+import model.Pharmacy;
 import uiComponents.MyComponents;
 
-
 @Theme("mytheme")
-public class DoctorView extends VerticalLayout implements View {
+public class PharmacyView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DoctorDAO doctorDao = new DoctorDAOImpl();
+	private PharmacyDAO pharmacyDao = new PharmacyDAOImpl();
 	private Grid grid = new Grid();
-	private DoctorForm form = new DoctorForm(this);
+	private PharmacyForm form = new PharmacyForm(this);
 	private Navigator navigator;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoctorView(Navigator navigator) {
+	public PharmacyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
         
-		List<Doctor> doctors = doctorDao.findAll();
+		List<Pharmacy> pharmacies = pharmacyDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer(Pharmacy.class, pharmacies));
 		// Order firstName, lastName first
-		grid.setColumnOrder("doctorId", "firstName", "lastName");
+		grid.setColumnOrder("pharmacyId");
 
 		CssLayout filtering = new CssLayout();
 
@@ -64,11 +60,11 @@ public class DoctorView extends VerticalLayout implements View {
 
 
 		
-		Button addNewDoctor = new Button("Add new doctor");
+		Button addNewDoctor = new Button("Add new Pharmacy");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
 			grid.select(null);
-			form.setDoctor(new Doctor(), true);
+			form.setPharmacy(new Pharmacy(), true);
 		});
 
 
@@ -89,37 +85,23 @@ public class DoctorView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
 			} else {
-				Doctor doctor = (Doctor) e.getSelected().iterator().next();
-				form.setDoctor(doctor, false);
+				Pharmacy Pharmacy = (Pharmacy) e.getSelected().iterator().next();
+				form.setPharmacy(Pharmacy, false);
 			}
 		});
 	
-		Button button = new Button("Skata",
-                new Button.ClickListener() {
-					 /* 
-					 */
-					private static final long serialVersionUID = 1L;
-
-			@Override
-            public void buttonClick(ClickEvent event) {
-        		Notification.show("Andreas");
-        		navigator.navigateTo("StartView");
-            }
-        });
-        addComponent(button);
-        setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 	}
 
 	public void updateList() {
-		List<Doctor> doctors = doctorDao.findAll();
+		List<Pharmacy> pharmacies = pharmacyDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer<>(Pharmacy.class, pharmacies));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor Table");
+		Notification.show("Welcome to Pharmacy Table");
 	}
 
 	public Navigator getNavigator() {

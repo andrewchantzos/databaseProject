@@ -12987,6 +12987,10 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.my-img-button:hover {
+	cursor: hand;
+}
+
 .mytheme .v-grid-header-deco {
 	background: #0fa6c1;
 }

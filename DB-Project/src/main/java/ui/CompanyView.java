@@ -1,5 +1,6 @@
 package ui;
 
+
 import java.util.List;
 
 import com.vaadin.annotations.Theme;
@@ -7,48 +8,43 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.DoctorDAO;
-import daoImpl.DoctorDAOImpl;
-import form.DoctorForm;
-import model.Doctor;
+import dao.PharmaceuticalCompanyDAO;
+import daoImpl.PharmaceuticalCompanyDAOImpl;
+import form.CompanyForm;
+import model.PharmaceuticalCompany;
 import uiComponents.MyComponents;
 
-
 @Theme("mytheme")
-public class DoctorView extends VerticalLayout implements View {
+public class CompanyView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DoctorDAO doctorDao = new DoctorDAOImpl();
+	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
 	private Grid grid = new Grid();
-	private DoctorForm form = new DoctorForm(this);
+	private CompanyForm form = new CompanyForm(this);
 	private Navigator navigator;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoctorView(Navigator navigator) {
+	public CompanyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
         
-		List<Doctor> doctors = doctorDao.findAll();
+		List<PharmaceuticalCompany> companies = companyDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer(PharmaceuticalCompany.class, companies));
 		// Order firstName, lastName first
-		grid.setColumnOrder("doctorId", "firstName", "lastName");
+		grid.setColumnOrder("pharmaceuticalCompanyId");
 
 		CssLayout filtering = new CssLayout();
 
@@ -64,11 +60,11 @@ public class DoctorView extends VerticalLayout implements View {
 
 
 		
-		Button addNewDoctor = new Button("Add new doctor");
+		Button addNewDoctor = new Button("Add new Company");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
 			grid.select(null);
-			form.setDoctor(new Doctor(), true);
+			form.setCompany(new PharmaceuticalCompany(), true);
 		});
 
 
@@ -89,37 +85,23 @@ public class DoctorView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
 			} else {
-				Doctor doctor = (Doctor) e.getSelected().iterator().next();
-				form.setDoctor(doctor, false);
+				PharmaceuticalCompany company = (PharmaceuticalCompany) e.getSelected().iterator().next();
+				form.setCompany(company, false);
 			}
 		});
 	
-		Button button = new Button("Skata",
-                new Button.ClickListener() {
-					 /* 
-					 */
-					private static final long serialVersionUID = 1L;
-
-			@Override
-            public void buttonClick(ClickEvent event) {
-        		Notification.show("Andreas");
-        		navigator.navigateTo("StartView");
-            }
-        });
-        addComponent(button);
-        setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 	}
 
 	public void updateList() {
-		List<Doctor> doctors = doctorDao.findAll();
+		List<PharmaceuticalCompany> companies = companyDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer<>(PharmaceuticalCompany.class, companies));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor Table");
+		Notification.show("Welcome to Company Table");
 	}
 
 	public Navigator getNavigator() {

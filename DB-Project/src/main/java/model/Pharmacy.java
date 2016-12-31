@@ -9,17 +9,17 @@ public class Pharmacy {
 
 	private int pharmacyId;
 	
-	private String name;
+	private String name = "";
 	
-	private String town;
+	private String town = "";
 	
-	private String streetName;
+	private String streetName = "";
 	
 	private int streetNumber;
 	
-	private String postalCode;
+	private String postalCode = "";
 	
-	private String phoneNumber;
+	private String phoneNumber = "";
 
 	
 	public Pharmacy(){}
