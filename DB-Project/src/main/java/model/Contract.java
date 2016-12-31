@@ -18,9 +18,9 @@ public class Contract {
 	
 	private Date endDate;
 	
-	private String text;
+	private String text = "";
 	
-	private String supervisor;
+	private String supervisor = "";
 
 	
 	public Contract(){}

@@ -17,7 +17,12 @@ import uiComponents.Views;
 public class MainUI extends UI {
 
 
-    Navigator navigator;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	Navigator navigator;
 
     protected static final String MAINVIEW = "main";
 
@@ -29,18 +34,17 @@ public class MainUI extends UI {
 		setContent(layout);
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
-        //navigator.addView("", new StartView());
 		
 		
         navigator.addView(Views.StartingView.toString(), new StartingView(navigator));
         navigator.addView(Views.DoctorView.toString(), new DoctorView(navigator));
         navigator.addView(Views.DrugView.toString(), new DrugView(navigator));
-        //navigator.addView(Views.PatientView.toString(), new PatientView(navigator));
+        navigator.addView(Views.PatientView.toString(), new PatientView(navigator));
         navigator.addView(Views.CompanyView.toString(), new CompanyView(navigator));
-        //navigator.addView(Views.SellView.toString(), new SellView(navigator));
+        navigator.addView(Views.SellView.toString(), new SellView(navigator));
         navigator.addView(Views.PharmacyView.toString(), new PharmacyView(navigator));
-        //navigator.addView(Views.PrescriptionView.toString(), new PrescriptionView(navigator));
-        //navigator.addView(Views.ContractView.toString(), new ContractView(navigator));
+        navigator.addView(Views.PrescriptionView.toString(), new PrescriptionView(navigator));
+        navigator.addView(Views.ContractView.toString(), new ContractView(navigator));
 
         navigator.navigateTo(Views.StartingView.toString());
 
@@ -49,6 +53,11 @@ public class MainUI extends UI {
 	@WebServlet(urlPatterns = "/*", name = "MainUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
 	public static class MainUIServlet extends VaadinServlet {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	}
 }
 

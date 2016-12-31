@@ -6,7 +6,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
@@ -34,9 +33,9 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuBar menu = new MenuBar();
 
-		final Label selection = new Label("-");
 
 		// Define a common menu command for all the menu items.
+		@SuppressWarnings("serial")
 		MenuBar.Command mycommand = new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				String view = selectedItem.getText() + "View";

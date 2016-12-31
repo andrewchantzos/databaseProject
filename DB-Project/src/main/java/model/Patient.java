@@ -9,19 +9,19 @@ public class Patient {
 
 	private int patientId;
 	
-	private String firstName;
+	private String firstName = "";
 	
-	private String lastName;
+	private String lastName = "";
 	
-	private String town;
+	private String town = "";
 	
-	private String streetName;
+	private String streetName = "";
 	
 	private int streetNumber;
 	
-	private String phone;
+	private String phone = "";
 	
-	private String postalCode;
+	private String postalCode = "";
 	
 	private int age;
 	
