@@ -12,4 +12,6 @@ public interface PharmaceuticalCompanyDAO {
 	public void delete(int pharmaceuticalCompanyId);
 	public List<PharmaceuticalCompany> findAll();
 	public PharmaceuticalCompany findById(int pharmaceuticalCompanyId);
+	public List<PharmaceuticalCompany> findAllFilter(String filter);
+
 }

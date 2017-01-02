@@ -12,4 +12,6 @@ public interface PatientDAO {
 	public void delete(int patientId);
 	public List<Patient> findAll();
 	public Patient findById(int patientId);
+	public List<Patient> findAllFilter(String filter);
+
 }

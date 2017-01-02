@@ -105,6 +105,29 @@ public class DrugDAOImpl implements DrugDAO {
 		}
 		return drugs;
 	}
+	
+	@Override
+	public List<Drug> findAllFilter(String search) {
+		List<Drug> drugs = new ArrayList<Drug>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from drugs");
+			while(resultSet.next()) {
+				Drug drug = new Drug();
+				drug.setDrugId(resultSet.getInt("drug_id"));
+				drug.setName(resultSet.getString("name"));
+				drug.setFormula(resultSet.getString("formula"));
+				drug.setPharmaceuticalCompanyId(resultSet.getInt("company_company_id"));
+				if (drug.toString().toLowerCase().contains(search.toLowerCase()))
+						drugs.add(drug);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return drugs;
+	}
 
 	@Override
 	public Drug findById(int drugId) {

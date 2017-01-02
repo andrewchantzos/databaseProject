@@ -74,8 +74,8 @@ public class Prescription {
 
 	@Override
 	public String toString() {
-		return "Prescription [patientId=" + patientId + ", doctorId=" + doctorId + ", drugId=" + drugId + ", date="
-				+ date + ", quantity=" + quantity + "]";
+		return patientId + " " + doctorId + " " + drugId + " "
+				+ date + " " + quantity;
 	}
 	
 	

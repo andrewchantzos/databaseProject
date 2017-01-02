@@ -88,9 +88,8 @@ public class Contract {
 
 	@Override
 	public String toString() {
-		return "Contract [pharmaceuticalCopmanyId=" + pharmaceuticalCopmanyId + ", pharmacyId=" + pharmacyId
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", text=" + text + ", supervisor=" + supervisor
-				+ "]";
+		return pharmaceuticalCopmanyId + " " + pharmacyId
+				+ " " + startDate + " " + endDate + ", text=" + text + " " + supervisor;
 	}	
 	
 	

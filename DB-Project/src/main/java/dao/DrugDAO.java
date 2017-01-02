@@ -12,4 +12,6 @@ public interface DrugDAO {
 	public void delete(int drugId);
 	public List<Drug> findAll();
 	public Drug findById(int drugId);
+	public List<Drug> findAllFilter(String filter);
+
 }

@@ -1,6 +1,5 @@
 package ui;
 
-
 import java.util.List;
 
 import com.vaadin.annotations.Theme;
@@ -8,11 +7,13 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -32,13 +33,13 @@ public class PharmacyView extends VerticalLayout implements View {
 	private Grid grid = new Grid();
 	private PharmacyForm form = new PharmacyForm(this);
 	private Navigator navigator;
+	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public PharmacyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-        
 		List<Pharmacy> pharmacies = pharmacyDao.findAll();
 
 		// setup grid
@@ -46,7 +47,21 @@ public class PharmacyView extends VerticalLayout implements View {
 		// Order firstName, lastName first
 		grid.setColumnOrder("pharmacyId");
 
+		filterText.setInputPrompt("Search");
+
+		filterText.addTextChangeListener(e -> {
+			grid.setContainerDataSource(
+					new BeanItemContainer<>(Pharmacy.class, pharmacyDao.findAllFilter(e.getText())));
+		});
 		CssLayout filtering = new CssLayout();
+
+		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
+		clearFilterTextBtn.addClickListener(e -> {
+			filterText.clear();
+			updateList();
+		});
+		filtering.addComponents(filterText, clearFilterTextBtn);
+		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
@@ -56,21 +71,19 @@ public class PharmacyView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
-
-
-		
 		Button addNewDoctor = new Button("Add new Pharmacy");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
-			grid.select(null);
-			form.setPharmacy(new Pharmacy(), true);
+			if (form.isVisible()) {
+				form.setVisible(false);
+			} else {
+				grid.select(null);
+				form.setPharmacy(new Pharmacy(), true);
+			}
 		});
 
-
-
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, addNewDoctor);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
@@ -78,8 +91,7 @@ public class PharmacyView extends VerticalLayout implements View {
 		setSpacing(true);
 
 		form.setVisible(false);
-		
-		
+
 		// form management
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
@@ -89,7 +101,7 @@ public class PharmacyView extends VerticalLayout implements View {
 				form.setPharmacy(Pharmacy, false);
 			}
 		});
-	
+
 	}
 
 	public void updateList() {
@@ -113,4 +125,3 @@ public class PharmacyView extends VerticalLayout implements View {
 	}
 
 }
-

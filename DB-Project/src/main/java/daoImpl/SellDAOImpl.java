@@ -96,6 +96,29 @@ public class SellDAOImpl implements SellDAO {
 	}
 
 	@Override
+	public List<Sell> findAllFilter(String search) {
+		List<Sell> sells = new ArrayList<Sell>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from sells");
+			while(resultSet.next()) {
+				Sell sell = new Sell();
+				sell.setPrice(resultSet.getInt("price"));
+				sell.setCompanyId(resultSet.getInt("drug_company_id"));
+				sell.setDrugId(resultSet.getInt("drug_id"));
+				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				if (sell.toString().toLowerCase().contains(search.toLowerCase()))
+					sells.add(sell);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sells;
+	}
+	
+	@Override
 	public Sell findById(int pharmacyId, int drugId, int companyId) {
 		Sell sell = new Sell();
 		try {

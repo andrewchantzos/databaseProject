@@ -13,7 +13,7 @@ import daoImpl.SellDAOImpl;
 import model.Sell;
 import ui.SellView;
 
-public class SellForm extends FormLayout {
+public class SellInsertForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
 	private TextField price = new TextField("Price");
@@ -29,7 +29,7 @@ public class SellForm extends FormLayout {
 	private Sell sell;
 	private SellView myUI;
 
-	public SellForm(SellView myUI) {
+	public SellInsertForm(SellView myUI) {
 		this.myUI = myUI;
 
 		// Set input prompts
@@ -59,7 +59,7 @@ public class SellForm extends FormLayout {
 		BeanFieldGroup.bindFieldsUnbuffered(sell, this);
 
 		// Show delete button only for persisted clients
-		delete.setVisible(true);
+		delete.setVisible(false);
 		setVisible(true);
 		price.selectAll();
 	}

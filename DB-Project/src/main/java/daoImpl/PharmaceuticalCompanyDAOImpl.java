@@ -100,6 +100,28 @@ public class PharmaceuticalCompanyDAOImpl implements PharmaceuticalCompanyDAO {
 		}
 		return pharmaceuticalCompanies;
 	}
+	
+	@Override
+	public List<PharmaceuticalCompany> findAllFilter(String search) {
+		List<PharmaceuticalCompany> pharmaceuticalCompanies = new ArrayList<PharmaceuticalCompany>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from companies");
+			while(resultSet.next()) {
+				PharmaceuticalCompany pharmaceuticalCompany = new PharmaceuticalCompany();
+				pharmaceuticalCompany.setPharmaceuticalCompanyId(resultSet.getInt("company_id"));
+				pharmaceuticalCompany.setName(resultSet.getString("name"));
+				pharmaceuticalCompany.setPhoneNumber(resultSet.getString("phone_number"));
+				if (pharmaceuticalCompany.toString().toLowerCase().contains(search.toLowerCase()))
+					pharmaceuticalCompanies.add(pharmaceuticalCompany);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pharmaceuticalCompanies;
+	}
 
 	@Override
 	public PharmaceuticalCompany findById(int pharmaceuticalCompanyId) {

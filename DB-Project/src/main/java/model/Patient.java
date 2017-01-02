@@ -148,9 +148,9 @@ public class Patient {
 
 	@Override
 	public String toString() {
-		return "Patient [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", town="
-				+ town + ", streetName=" + streetName + ", streetNumber=" + streetNumber + ", phone=" + phone
-				+ ", postalCode=" + postalCode + ", age=" + age + ", doctorId=" + doctorId + "]";
+		return patientId + " " + firstName + " " + lastName + " "
+				+ town + " " + streetName + " " + streetNumber + " " + phone
+				+ " " + postalCode + " " + age + " " + doctorId;
 	}
 
 

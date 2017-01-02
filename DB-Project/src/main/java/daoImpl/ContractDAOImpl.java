@@ -98,6 +98,32 @@ public class ContractDAOImpl implements ContractDAO {
 		return contracts;
 	}
 
+	
+	@Override
+	public List<Contract> findAllFilter(String search) {
+		List<Contract> contracts = new ArrayList<Contract>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from contracts");
+			while(resultSet.next()) {
+				Contract contract = new Contract();
+				contract.setStartDate(resultSet.getDate("start_date"));
+				contract.setEndDate(resultSet.getDate("end_date"));
+				contract.setSupervisor(resultSet.getString("supervisor"));
+				contract.setText(resultSet.getString("text"));
+				contract.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				contract.setPharmaceuticalCopmanyId(resultSet.getInt("company_id"));
+				if (contract.toString().toLowerCase().contains(search.toLowerCase()))
+						contracts.add(contract);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contracts;
+	}
+	
 	@Override
 	public Contract findById(int pharmacyId, int pharmaceuticalCompanyId) {
 		Contract contract = new Contract();

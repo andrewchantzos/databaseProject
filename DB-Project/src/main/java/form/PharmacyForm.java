@@ -13,10 +13,10 @@ import daoImpl.PharmacyDAOImpl;
 import model.Pharmacy;
 import ui.PharmacyView;
 
-public class PharmacyForm  extends FormLayout {
-	
-	/**
+public class PharmacyForm extends FormLayout {
 
+	/**
+	
 	 */
 	private static final long serialVersionUID = 1L;
 	private TextField name = new TextField("Name");
@@ -29,12 +29,11 @@ public class PharmacyForm  extends FormLayout {
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	private boolean insert = false;
-	
+
 	private PharmacyDAO pharmacyDao = new PharmacyDAOImpl();
 	private Pharmacy pharmacy;
 	private PharmacyView myUI;
-	
-	
+
 	public PharmacyForm(PharmacyView myUI) {
 		this.myUI = myUI;
 
@@ -48,38 +47,38 @@ public class PharmacyForm  extends FormLayout {
 		phoneNumber.setInputPrompt("Phone Number");
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
+
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
-		
+
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
-		
+
 		buttons.setSpacing(true);
-		addComponents(name, town, streetName, streetNumber, postalCode, phoneNumber,  buttons);
+		addComponents(name, town, streetName, streetNumber, postalCode, phoneNumber, buttons);
 	}
-	
+
 	public void setPharmacy(Pharmacy Pharmacy, boolean insert) {
 		this.pharmacy = Pharmacy;
 		this.insert = insert;
 		BeanFieldGroup.bindFieldsUnbuffered(Pharmacy, this);
-		
-		
+
 		// Show delete button only for persisted clients
 		delete.setVisible(true);
 		setVisible(true);
 		name.selectAll();
 	}
-	
+
 	private void save() {
-		if (insert)
+		if (insert) {
+			delete.setVisible(false);
 			pharmacyDao.insert(pharmacy);
-		else
+		} else
 			pharmacyDao.update(pharmacy);
 		myUI.updateList();
 		setVisible(false);
 	}
-	
+
 	private void delete() {
 		pharmacyDao.delete(pharmacy.getPharmacyId());
 		myUI.updateList();

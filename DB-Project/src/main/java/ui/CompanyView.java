@@ -1,6 +1,5 @@
 package ui;
 
-
 import java.util.List;
 
 import com.vaadin.annotations.Theme;
@@ -8,11 +7,13 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -30,6 +31,7 @@ public class CompanyView extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
 	private Grid grid = new Grid();
+	private TextField filterText = new TextField();
 	private CompanyForm form = new CompanyForm(this);
 	private Navigator navigator;
 
@@ -38,7 +40,6 @@ public class CompanyView extends VerticalLayout implements View {
 
 		this.setNavigator(navigator);
 
-        
 		List<PharmaceuticalCompany> companies = companyDao.findAll();
 
 		// setup grid
@@ -46,7 +47,21 @@ public class CompanyView extends VerticalLayout implements View {
 		// Order firstName, lastName first
 		grid.setColumnOrder("pharmaceuticalCompanyId");
 
+		filterText.setInputPrompt("Search");
+
+		filterText.addTextChangeListener(e -> {
+			grid.setContainerDataSource(
+					new BeanItemContainer<>(PharmaceuticalCompany.class, companyDao.findAllFilter(e.getText())));
+		});
 		CssLayout filtering = new CssLayout();
+
+		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
+		clearFilterTextBtn.addClickListener(e -> {
+			filterText.clear();
+			updateList();
+		});
+		filtering.addComponents(filterText, clearFilterTextBtn);
+		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
@@ -56,21 +71,19 @@ public class CompanyView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
-
-
-		
 		Button addNewDoctor = new Button("Add new Company");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
-			grid.select(null);
-			form.setCompany(new PharmaceuticalCompany(), true);
+			if (form.isVisible()) {
+				form.setVisible(false);
+			} else {
+				grid.select(null);
+				form.setCompany(new PharmaceuticalCompany(), true);
+			}
 		});
 
-
-
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, addNewDoctor);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
@@ -78,8 +91,7 @@ public class CompanyView extends VerticalLayout implements View {
 		setSpacing(true);
 
 		form.setVisible(false);
-		
-		
+
 		// form management
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
@@ -89,7 +101,7 @@ public class CompanyView extends VerticalLayout implements View {
 				form.setCompany(company, false);
 			}
 		});
-	
+
 	}
 
 	public void updateList() {
@@ -113,4 +125,3 @@ public class CompanyView extends VerticalLayout implements View {
 	}
 
 }
-

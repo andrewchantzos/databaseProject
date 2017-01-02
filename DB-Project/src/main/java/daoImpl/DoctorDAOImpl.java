@@ -14,19 +14,18 @@ import util.DBUtil;
 
 public class DoctorDAOImpl implements DoctorDAO {
 
-	
 	private Connection conn;
 
 	public DoctorDAOImpl() {
 		conn = DBUtil.getConnection();
 	}
-	
+
 	@Override
 	public void insert(Doctor doctor) {
 		try {
 			String query = "insert into `doctors` (`firstname`, `lastname`, `speciality`, `experience_years`) values (?,?,?,?)";
 
-			PreparedStatement preparedStatement = conn.prepareStatement(query, new String[]{"doctor_id"});
+			PreparedStatement preparedStatement = conn.prepareStatement(query, new String[] { "doctor_id" });
 			preparedStatement.setString(1, doctor.getFirstName());
 			preparedStatement.setString(2, doctor.getLastName());
 			preparedStatement.setString(3, doctor.getSpeciality());
@@ -37,7 +36,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void insertWithId(Doctor doctor) {
 		try {
@@ -55,7 +54,6 @@ public class DoctorDAOImpl implements DoctorDAO {
 			e.printStackTrace();
 		}
 	}
-	
 
 	@Override
 	public void update(Doctor doctor) {
@@ -93,7 +91,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 		try {
 			Statement statement = conn.createStatement();
 			ResultSet resultSet = statement.executeQuery("select * from doctors");
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Doctor doctor = new Doctor();
 				doctor.setDoctorId(resultSet.getInt("doctor_id"));
 				doctor.setFirstName(resultSet.getString("firstname"));
@@ -111,13 +109,39 @@ public class DoctorDAOImpl implements DoctorDAO {
 	}
 
 	@Override
+	public List<Doctor> findAllFilter(String filter) {
+		List<Doctor> doctors = new ArrayList<Doctor>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from doctors");
+			while (resultSet.next()) {
+					Doctor doctor = new Doctor();
+					doctor.setDoctorId(resultSet.getInt("doctor_id"));
+					doctor.setFirstName(resultSet.getString("firstname"));
+					doctor.setLastName(resultSet.getString("lastname"));
+					doctor.setSpeciality(resultSet.getString("speciality"));
+					doctor.setExperience(resultSet.getInt("experience_years"));
+					if (doctor.toString().toLowerCase().contains(filter.toLowerCase()))
+						doctors.add(doctor);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		}
+		return doctors;
+	}
+
+	@Override
 	public Doctor findById(int doctorId) {
 		Doctor doctor = new Doctor();
 		try {
 			String query = "select * from doctors where doctor_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				doctor.setDoctorId(resultSet.getInt("doctor_id"));
 				doctor.setFirstName(resultSet.getString("firstname"));
 				doctor.setLastName(resultSet.getString("lastname"));

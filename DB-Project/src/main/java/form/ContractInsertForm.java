@@ -15,21 +15,9 @@ import daoImpl.ContractDAOImpl;
 import model.Contract;
 import ui.ContractView;
 
-public class ContractForm  extends FormLayout {
+public class ContractInsertForm  extends FormLayout {
 	
-	/**	private int pharmaceuticalCopmanyId;
-	
-	private int pharmacyId;
-	
-	private Date startDate;
-	
-	private Date endDate;
-	
-	private String text;
-	
-	private String supervisor;
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private TextField pharmaceuticalCopmanyId = new TextField("Company Id");
 	private TextField pharmacyId = new TextField("Pharmacy Id");
@@ -50,7 +38,7 @@ public class ContractForm  extends FormLayout {
 	private ContractView myUI;
 	
 	
-	public ContractForm(ContractView myUI) {
+	public ContractInsertForm(ContractView myUI) {
 		this.myUI = myUI;
 
 		// Set input prompts

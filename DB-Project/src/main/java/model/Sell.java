@@ -63,8 +63,7 @@ public class Sell {
 
 	@Override
 	public String toString() {
-		return "Sell [pharmacyId=" + pharmacyId + ", drugId=" + drugId + ", price=" + price + ", companyId=" + companyId
-				+ "]";
+		return  pharmacyId + " " + drugId + " " + price + " " + companyId;
 	}
 	
 	

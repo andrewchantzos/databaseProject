@@ -78,8 +78,10 @@ public class PatientForm  extends FormLayout {
 	}
 	
 	private void save() {
-		if (insert)
+		if (insert) {
+			delete.setVisible(false);
 			patientDao.insert(patient);
+		}
 		else
 			patientDao.update(patient);
 		myUI.updateList();

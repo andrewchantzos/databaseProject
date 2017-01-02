@@ -48,8 +48,8 @@ public class PharmaceuticalCompany {
 
 	@Override
 	public String toString() {
-		return "PharmaceuticalCompany [pharmaceuticalCompanyId=" + pharmaceuticalCompanyId + ", name=" + name
-				+ ", phoneNumber=" + phoneNumber + "]";
+		return pharmaceuticalCompanyId + " " + name
+				+ " " + phoneNumber;
 	}
 	
 	

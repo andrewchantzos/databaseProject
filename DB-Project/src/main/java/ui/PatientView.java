@@ -7,11 +7,13 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -31,20 +33,33 @@ public class PatientView extends VerticalLayout implements View {
 	private Grid grid = new Grid();
 	private PatientForm form = new PatientForm(this);
 	private Navigator navigator;
+	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public PatientView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-        
 		List<Patient> patients = patientDao.findAll();
 
 		// setup grid
 		grid.setContainerDataSource(new BeanItemContainer(Patient.class, patients));
 		grid.setColumnOrder("patientId", "firstName", "lastName");
 
+		filterText.setInputPrompt("Search");
+
+		filterText.addTextChangeListener(e -> {
+			grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patientDao.findAllFilter(e.getText())));
+		});
 		CssLayout filtering = new CssLayout();
+
+		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
+		clearFilterTextBtn.addClickListener(e -> {
+			filterText.clear();
+			updateList();
+		});
+		filtering.addComponents(filterText, clearFilterTextBtn);
+		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
@@ -54,21 +69,19 @@ public class PatientView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
-
-
-		
 		Button addNewPatient = new Button("Add new patient");
 		addNewPatient.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewPatient.addClickListener(e -> {
-			grid.select(null);
-			form.setPatient(new Patient(), true);
+			if (form.isVisible()) {
+				form.setVisible(false);
+			} else {
+				grid.select(null);
+				form.setPatient(new Patient(), true);
+			}
 		});
 
-
-
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, addNewPatient);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPatient);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
@@ -76,9 +89,7 @@ public class PatientView extends VerticalLayout implements View {
 		setSpacing(true);
 
 		form.setVisible(false);
-		
 
-		
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
@@ -87,7 +98,7 @@ public class PatientView extends VerticalLayout implements View {
 				form.setPatient(patient, false);
 			}
 		});
-	
+
 	}
 
 	public void updateList() {

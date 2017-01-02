@@ -116,6 +116,33 @@ public class PharmacyDAOImpl implements PharmacyDAO {
 		return pharmacies;
 	}
 
+	
+	@Override
+	public List<Pharmacy> findAllFilter(String search) {
+		List<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from pharmacies");
+			while(resultSet.next()) {
+				Pharmacy pharmacy = new Pharmacy();
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				if (pharmacy.toString().toLowerCase().contains(search.toLowerCase()))
+					pharmacies.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pharmacies;
+	}
+	
 	@Override
 	public Pharmacy findById(int pharmacyId) {
 		Pharmacy pharmacy = new Pharmacy();

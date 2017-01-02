@@ -65,8 +65,10 @@ public class CompanyForm extends FormLayout{
 	}
 	
 	private void save() {
-		if (insert)
+		if (insert) {
+			delete.setVisible(false);
 			companyDao.insert(company);
+		}
 		else
 			companyDao.update(company);
 		myUI.updateList();

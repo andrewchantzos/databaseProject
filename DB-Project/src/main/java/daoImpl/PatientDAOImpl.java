@@ -130,6 +130,35 @@ public class PatientDAOImpl implements PatientDAO {
 		}
 		return patients;
 	}
+	
+	@Override
+	public List<Patient> findAllFilter(String search) {
+		List<Patient> patients = new ArrayList<Patient>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from patients");
+			while (resultSet.next()) {
+				Patient patient = new Patient();
+				patient.setDoctorId(resultSet.getInt("doctor_doctor_id"));
+				patient.setFirstName(resultSet.getString("firstname"));
+				patient.setLastName(resultSet.getString("lastname"));
+				patient.setAge(resultSet.getInt("age"));
+				patient.setPhone(resultSet.getString("phone"));
+				patient.setPatientId(resultSet.getInt("patient_id"));
+				patient.setTown(resultSet.getString("town"));
+				patient.setStreetName(resultSet.getString("street"));
+				patient.setStreetNumber(resultSet.getInt("str_num"));
+				patient.setPostalCode(resultSet.getString("postal_code"));
+				if (patient.toString().toLowerCase().contains(search.toLowerCase()))
+					patients.add(patient);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return patients;
+	}
 
 	@Override
 	public Patient findById(int patientId) {

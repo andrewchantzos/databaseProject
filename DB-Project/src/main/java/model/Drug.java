@@ -60,8 +60,8 @@ public class Drug {
 
 	@Override
 	public String toString() {
-		return "Drug [drugId=" + drugId + ", name=" + name + ", formula=" + formula + ", pharmaceuticalCompanyId="
-				+ pharmaceuticalCompanyId + "]";
+		return drugId + " " + name + " " + formula + " "
+				+ pharmaceuticalCompanyId;
 	}
 	
 	

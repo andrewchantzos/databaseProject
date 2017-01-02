@@ -93,7 +93,30 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
 		}
 		return prescriptions;
 	}
-
+	
+	@Override
+	public List<Prescription> findAllFilter(String search) {
+		List<Prescription> prescriptions = new ArrayList<Prescription>();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from prescriptions");
+			while (resultSet.next()) {
+				Prescription prescription = new Prescription();
+				prescription.setDoctorId(resultSet.getInt("doctor_id"));
+				prescription.setDrugId(resultSet.getInt("drug_id"));
+				prescription.setPatientId(resultSet.getInt("patient_id"));
+				prescription.setDate(resultSet.getDate("date"));
+				prescription.setQuantity(resultSet.getInt("quantity"));
+				if (prescription.toString().toLowerCase().contains(search.toLowerCase()))
+					prescriptions.add(prescription);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return prescriptions;
+	}
 	@Override
 	public Prescription findById(int patientId, int doctorId, int drugId) {
 		Prescription prescription = new Prescription();

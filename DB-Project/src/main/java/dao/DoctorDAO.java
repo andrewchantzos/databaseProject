@@ -13,5 +13,5 @@ public interface DoctorDAO {
 	public void delete(int doctorId);
 	public List<Doctor> findAll();
 	public Doctor findById(int doctorId);
-
+	public List<Doctor> findAllFilter(String filter);
 }

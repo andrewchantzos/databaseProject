@@ -14,41 +14,25 @@ import daoImpl.PrescriptionDAOImpl;
 import model.Prescription;
 import ui.PrescriptionView;
 
-public class PrescriptionForm  extends FormLayout {
+public class PrescriptionUpdateForm  extends FormLayout {
 	
-	/**	private int patientId;
-	
-	private int doctorId;
-	
-	private int drugId;
-	
-	private Date date;
-	
-	private int quantity;
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private TextField patientId = new TextField("Patient Id");
-	private TextField doctorId = new TextField("Doctor Id");
-	private TextField drugId = new TextField("Drug Id");
+
 	private PopupDateField date = new PopupDateField("Date");
 	private TextField quantity = new TextField("Quantity");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
-	private boolean insert = false;
 	
 	private PrescriptionDAO prescriptionDao = new PrescriptionDAOImpl();
 	private Prescription prescription;
 	private PrescriptionView myUI;
 	
 	
-	public PrescriptionForm(PrescriptionView myUI) {
+	public PrescriptionUpdateForm(PrescriptionView myUI) {
 		this.myUI = myUI;
 
-		// Set input prompts
-		patientId.setConverter(Integer.class);
-		doctorId.setConverter(Integer.class);
-		drugId.setConverter(Integer.class);
+
 		quantity.setConverter(Integer.class);
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -61,12 +45,11 @@ public class PrescriptionForm  extends FormLayout {
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 		
 		buttons.setSpacing(true);
-		addComponents(patientId, doctorId, drugId, quantity, date, buttons);
+		addComponents(quantity, date, buttons);
 	}
 	
-	public void setPrescription(Prescription prescription, boolean insert) {
+	public void setPrescription(Prescription prescription) {
 		this.prescription = prescription;
-		this.insert = insert;
 		BeanFieldGroup.bindFieldsUnbuffered(prescription, this);
 		
 		
@@ -77,10 +60,8 @@ public class PrescriptionForm  extends FormLayout {
 	}
 	
 	private void save() {
-		if (insert)
-			prescriptionDao.insert(prescription);
-		else
-			prescriptionDao.update(prescription);
+
+		prescriptionDao.update(prescription);
 		myUI.updateList();
 		setVisible(false);
 	}

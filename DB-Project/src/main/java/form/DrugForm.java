@@ -73,8 +73,10 @@ public class DrugForm  extends FormLayout {
 	}
 	
 	private void save() {
-		if (insert)
+		if (insert) {
+			delete.setVisible(false);
 			drugDao.insert(drug);
+		}
 		else
 			drugDao.update(drug);
 		myUI.updateList();

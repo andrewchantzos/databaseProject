@@ -94,9 +94,8 @@ public class Pharmacy {
 
 	@Override
 	public String toString() {
-		return "Pharmacy [pharmacyId=" + pharmacyId + ", name=" + name + ", town=" + town + ", streetName=" + streetName
-				+ ", streetNumber=" + streetNumber + ", postalCode=" + postalCode + ", phoneNumber=" + phoneNumber
-				+ "]";
+		return  pharmacyId + " " + name + " " + town + " " + streetName
+				+ " " + streetNumber + " " + postalCode + " " + phoneNumber;
 	}
 	
 	
