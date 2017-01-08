@@ -10,5 +10,8 @@ public enum Views {
 	SellView,
 	CompanyView,
 	ContractView,
-	PrescriptionView
+	PrescriptionView,
+	
+	ValidContractQueryView,
+	SpecialityQueryView
 }

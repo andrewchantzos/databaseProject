@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 
-import model.Pharmacy;
 import model.Prescription;
 
 public interface PrescriptionDAO {

@@ -6,6 +6,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
@@ -43,6 +44,18 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 
+		MenuBar.Command validContractCommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo("ValidContractQueryView");
+			}
+		};
+		
+		MenuBar.Command specialityCommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo("SpecialityQueryView/" + selectedItem.getText());
+			}
+		};
+		
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
 		tables.addItem("Patient", mycommand);
@@ -54,7 +67,29 @@ public class StartingView extends VerticalLayout implements View {
 		tables.addItem("Company", mycommand);
 
 		MenuItem queries = menu.addItem("Queries", null);
+				
+		queries.addItem("Valid Contracts", validContractCommand);
+		
+		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
+				
+		/* 
+		 * Add doctors to doctorBySpeciality
+		 */
+		
+		doctorsBySpeciality.addItem("Pathology", specialityCommand);
+		doctorsBySpeciality.addItem("Cardiology", specialityCommand);
+		doctorsBySpeciality.addItem("Gastroenterology", specialityCommand);
+		doctorsBySpeciality.addItem("General practice", specialityCommand);
+		doctorsBySpeciality.addItem("Neurology", specialityCommand);
+		doctorsBySpeciality.addItem("Orthopaedics", specialityCommand);
+		doctorsBySpeciality.addItem("Ophthalmology", specialityCommand);
+		doctorsBySpeciality.addItem("Otorhinolaryngology", specialityCommand);
+		doctorsBySpeciality.addItem("Surgeon", specialityCommand);
+		doctorsBySpeciality.addItem("Paediatrics", specialityCommand);
+		doctorsBySpeciality.addItem("Psychiatry", specialityCommand);
+		doctorsBySpeciality.addItem("Urology", specialityCommand);
 
+		
 		addComponent(menu);
 		setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
 

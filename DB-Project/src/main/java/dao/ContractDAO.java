@@ -3,7 +3,6 @@ package dao;
 import java.util.List;
 
 import model.Contract;
-import model.Doctor;
 
 public interface ContractDAO {
 	public void insert(Contract contract);

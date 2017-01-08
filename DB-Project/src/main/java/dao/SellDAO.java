@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 
-import model.Prescription;
 import model.Sell;
 
 public interface SellDAO {
