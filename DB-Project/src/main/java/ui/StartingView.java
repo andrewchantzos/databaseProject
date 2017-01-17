@@ -6,6 +6,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.MenuBar;
@@ -97,8 +98,9 @@ public class StartingView extends VerticalLayout implements View {
 		setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
 		setComponentAlignment(image, Alignment.MIDDLE_CENTER);
 		setSizeFull();
-		setMargin(false);
 		setSpacing(true);
+		
+		setMargin(new MarginInfo(false, true, true, true));
 
 	}
 
