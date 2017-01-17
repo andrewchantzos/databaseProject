@@ -76,8 +76,7 @@ public class DoctorView extends VerticalLayout implements View {
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
-		main.setSpacing(true);
-		main.setSizeFull();
+
 		main.setExpandRatio(grid, 1);
 
 

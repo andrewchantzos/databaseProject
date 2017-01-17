@@ -4,9 +4,10 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
@@ -23,9 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class StartingView extends VerticalLayout implements View {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	protected static final String MAINVIEW = "main";
@@ -34,6 +33,10 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuBar menu = new MenuBar();
 
+		ThemeResource resource = new ThemeResource("images/pill2.png");
+		Image image = new Image("",resource);
+
+		addComponent(image);
 
 		// Define a common menu command for all the menu items.
 		@SuppressWarnings("serial")
@@ -92,7 +95,10 @@ public class StartingView extends VerticalLayout implements View {
 		
 		addComponent(menu);
 		setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
-
+		setComponentAlignment(image, Alignment.MIDDLE_CENTER);
+		setSizeFull();
+		setMargin(false);
+		setSpacing(true);
 
 	}
 
