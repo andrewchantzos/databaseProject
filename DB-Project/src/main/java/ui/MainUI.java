@@ -29,7 +29,7 @@ public class MainUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 		final VerticalLayout layout = new VerticalLayout();
-		layout.setMargin(true);
+		//layout.setMargin(true);
 		layout.setSpacing(true);
 		setContent(layout);
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
@@ -48,6 +48,7 @@ public class MainUI extends UI {
         
         navigator.addView(Views.SpecialityQueryView.toString(), new SpecialityQueryView(navigator));
         navigator.addView(Views.ValidContractQueryView.toString(), new ValidContractQueryView(navigator));
+        navigator.addView(Views.DrugPriceQueryView.toString(), new DrugPriceQueryView(navigator));
         navigator.navigateTo(Views.StartingView.toString());
 
     }

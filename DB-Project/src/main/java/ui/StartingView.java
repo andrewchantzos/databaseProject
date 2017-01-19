@@ -13,6 +13,8 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
+import uiComponents.Views;
+
 /**
  * This UI is the application entry point. A UI may either represent a browser
  * window (or tab) or some part of a html page where a Vaadin application is
@@ -34,7 +36,7 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuBar menu = new MenuBar();
 
-		ThemeResource resource = new ThemeResource("images/pill2.png");
+		ThemeResource resource = new ThemeResource("images/pill3.png");
 		Image image = new Image("",resource);
 
 		addComponent(image);
@@ -53,6 +55,14 @@ public class StartingView extends VerticalLayout implements View {
 				navigator.navigateTo("ValidContractQueryView");
 			}
 		};
+		
+		
+		MenuBar.Command drugPriceInfoCommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.DrugPriceQueryView.toString());
+			}
+		};
+		
 		
 		MenuBar.Command specialityCommand = new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
@@ -73,7 +83,8 @@ public class StartingView extends VerticalLayout implements View {
 		MenuItem queries = menu.addItem("Queries", null);
 				
 		queries.addItem("Valid Contracts", validContractCommand);
-		
+		queries.addItem("Drug Price Info", drugPriceInfoCommand);
+
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
 				
 		/* 

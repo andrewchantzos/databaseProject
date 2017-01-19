@@ -13,5 +13,6 @@ public enum Views {
 	PrescriptionView,
 	
 	ValidContractQueryView,
-	SpecialityQueryView
+	SpecialityQueryView,
+	DrugPriceQueryView
 }

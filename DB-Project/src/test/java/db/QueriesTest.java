@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Test;
 
 import model.Doctor;
+import queryModels.DrugPriceInfo;
 import queryModels.ValidContract;
 import sqlQueries.Queries;
 
@@ -24,4 +25,9 @@ public class QueriesTest {
 		System.out.println(doctors);
 	}
 
+	@Test
+	public void drugPriceTest() {
+		List<DrugPriceInfo> l = queries.drugMinAndAVG();
+		System.out.println(l);
+	}
 }
