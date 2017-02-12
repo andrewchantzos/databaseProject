@@ -3,6 +3,7 @@ package form;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
@@ -21,7 +22,8 @@ public class DoctorForm  extends FormLayout {
 	private static final long serialVersionUID = 1L;
 	private TextField firstName = new TextField("Firstname");
 	private TextField lastName = new TextField("Lastname");
-	private TextField speciality = new TextField("Speciality");
+	private ComboBox speciality = new ComboBox("Speciality");
+
 	private TextField experience = new TextField("Experience");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
@@ -34,6 +36,19 @@ public class DoctorForm  extends FormLayout {
 	
 	public DoctorForm(DoctorView myUI) {
 		this.myUI = myUI;
+		speciality.addItem("Pathology");
+		speciality.addItem("Cardiology");
+		speciality.addItem("Gastroenterology");
+		speciality.addItem("General practice");
+		speciality.addItem("Neurology");
+		speciality.addItem("Orthopaedics");
+		speciality.addItem("Ophthalmology");
+		speciality.addItem("Otorhinolaryngology");
+		speciality.addItem("Surgeon");
+		speciality.addItem("Paediatrics");
+		speciality.addItem("Psychiatry");
+		speciality.addItem("Urology");
+
 
 		// Set input prompts
 		firstName.setInputPrompt("First Name");
@@ -53,6 +68,8 @@ public class DoctorForm  extends FormLayout {
 		
 		buttons.setSpacing(true);
 		addComponents(firstName, lastName, speciality, experience, buttons);
+		
+
 	}
 	
 	public void setDoctor(Doctor doctor, boolean insert) {

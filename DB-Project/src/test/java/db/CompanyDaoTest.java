@@ -1,16 +1,13 @@
 package db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import dao.DoctorDAO;
 import dao.PharmaceuticalCompanyDAO;
-import daoImpl.DoctorDAOImpl;
 import daoImpl.PharmaceuticalCompanyDAOImpl;
-import model.Doctor;
 import model.PharmaceuticalCompany;
 
 public class CompanyDaoTest {

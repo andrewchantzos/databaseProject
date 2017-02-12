@@ -64,6 +64,12 @@ public class StartingView extends VerticalLayout implements View {
 		};
 		
 		
+		MenuBar.Command pharmacyPatientCommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.PharmaciesWithDrugsCity.toString());
+			}
+		};
+		
 		MenuBar.Command specialityCommand = new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo("SpecialityQueryView/" + selectedItem.getText());
@@ -84,7 +90,8 @@ public class StartingView extends VerticalLayout implements View {
 				
 		queries.addItem("Valid Contracts", validContractCommand);
 		queries.addItem("Drug Price Info", drugPriceInfoCommand);
-
+		queries.addItem("Pharmacies in City with All Drugs", pharmacyPatientCommand);
+		
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
 				
 		/* 

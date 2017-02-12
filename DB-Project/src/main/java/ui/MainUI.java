@@ -49,6 +49,7 @@ public class MainUI extends UI {
         navigator.addView(Views.SpecialityQueryView.toString(), new SpecialityQueryView(navigator));
         navigator.addView(Views.ValidContractQueryView.toString(), new ValidContractQueryView(navigator));
         navigator.addView(Views.DrugPriceQueryView.toString(), new DrugPriceQueryView(navigator));
+        navigator.addView(Views.PharmaciesWithDrugsCity.toString(), new PharmaciesWithDrugsCity(navigator));
         navigator.navigateTo(Views.StartingView.toString());
 
     }

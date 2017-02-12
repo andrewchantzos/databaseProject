@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.Doctor;
 import queryModels.DrugPriceInfo;
+import queryModels.PharmacyWithAllDrugsInCity;
 import queryModels.ValidContract;
 import util.DBUtil;
 
@@ -172,7 +173,94 @@ public class Queries {
 				info.setPharmacyName(resultSet.getString(4));
 				info.setMinimumPrice(resultSet.getInt(5));
 				if (info.toString().toLowerCase().contains(filter.toLowerCase()))
-					list.add(info);			}
+					list.add(info);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<PharmacyWithAllDrugsInCity> pharmaciesWithAllDrugsInSameCity() {
+		List<PharmacyWithAllDrugsInCity> list = new ArrayList<PharmacyWithAllDrugsInCity>();
+
+		String query = "SELECT PA.PATIENT_ID, PA.FIRSTNAME, PA.LASTNAME, PH.* "
+				+"FROM pharmacies as PH, patients as PA "
+				+"WHERE "
+				+	"(SELECT D.DRUG_ID "
+				+	"FROM drugs as D, sells as S "
+				+   "WHERE D.DRUG_ID = S.DRUG_ID AND PH.PHARMACY_ID = S.PHARMACY_ID and PA.TOWN = PH.TOWN "
+				+    ") "
+				+"in "
+				+    "(SELECT D.DRUG_ID "
+				+   "FROM prescriptions as PR, drugs as D "
+				+    "WHERE PR.PATIENT_ID = PA.PATIENT_ID "
+				+    ")";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				PharmacyWithAllDrugsInCity pharmacy = new PharmacyWithAllDrugsInCity();
+				pharmacy.setPatientId(resultSet.getInt(1));
+				pharmacy.setPatientFirstName(resultSet.getString(2));
+				pharmacy.setPatientLastName(resultSet.getString(3));
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				list.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	public List<PharmacyWithAllDrugsInCity> pharmaciesWithAllDrugsInSameCityFilter(String filter) {
+		List<PharmacyWithAllDrugsInCity> list = new ArrayList<PharmacyWithAllDrugsInCity>();
+
+		String query = "SELECT PA.PATIENT_ID, PA.FIRSTNAME, PA.LASTNAME, PH.* "
+				+"FROM pharmacies as PH, patients as PA "
+				+"WHERE "
+				+	"(SELECT D.DRUG_ID "
+				+	"FROM drugs as D, sells as S "
+				+   "WHERE D.DRUG_ID = S.DRUG_ID AND PH.PHARMACY_ID = S.PHARMACY_ID and PA.TOWN = PH.TOWN "
+				+    ") "
+				+"in "
+				+    "(SELECT D.DRUG_ID "
+				+   "FROM prescriptions as PR, drugs as D "
+				+    "WHERE PR.PATIENT_ID = PA.PATIENT_ID "
+				+    ")";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				PharmacyWithAllDrugsInCity pharmacy = new PharmacyWithAllDrugsInCity();
+				pharmacy.setPatientId(resultSet.getInt(1));
+				pharmacy.setPatientFirstName(resultSet.getString(2));
+				pharmacy.setPatientLastName(resultSet.getString(3));
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				if (pharmacy.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(pharmacy);
+			}			
 			resultSet.close();
 			statement.close();
 		} catch (SQLException e) {
