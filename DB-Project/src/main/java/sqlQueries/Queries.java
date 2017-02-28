@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Doctor;
+import queryModels.DoctorWithOldPatients;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
 import queryModels.ValidContract;
@@ -187,17 +188,13 @@ public class Queries {
 		List<PharmacyWithAllDrugsInCity> list = new ArrayList<PharmacyWithAllDrugsInCity>();
 
 		String query = "SELECT PA.PATIENT_ID, PA.FIRSTNAME, PA.LASTNAME, PH.* "
-				+"FROM pharmacies as PH, patients as PA "
-				+"WHERE "
-				+	"(SELECT D.DRUG_ID "
-				+	"FROM drugs as D, sells as S "
-				+   "WHERE D.DRUG_ID = S.DRUG_ID AND PH.PHARMACY_ID = S.PHARMACY_ID and PA.TOWN = PH.TOWN "
-				+    ") "
-				+"in "
-				+    "(SELECT D.DRUG_ID "
-				+   "FROM prescriptions as PR, drugs as D "
-				+    "WHERE PR.PATIENT_ID = PA.PATIENT_ID "
-				+    ")";
+				+ "FROM ( SELECT  have.patient_id,  have.pharmacy_id "
+				+ "FROM ( SELECT s.pharmacy_id, pr.patient_id, COUNT(*) AS ct " + " FROM sells AS s "
+				+ " JOIN prescriptions AS pr  USING(drug_id) " + " GROUP BY  s.pharmacy_id, pr.patient_id ) AS have "
+				+ "JOIN ( SELECT patient_id, COUNT(*) AS ct " + "  FROM prescriptions "
+				+ "   GROUP BY patient_id ) AS need " + " ON need.patient_id = have.patient_id "
+				+ " WHERE need.ct = have.ct ) AS x " + " JOIN pharmacies as PH  USING(pharmacy_id) "
+				+ " JOIN patients as PA    USING(patient_id) " + "where PA.TOWN = PH.TOWN";
 		try {
 			Statement statement = conn.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
@@ -224,23 +221,18 @@ public class Queries {
 		}
 		return list;
 	}
-	
-	
+
 	public List<PharmacyWithAllDrugsInCity> pharmaciesWithAllDrugsInSameCityFilter(String filter) {
 		List<PharmacyWithAllDrugsInCity> list = new ArrayList<PharmacyWithAllDrugsInCity>();
 
 		String query = "SELECT PA.PATIENT_ID, PA.FIRSTNAME, PA.LASTNAME, PH.* "
-				+"FROM pharmacies as PH, patients as PA "
-				+"WHERE "
-				+	"(SELECT D.DRUG_ID "
-				+	"FROM drugs as D, sells as S "
-				+   "WHERE D.DRUG_ID = S.DRUG_ID AND PH.PHARMACY_ID = S.PHARMACY_ID and PA.TOWN = PH.TOWN "
-				+    ") "
-				+"in "
-				+    "(SELECT D.DRUG_ID "
-				+   "FROM prescriptions as PR, drugs as D "
-				+    "WHERE PR.PATIENT_ID = PA.PATIENT_ID "
-				+    ")";
+				+ "FROM ( SELECT  have.patient_id,  have.pharmacy_id "
+				+ "FROM ( SELECT s.pharmacy_id, pr.patient_id, COUNT(*) AS ct " + " FROM sells AS s "
+				+ " JOIN prescriptions AS pr  USING(drug_id) " + " GROUP BY  s.pharmacy_id, pr.patient_id ) AS have "
+				+ "JOIN ( SELECT patient_id, COUNT(*) AS ct " + "  FROM prescriptions "
+				+ "   GROUP BY patient_id ) AS need " + " ON need.patient_id = have.patient_id "
+				+ " WHERE need.ct = have.ct ) AS x " + " JOIN pharmacies as PH  USING(pharmacy_id) "
+				+ " JOIN patients as PA    USING(patient_id) " + "where PA.TOWN = PH.TOWN";
 		try {
 			Statement statement = conn.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
@@ -260,7 +252,7 @@ public class Queries {
 				pharmacy.setPhoneNumber(resultSet.getString("phone"));
 				if (pharmacy.toString().toLowerCase().contains(filter.toLowerCase()))
 					list.add(pharmacy);
-			}			
+			}
 			resultSet.close();
 			statement.close();
 		} catch (SQLException e) {
@@ -269,4 +261,58 @@ public class Queries {
 		return list;
 	}
 
+	public List<DoctorWithOldPatients> doctorsWithOldPatients() {
+		List<DoctorWithOldPatients> list = new ArrayList<DoctorWithOldPatients>();
+
+		String query = "SELECT D.DOCTOR_ID, D.firstname, D.lastname, D.speciality, avg(age) "
+				+ "FROM doctors D, patients P " + "where P.DOCTOR_DOCTOR_ID = D.doctor_id " + "GROUP BY doctor_id "
+				+ "HAVING AVG(age)>60";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DoctorWithOldPatients doctor = new DoctorWithOldPatients();
+				doctor.setDoctorId(resultSet.getInt("doctor_id"));
+				doctor.setFirstName(resultSet.getString("firstname"));
+				doctor.setLastName(resultSet.getString("lastname"));
+				doctor.setSpeciality(resultSet.getString("speciality"));
+				doctor.setAverageAge(resultSet.getDouble(5));
+				list.add(doctor);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<DoctorWithOldPatients> doctorsWithOldPatientsFilter(String filter) {
+		List<DoctorWithOldPatients> list = new ArrayList<DoctorWithOldPatients>();
+
+		String query = "SELECT D.DOCTOR_ID, D.firstname, D.lastname, D.speciality, avg(age) "
+				+ "FROM doctors D, patients P " + "where P.DOCTOR_DOCTOR_ID = D.doctor_id " + "GROUP BY doctor_id "
+				+ "HAVING AVG(age)>60";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DoctorWithOldPatients doctor = new DoctorWithOldPatients();
+				doctor.setDoctorId(resultSet.getInt("doctor_id"));
+				doctor.setFirstName(resultSet.getString("firstname"));
+				doctor.setLastName(resultSet.getString("lastname"));
+				doctor.setSpeciality(resultSet.getString("speciality"));
+				doctor.setAverageAge(resultSet.getDouble(5));
+				if (doctor.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(doctor);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

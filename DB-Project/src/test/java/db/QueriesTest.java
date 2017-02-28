@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import model.Doctor;
 import queryModels.DrugPriceInfo;
+import queryModels.PharmacyWithAllDrugsInCity;
 import queryModels.ValidContract;
 import sqlQueries.Queries;
 
@@ -28,6 +29,12 @@ public class QueriesTest {
 	@Test
 	public void drugPriceTest() {
 		List<DrugPriceInfo> l = queries.drugMinAndAVG();
+		System.out.println(l);
+	}
+	
+	@Test
+	public void pharmacyWithAllDrugsInCity() {
+		List<PharmacyWithAllDrugsInCity> l = queries.pharmaciesWithAllDrugsInSameCity();
 		System.out.println(l);
 	}
 }
