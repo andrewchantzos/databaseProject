@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Test;
 
 import model.Doctor;
+import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
 import queryModels.ValidContract;
@@ -22,7 +23,7 @@ public class QueriesTest {
 	
 	@Test
 	public void specialityTest() {
-		List<Doctor> doctors = queries.findDoctorsBySpecialtiy("Cardiology");
+		List<Doctor> doctors = queries.findDoctorsBySpeciality("Cardiology");
 		System.out.println(doctors);
 	}
 
@@ -35,6 +36,12 @@ public class QueriesTest {
 	@Test
 	public void pharmacyWithAllDrugsInCity() {
 		List<PharmacyWithAllDrugsInCity> l = queries.pharmaciesWithAllDrugsInSameCity();
+		System.out.println(l);
+	}
+	
+	@Test
+	public void drugPrescriptionCount() {
+		List<DrugPrescriptionCount> l = queries.drugPrescriptionCount();
 		System.out.println(l);
 	}
 }

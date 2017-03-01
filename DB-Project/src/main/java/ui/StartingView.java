@@ -83,6 +83,12 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 		
+		MenuBar.Command drugPrescriptionCountCommand = new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.DrugCountPrescriptionView.toString());
+			}
+		};
+		
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
 		tables.addItem("Patient", mycommand);
@@ -99,7 +105,8 @@ public class StartingView extends VerticalLayout implements View {
 		queries.addItem("Drug Price Info", drugPriceInfoCommand);
 		queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
 		queries.addItem("Doctors with average Patient age over 60", doctorWithOldPatientCommand);
-
+		queries.addItem("Drugs sorted by prescription count", drugPrescriptionCountCommand);
+		
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
 				
 		/* 

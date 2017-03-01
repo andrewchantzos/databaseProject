@@ -111,20 +111,6 @@ public class DoctorView extends VerticalLayout implements View {
 			}
 		});
 
-		Button button = new Button("Shitty button", new Button.ClickListener() {
-			/* 
-			*/
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Notification.show("Andreas");
-				navigator.navigateTo(Views.StartingView.toString());
-			}
-		});
-		
-		addComponent(button);
-		setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 	}
 
 	public void updateList() {

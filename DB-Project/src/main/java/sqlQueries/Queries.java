@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.Doctor;
 import queryModels.DoctorWithOldPatients;
+import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
 import queryModels.ValidContract;
@@ -77,7 +78,7 @@ public class Queries {
 		return list;
 	}
 
-	public List<Doctor> findDoctorsBySpecialtiy(String speciality) {
+	public List<Doctor> findDoctorsBySpeciality(String speciality) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
 		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = '"
@@ -101,7 +102,7 @@ public class Queries {
 		return list;
 	}
 
-	public List<Doctor> findDoctorsBySpecialtiyFilter(String speciality, String filter) {
+	public List<Doctor> findDoctorsBySpecialityFilter(String speciality, String filter) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
 		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = '"
@@ -308,6 +309,55 @@ public class Queries {
 				if (doctor.toString().toLowerCase().contains(filter.toLowerCase()))
 					list.add(doctor);
 			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<DrugPrescriptionCount> drugPrescriptionCount() {
+		List<DrugPrescriptionCount> list = new ArrayList<DrugPrescriptionCount>();
+
+		String query = "SELECT D.DRUG_ID, D.NAME, COUNT(*) " + "FROM DRUGS AS D, prescriptions AS PR "
+				+ "WHERE PR.DRUG_ID = D.DRUG_ID " + "GROUP BY D.DRUG_ID, D.NAME " + "ORDER BY COUNT(*) DESC";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DrugPrescriptionCount drug = new DrugPrescriptionCount();
+				drug.setDrugId(resultSet.getInt("DRUG_ID"));
+				drug.setDrugName(resultSet.getString("NAME"));
+				drug.setCount(resultSet.getInt(3));
+				list.add(drug);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<DrugPrescriptionCount> drugPrescriptionCountFilter(String filter) {
+		List<DrugPrescriptionCount> list = new ArrayList<DrugPrescriptionCount>();
+
+		String query = "SELECT D.DRUG_ID, D.NAME, COUNT(*) " + "FROM DRUGS AS D, prescriptions AS PR "
+				+ "WHERE PR.DRUG_ID = D.DRUG_ID " + "GROUP BY D.DRUG_ID, D.NAME " + "ORDER BY COUNT(*) DESC";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DrugPrescriptionCount drug = new DrugPrescriptionCount();
+				drug.setDrugId(resultSet.getInt("DRUG_ID"));
+				drug.setDrugName(resultSet.getString("NAME"));
+				drug.setCount(resultSet.getInt(3));
+				if (drug.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(drug);
+			}			
 			resultSet.close();
 			statement.close();
 		} catch (SQLException e) {

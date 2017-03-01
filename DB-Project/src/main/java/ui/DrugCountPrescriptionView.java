@@ -1,6 +1,5 @@
 package ui;
 
-
 import java.util.List;
 
 import com.vaadin.annotations.Theme;
@@ -18,39 +17,43 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import model.Doctor;
+import queryModels.DrugPrescriptionCount;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class SpecialityQueryView extends VerticalLayout implements View {
-
-
-	String speciality = "";
+public class DrugCountPrescriptionView extends VerticalLayout implements View {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private Queries queries = new Queries();
 	private Grid grid = new Grid();
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
-	public SpecialityQueryView(Navigator navigator) {
-		this.setNavigator(navigator);	
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class));
-		grid.removeColumn("speciality");
-		grid.removeColumn("doctorId");
-	
-		// setup grid
-		// Order firstName, lastName first
-		grid.setColumnOrder("firstName", "lastName");
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public DrugCountPrescriptionView(Navigator navigator) {
 
+		this.setNavigator(navigator);
+
+		List<DrugPrescriptionCount> list = queries.drugPrescriptionCount();
+
+		// setup grid
+		grid.setContainerDataSource(new BeanItemContainer(DrugPrescriptionCount.class, list));
+		grid.setColumnOrder("drugId", "drugName", "count");
+
+		
 		filterText.setInputPrompt("Search");
 		
 		
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, queries.findDoctorsBySpecialityFilter(speciality, e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(DrugPrescriptionCount.class, queries.drugPrescriptionCountFilter(e.getText())));
 		});
 		
 		CssLayout filtering = new CssLayout();
+		
+		
 		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
 		clearFilterTextBtn.addClickListener(e -> {
 			filterText.clear();
@@ -67,8 +70,7 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 		main.setSpacing(true);
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
-
-
+		
 		Button home = MyComponents.homeButton(navigator);
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering);
 		toolbar.setSpacing(true);
@@ -76,28 +78,20 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 
 		setMargin(true);
 		setSpacing(true);
+
 	}
 
 	public void updateList() {
-		List<Doctor> doctors = queries.findDoctorsBySpeciality(speciality);
+		List<DrugPrescriptionCount> list = queries.drugPrescriptionCount();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer(DrugPrescriptionCount.class, list));
+	
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// set speciality
-		speciality = event.getParameters();
-		Notification.show("Welcome to " + speciality + " Table");
-		
-		
-		List<Doctor> doctors = queries.findDoctorsBySpeciality(speciality);
-
-		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
-
+		Notification.show("Welcome to Drug Prescription Count Table");
 	}
 
 	public Navigator getNavigator() {
