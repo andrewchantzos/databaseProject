@@ -1,10 +1,19 @@
 package form;
 
+
+import java.util.List;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -12,14 +21,17 @@ import dao.PatientDAO;
 import daoImpl.PatientDAOImpl;
 import model.Patient;
 import ui.PatientView;
+import validators.CustomValidators;
 
 public class PatientForm  extends FormLayout {
 	
 	/**
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private TextField firstName = new TextField("Firstname");
-	private TextField lastName = new TextField("Firstname");
+	
+	private TextField lastName = new TextField("Lastname");
 	private TextField town = new TextField("Town");
 	private TextField streetName = new TextField("Street Name");
 	private TextField streetNumber = new TextField("Street Number");
@@ -35,9 +47,39 @@ public class PatientForm  extends FormLayout {
 	private PatientDAO patientDao = new PatientDAOImpl();
 	private Patient patient;
 	private PatientView myUI;
-	
+	FieldGroup fieldGroup;
 	
 	public PatientForm(PatientView myUI) {
+		
+		fieldGroup = new FieldGroup();
+		fieldGroup.bind(firstName, firstName);
+		fieldGroup.bind(lastName, lastName);
+		fieldGroup.bind(town, town);
+		fieldGroup.bind(streetName, streetName);
+		fieldGroup.bind(streetNumber, streetNumber);
+		fieldGroup.bind(postalCode, postalCode);
+		fieldGroup.bind(phone, phone);
+		fieldGroup.bind(age, age);
+		fieldGroup.bind(doctorId, doctorId);
+		
+		doctorId.addValidator(CustomValidators.idValidator());
+		CustomValidators.stringValidator(firstName);
+		
+		streetNumber.addValidator(CustomValidators.streetNumber());
+		
+		CustomValidators.stringValidator(lastName);
+		
+		CustomValidators.stringValidator(town);
+
+		CustomValidators.stringValidator(postalCode);
+
+		CustomValidators.stringValidator(streetName);
+		CustomValidators.phoneValidator(phone);
+
+		age.addValidator(CustomValidators.ageValidator());
+
+
+
 		this.myUI = myUI;
 
 		// Set input prompts
@@ -69,6 +111,8 @@ public class PatientForm  extends FormLayout {
 		this.patient = patient;
 		this.insert = insert;
 		BeanFieldGroup.bindFieldsUnbuffered(patient, this);
+
+
 		
 		
 		// Show delete button only for persisted clients
@@ -80,6 +124,16 @@ public class PatientForm  extends FormLayout {
 	private void save() {
 		if (insert) {
 			delete.setVisible(false);
+			try {
+				for(Field<?> field : fieldGroup.getFields())
+					((AbstractField<String>) field).setValidationVisible(true);
+				this.fieldGroup.commit();
+			 } catch (CommitException e) {
+		            // Show all the validate errors:
+		         Notification.show("Input errors");
+
+		            return;
+		        }
 			patientDao.insert(patient);
 		}
 		else
@@ -92,5 +146,10 @@ public class PatientForm  extends FormLayout {
 		patientDao.delete(patient.getPatientId());
 		myUI.updateList();
 		setVisible(false);
+	}
+	
+	public void initiate() {
+		for(Field<?> field : fieldGroup.getFields())
+			((AbstractField<String>) field).setValidationVisible(false);
 	}
 }

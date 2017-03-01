@@ -39,7 +39,6 @@ public class PatientView extends VerticalLayout implements View {
 	public PatientView(Navigator navigator) {
 
 		this.setNavigator(navigator);
-
 		List<Patient> patients = patientDao.findAll();
 
 		// setup grid
@@ -84,7 +83,21 @@ public class PatientView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPatient);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+	}
 
+	public void updateList() {
+		List<Patient> patients = patientDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patients));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Patient Table");
+
+		form.initiate();
+		
 		setMargin(true);
 		setSpacing(true);
 
@@ -99,18 +112,6 @@ public class PatientView extends VerticalLayout implements View {
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<Patient> patients = patientDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patients));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Patient Table");
 	}
 
 	public Navigator getNavigator() {
