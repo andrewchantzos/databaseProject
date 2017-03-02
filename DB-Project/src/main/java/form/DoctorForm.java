@@ -56,7 +56,7 @@ public class DoctorForm extends FormLayout {
 		speciality.addItem("Paediatrics");
 		speciality.addItem("Psychiatry");
 		speciality.addItem("Urology");
-
+		
 		fieldGroup = new FieldGroup();
 		fieldGroup.bind(firstName, firstName);
 		fieldGroup.bind(lastName, lastName);
@@ -83,7 +83,6 @@ public class DoctorForm extends FormLayout {
 
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
-
 		buttons.setSpacing(true);
 		addComponents(firstName, lastName, speciality, experience, buttons);
 
@@ -102,7 +101,8 @@ public class DoctorForm extends FormLayout {
 
 	@SuppressWarnings("unchecked")
 	private void save() {
-
+		System.out.println(speciality.getValue().toString());
+		speciality.setValue("lol");
 		delete.setVisible(false);
 		try {
 			for (Field<?> field : fieldGroup.getFields())

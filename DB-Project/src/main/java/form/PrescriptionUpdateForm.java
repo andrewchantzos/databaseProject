@@ -23,8 +23,7 @@ import model.Prescription;
 import ui.PrescriptionView;
 import validators.CustomValidators;
 
-public class PrescriptionUpdateForm  extends FormLayout {
-	
+public class PrescriptionUpdateForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,13 +31,12 @@ public class PrescriptionUpdateForm  extends FormLayout {
 	private TextField quantity = new TextField("Quantity");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
-	
+
 	private PrescriptionDAO prescriptionDao = new PrescriptionDAOImpl();
 	private Prescription prescription;
 	private PrescriptionView myUI;
 	private FieldGroup fieldGroup;
 
-	
 	public PrescriptionUpdateForm(PrescriptionView myUI) {
 		this.myUI = myUI;
 		fieldGroup = new FieldGroup();
@@ -51,31 +49,30 @@ public class PrescriptionUpdateForm  extends FormLayout {
 		quantity.addValidator(CustomValidators.quantityValidator());
 
 		quantity.setConverter(Integer.class);
-		
+
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
+
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
-		
+
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
-		
+
 		buttons.setSpacing(true);
 		addComponents(quantity, date, buttons);
 	}
-	
+
 	public void setPrescription(Prescription prescription) {
 		this.prescription = prescription;
 		BeanFieldGroup.bindFieldsUnbuffered(prescription, this);
-		
-		
+
 		// Show delete button only for persisted clients
 		delete.setVisible(true);
 		setVisible(true);
 		quantity.selectAll();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void save() {
 
@@ -90,16 +87,13 @@ public class PrescriptionUpdateForm  extends FormLayout {
 
 			return;
 		}
-		try {
-			prescriptionDao.update(prescription);
-			myUI.updateList();
-			setVisible(false);
-		} catch (SQLIntegrityConstraintViolationException e) {
-			Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
-		}
+
+		prescriptionDao.update(prescription);
+		myUI.updateList();
+		setVisible(false);
 
 	}
-	
+
 	private void delete() {
 		prescriptionDao.delete(prescription.getPatientId(), prescription.getDoctorId(), prescription.getDrugId());
 		myUI.updateList();

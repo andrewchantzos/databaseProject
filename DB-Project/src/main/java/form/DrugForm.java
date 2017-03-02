@@ -1,13 +1,17 @@
 package form;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -17,8 +21,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 import dao.DrugDAO;
+import dao.PharmaceuticalCompanyDAO;
 import daoImpl.DrugDAOImpl;
+import daoImpl.PharmaceuticalCompanyDAOImpl;
 import model.Drug;
+import model.PharmaceuticalCompany;
 import ui.DrugView;
 import validators.CustomValidators;
 
@@ -36,12 +43,15 @@ public class DrugForm extends FormLayout {
 	private static final long serialVersionUID = 1L;
 	private TextField name = new TextField("Name");
 	private TextArea formula = new TextArea("Formula");
-	private TextField pharmaceuticalCompanyId = new TextField("Company Id");
+	private ComboBox pharmaceuticalCompanyId = new ComboBox("Company");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	private boolean insert = false;
 
 	private DrugDAO drugDao = new DrugDAOImpl();
+	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
+	private List<PharmaceuticalCompany> companyList;
+	
 	private Drug drug;
 	private DrugView myUI;
 	private FieldGroup fieldGroup;
@@ -55,6 +65,24 @@ public class DrugForm extends FormLayout {
 		fieldGroup.bind(pharmaceuticalCompanyId, pharmaceuticalCompanyId);
 		pharmaceuticalCompanyId.addValidator(CustomValidators.idValidator());
 
+		pharmaceuticalCompanyId.addFocusListener(new FocusListener() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void focus(FocusEvent event) {
+				companyList = companyDao.findAll();	
+				for (PharmaceuticalCompany company: companyList) {
+					pharmaceuticalCompanyId.addItem(company.getPharmaceuticalCompanyId());
+					String companyCaption = company.getPharmaceuticalCompanyId() + ": " + company.getName();
+					pharmaceuticalCompanyId.setItemCaption(company.getPharmaceuticalCompanyId(), companyCaption);
+				}
+			}
+		});
+		
 		CustomValidators.stringValidator(name);
 
 		// Set input prompts

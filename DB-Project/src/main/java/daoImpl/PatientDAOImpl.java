@@ -22,7 +22,7 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 
 	@Override
-	public void insert(Patient patient) throws SQLIntegrityConstraintViolationException  {
+	public void insert(Patient patient)  {
 		try {
 			String query = "insert into `patients` (`doctor_doctor_id`, `town`, `street`, `str_num`, `postal_code`, `phone`, `firstname`, `lastname`, `age`) values (?,?,?,?,?,?,?,?,?)";
 
@@ -39,8 +39,6 @@ public class PatientDAOImpl implements PatientDAO {
 			preparedStatement.executeUpdate();
 
 			preparedStatement.close();
-		} catch (SQLIntegrityConstraintViolationException e) {
-			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +68,7 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 
 	@Override
-	public void update(Patient patient) throws SQLIntegrityConstraintViolationException {
+	public void update(Patient patient) {
 		try {
 			String query = "update patients set firstname=?, lastname=?, age=?, doctor_doctor_id=?, town=?, street=?, str_num=?, postal_code=?, phone=? where patient_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -87,8 +85,7 @@ public class PatientDAOImpl implements PatientDAO {
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
-		} catch (SQLIntegrityConstraintViolationException e) {
-			throw new SQLIntegrityConstraintViolationException();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

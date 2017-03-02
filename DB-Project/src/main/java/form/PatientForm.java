@@ -1,14 +1,17 @@
 package form;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -17,7 +20,9 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 import dao.PatientDAO;
+import daoImpl.DoctorDAOImpl;
 import daoImpl.PatientDAOImpl;
+import model.Doctor;
 import model.Patient;
 import ui.PatientView;
 import validators.CustomValidators;
@@ -37,7 +42,7 @@ public class PatientForm extends FormLayout {
 	private TextField postalCode = new TextField("Postal Code");
 	private TextField phone = new TextField("Phone Number");
 	private TextField age = new TextField("Age");
-	private TextField doctorId = new TextField("Doctor Id");
+	private ComboBox doctorId = new ComboBox("Doctor");
 
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
@@ -47,6 +52,8 @@ public class PatientForm extends FormLayout {
 	private Patient patient;
 	private PatientView myUI;
 	private FieldGroup fieldGroup;
+	private List<Doctor> doctorList;
+	private DoctorDAOImpl doctorDao = new DoctorDAOImpl();
 
 	public PatientForm(PatientView myUI) {
 
@@ -62,6 +69,23 @@ public class PatientForm extends FormLayout {
 		fieldGroup.bind(doctorId, doctorId);
 
 		doctorId.addValidator(CustomValidators.idValidator());
+
+		doctorId.addFocusListener(new FocusListener() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void focus(FocusEvent event) {
+				doctorList = doctorDao.findAll();
+				for (Doctor doctor : doctorList) {
+					doctorId.addItem(doctor.getDoctorId());
+					String doctorCaption = doctor.getDoctorId() + ": " + doctor.getFirstName() + " "
+							+ doctor.getLastName();
+					doctorId.setItemCaption(doctor.getDoctorId(), doctorCaption);
+				}
+			}
+		});
+
 		CustomValidators.stringValidator(firstName);
 
 		streetNumber.addValidator(CustomValidators.streetNumber());
@@ -131,21 +155,14 @@ public class PatientForm extends FormLayout {
 		}
 		if (insert) {
 
-			try {
-				patientDao.insert(patient);
-				myUI.updateList();
-				setVisible(false);
-			} catch (SQLIntegrityConstraintViolationException e) {
-				Notification.show("ADD FAILED", "Add with Invalid ID", Notification.Type.WARNING_MESSAGE);
-			}
+			patientDao.insert(patient);
+			myUI.updateList();
+			setVisible(false);
+
 		} else
-			try {
-				patientDao.update(patient);
-				myUI.updateList();
-				setVisible(false);
-			} catch (SQLIntegrityConstraintViolationException e) {
-				Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
-			}
+			patientDao.update(patient);
+		myUI.updateList();
+		setVisible(false);
 
 	}
 
