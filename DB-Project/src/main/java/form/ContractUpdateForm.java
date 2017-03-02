@@ -93,7 +93,6 @@ public class ContractUpdateForm extends FormLayout {
 		} catch (CommitException e) {
 			// Show all the validate errors:
 			Notification.show("Invalid input", Notification.Type.WARNING_MESSAGE);
-
 			return;
 		}
 		try {
@@ -103,7 +102,6 @@ public class ContractUpdateForm extends FormLayout {
 		} catch (SQLIntegrityConstraintViolationException e) {
 			Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
 		}
-
 	}
 
 	private void delete() {

@@ -101,7 +101,7 @@ public class DoctorForm extends FormLayout {
 
 	@SuppressWarnings("unchecked")
 	private void save() {
-		System.out.println(speciality.getValue().toString());
+
 		speciality.setValue("lol");
 		delete.setVisible(false);
 		try {

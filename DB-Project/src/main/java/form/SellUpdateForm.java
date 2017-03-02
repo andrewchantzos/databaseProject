@@ -91,7 +91,6 @@ public class SellUpdateForm extends FormLayout {
 		} catch (SQLIntegrityConstraintViolationException e) {
 			Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
 		}
-
 	}
 
 	private void delete() {

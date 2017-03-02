@@ -25,7 +25,8 @@ public class SellDAOImpl implements SellDAO {
 	
 	
 	@Override
-	public void insert(Sell sell) throws SQLIntegrityConstraintViolationException {
+	public void insert(Sell sell) throws SQLIntegrityConstraintViolationException
+	{
 		try {
 			String query = "insert into `sells` (`pharmacy_id`, `drug_id`, `drug_company_id`, `price`) values (?,?,?,?)";
 
@@ -46,7 +47,8 @@ public class SellDAOImpl implements SellDAO {
 
 
 	@Override
-	public void update(Sell sell) throws SQLIntegrityConstraintViolationException {
+	public void update(Sell sell) throws SQLIntegrityConstraintViolationException
+	{
 		try {
 			String query = "update sells set price=? where pharmacy_id=? and drug_id=? and drug_company_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);

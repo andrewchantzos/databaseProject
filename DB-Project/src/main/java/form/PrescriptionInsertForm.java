@@ -1,5 +1,6 @@
 package form;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -44,7 +45,6 @@ public class PrescriptionInsertForm extends FormLayout {
 	private TextField quantity = new TextField("Quantity");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
-	private boolean insert = false;
 
 	private PrescriptionDAO prescriptionDao = new PrescriptionDAOImpl();
 	private Prescription prescription;
@@ -143,7 +143,7 @@ public class PrescriptionInsertForm extends FormLayout {
 
 	public void setPrescription(Prescription prescription, boolean insert) {
 		this.prescription = prescription;
-		this.insert = insert;
+
 		BeanFieldGroup.bindFieldsUnbuffered(prescription, this);
 
 		// Show delete button only for persisted clients
@@ -166,16 +166,13 @@ public class PrescriptionInsertForm extends FormLayout {
 
 			return;
 		}
-		if (insert) {
+		try {
 			prescriptionDao.insert(prescription);
 			myUI.updateList();
 			setVisible(false);
-
-		} else
-			prescriptionDao.update(prescription);
-		myUI.updateList();
-		setVisible(false);
-
+		} catch (SQLIntegrityConstraintViolationException e) {
+			Notification.show("ADD FAILED", "Entity with these IDs already exists", Notification.Type.WARNING_MESSAGE);
+		}
 	}
 
 	private void delete() {

@@ -88,9 +88,13 @@ public class PrescriptionUpdateForm extends FormLayout {
 			return;
 		}
 
-		prescriptionDao.update(prescription);
-		myUI.updateList();
-		setVisible(false);
+		try {
+			prescriptionDao.update(prescription);
+			myUI.updateList();
+			setVisible(false);
+		} catch (SQLIntegrityConstraintViolationException e) {
+			Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
+		}
 
 	}
 
