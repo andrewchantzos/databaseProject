@@ -51,6 +51,11 @@ public class StartingView extends VerticalLayout implements View {
 		};
 
 		MenuBar.Command validContractCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo("ValidContractQueryView");
 			}
@@ -58,6 +63,11 @@ public class StartingView extends VerticalLayout implements View {
 		
 		
 		MenuBar.Command drugPriceInfoCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo(Views.DrugPriceQueryView.toString());
 			}
@@ -65,12 +75,22 @@ public class StartingView extends VerticalLayout implements View {
 		
 		
 		MenuBar.Command pharmacyPatientCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo(Views.PharmaciesWithDrugsCityView.toString());
 			}
 		};
 		
 		MenuBar.Command specialityCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo("SpecialityQueryView/" + selectedItem.getText());
 			}
@@ -78,12 +98,22 @@ public class StartingView extends VerticalLayout implements View {
 		
 		
 		MenuBar.Command doctorWithOldPatientCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo(Views.DoctorsWithOldPatientsView.toString());
 			}
 		};
 		
 		MenuBar.Command drugPrescriptionCountCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void menuSelected(MenuItem selectedItem) {
 				navigator.navigateTo(Views.DrugCountPrescriptionView.toString());
 			}

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ContractDAOImpl implements ContractDAO {
 	
 	
 	@Override
-	public void insert(Contract contract) {
+	public void insert(Contract contract) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `contracts` (`pharmacy_id`, `company_id`, `start_date`, `end_date`, `supervisor`, `text`) values (?,?,?,?,?,?)";
 
@@ -35,13 +36,15 @@ public class ContractDAOImpl implements ContractDAO {
 			preparedStatement.setString(6, contract.getText());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void update(Contract contract) {
+	public void update(Contract contract) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update contracts set start_date=?, end_date=?, supervisor=?, text=? where pharmacy_id=? and company_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -55,9 +58,11 @@ public class ContractDAOImpl implements ContractDAO {
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}	
 	}
 
 	@Override

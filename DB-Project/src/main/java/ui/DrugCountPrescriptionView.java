@@ -81,6 +81,7 @@ public class DrugCountPrescriptionView extends VerticalLayout implements View {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
 		List<DrugPrescriptionCount> list = queries.drugPrescriptionCount();
 

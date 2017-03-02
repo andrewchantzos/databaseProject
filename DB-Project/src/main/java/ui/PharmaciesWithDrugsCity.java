@@ -81,6 +81,7 @@ public class PharmaciesWithDrugsCity extends VerticalLayout implements View {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
 		List<PharmacyWithAllDrugsInCity> pharmaciesList = queries.pharmaciesWithAllDrugsInSameCity();
 

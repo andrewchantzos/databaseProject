@@ -1,10 +1,18 @@
 package form;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.validator.NullValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -12,6 +20,7 @@ import dao.PharmacyDAO;
 import daoImpl.PharmacyDAOImpl;
 import model.Pharmacy;
 import ui.PharmacyView;
+import validators.CustomValidators;
 
 public class PharmacyForm extends FormLayout {
 
@@ -34,8 +43,28 @@ public class PharmacyForm extends FormLayout {
 	private Pharmacy pharmacy;
 	private PharmacyView myUI;
 
+	private FieldGroup fieldGroup;
+
 	public PharmacyForm(PharmacyView myUI) {
 		this.myUI = myUI;
+		fieldGroup = new FieldGroup();
+		fieldGroup.bind(name, name);
+		fieldGroup.bind(town, town);
+		fieldGroup.bind(streetName, streetName);
+		fieldGroup.bind(streetNumber, streetNumber);
+		fieldGroup.bind(postalCode, postalCode);
+		fieldGroup.bind(phoneNumber, phoneNumber);
+		CustomValidators.stringValidator(name);
+
+		streetNumber.addValidator(CustomValidators.streetNumber());
+		streetNumber.addValidator(new NullValidator("Street Number cannot be null", false));
+
+		CustomValidators.stringValidator(town);
+
+		CustomValidators.stringValidator(postalCode);
+
+		CustomValidators.stringValidator(streetName);
+		CustomValidators.phoneValidator(phoneNumber);
 
 		// Set input prompts
 		name.setInputPrompt("Name");
@@ -69,19 +98,49 @@ public class PharmacyForm extends FormLayout {
 		name.selectAll();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void save() {
+
+		delete.setVisible(false);
+		try {
+			for (Field<?> field : fieldGroup.getFields())
+				((AbstractField<String>) field).setValidationVisible(true);
+			this.fieldGroup.commit();
+		} catch (CommitException e) {
+			// Show all the validate errors:
+			Notification.show("Invalid input", Notification.Type.WARNING_MESSAGE);
+
+			return;
+		}
 		if (insert) {
-			delete.setVisible(false);
-			pharmacyDao.insert(pharmacy);
+
+			try {
+				pharmacyDao.insert(pharmacy);
+				myUI.updateList();
+				setVisible(false);
+			} catch (SQLIntegrityConstraintViolationException e) {
+
+			}
 		} else
-			pharmacyDao.update(pharmacy);
-		myUI.updateList();
-		setVisible(false);
+			try {
+				pharmacyDao.update(pharmacy);
+				myUI.updateList();
+				setVisible(false);
+			} catch (SQLIntegrityConstraintViolationException e) {
+
+			}
+
 	}
 
 	private void delete() {
 		pharmacyDao.delete(pharmacy.getPharmacyId());
 		myUI.updateList();
 		setVisible(false);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void init() {
+		for (Field<?> field : fieldGroup.getFields())
+			((AbstractField<String>) field).setValidationVisible(false);
 	}
 }

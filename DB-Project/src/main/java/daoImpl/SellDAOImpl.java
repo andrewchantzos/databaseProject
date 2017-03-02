@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SellDAOImpl implements SellDAO {
 	
 	
 	@Override
-	public void insert(Sell sell) {
+	public void insert(Sell sell) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `sells` (`pharmacy_id`, `drug_id`, `drug_company_id`, `price`) values (?,?,?,?)";
 
@@ -35,6 +36,8 @@ public class SellDAOImpl implements SellDAO {
 			preparedStatement.setInt(4, sell.getPrice());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,7 +46,7 @@ public class SellDAOImpl implements SellDAO {
 
 
 	@Override
-	public void update(Sell sell) {
+	public void update(Sell sell) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update sells set price=? where pharmacy_id=? and drug_id=? and drug_company_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -53,6 +56,8 @@ public class SellDAOImpl implements SellDAO {
 			preparedStatement.setInt(4, sell.getCompanyId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

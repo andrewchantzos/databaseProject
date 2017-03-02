@@ -79,6 +79,7 @@ public class PharmacyView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				form.setPharmacy(new Pharmacy(), true);
+				form.init();
 			}
 		});
 
@@ -87,6 +88,22 @@ public class PharmacyView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+
+	}
+
+	public void updateList() {
+		List<Pharmacy> pharmacies = pharmacyDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Pharmacy.class, pharmacies));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Pharmacy Table");
+		
+		form.init();
+		
 		setMargin(true);
 		setSpacing(true);
 
@@ -102,18 +119,6 @@ public class PharmacyView extends VerticalLayout implements View {
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<Pharmacy> pharmacies = pharmacyDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Pharmacy.class, pharmacies));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Pharmacy Table");
 	}
 
 	public Navigator getNavigator() {

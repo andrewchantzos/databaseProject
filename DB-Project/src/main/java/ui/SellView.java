@@ -80,6 +80,8 @@ public class SellView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				insertForm.setSell(new Sell(), true);
+				insertForm.init();
+				updateForm.init();
 			}
 		});
 
@@ -88,6 +90,24 @@ public class SellView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+
+
+	}
+
+	public void updateList() {
+		List<Sell> sells = sellDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Sell.class, sells));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Sell Table");
+		
+		insertForm.init();
+		updateForm.init();
+		
 		setMargin(true);
 		setSpacing(true);
 
@@ -105,19 +125,6 @@ public class SellView extends VerticalLayout implements View {
 				updateForm.setSell(sell);
 			}
 		});
-
-	}
-
-	public void updateList() {
-		List<Sell> sells = sellDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Sell.class, sells));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Sell Table");
 	}
 
 	public Navigator getNavigator() {

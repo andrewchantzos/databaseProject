@@ -2,6 +2,7 @@ package db;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import org.junit.Test;
 import dao.ContractDAO;
 import daoImpl.ContractDAOImpl;
 import model.Contract;
-import model.Doctor;
 
 public class ContractDaoTest {
 
@@ -20,7 +20,7 @@ public class ContractDaoTest {
 	ContractDAO contractDAO = new ContractDAOImpl();
 	
 	@Test
-	public void insertTest() {
+	public void insertTest() throws SQLIntegrityConstraintViolationException {
 		Contract contract = new Contract();
 		contract.setPharmaceuticalCopmanyId(2);
 		contract.setPharmacyId(2);
@@ -32,7 +32,7 @@ public class ContractDaoTest {
 	}
 	
 	@Test
-	public void updateTest() {
+	public void updateTest() throws SQLIntegrityConstraintViolationException {
 		Contract contract = new Contract();
 		contract.setPharmaceuticalCopmanyId(2);
 		contract.setPharmacyId(2);

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class DrugDAOImpl implements DrugDAO {
 	}
 	
 	@Override
-	public void insert(Drug drug) {
+	public void insert(Drug drug) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `drugs` (`company_company_id`, `name`, `formula`)  values (?,?,?)";
 
@@ -33,6 +34,8 @@ public class DrugDAOImpl implements DrugDAO {
 			preparedStatement.setString(3, drug.getFormula());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
@@ -56,7 +59,7 @@ public class DrugDAOImpl implements DrugDAO {
 	}
 
 	@Override
-	public void update(Drug drug) {
+	public void update(Drug drug) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update drugs set company_company_id=?, name=?, formula=? where drug_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -66,9 +69,11 @@ public class DrugDAOImpl implements DrugDAO {
 			preparedStatement.setInt(4, drug.getDrugId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}	
 	}
 
 	@Override

@@ -1,13 +1,12 @@
 package form;
 
-
-import java.util.List;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.validator.NullValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Field;
@@ -23,14 +22,14 @@ import model.Patient;
 import ui.PatientView;
 import validators.CustomValidators;
 
-public class PatientForm  extends FormLayout {
-	
+public class PatientForm extends FormLayout {
+
 	/**
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private TextField firstName = new TextField("Firstname");
-	
+
 	private TextField lastName = new TextField("Lastname");
 	private TextField town = new TextField("Town");
 	private TextField streetName = new TextField("Street Name");
@@ -43,14 +42,14 @@ public class PatientForm  extends FormLayout {
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	private boolean insert = false;
-	
+
 	private PatientDAO patientDao = new PatientDAOImpl();
 	private Patient patient;
 	private PatientView myUI;
-	FieldGroup fieldGroup;
-	
+	private FieldGroup fieldGroup;
+
 	public PatientForm(PatientView myUI) {
-		
+
 		fieldGroup = new FieldGroup();
 		fieldGroup.bind(firstName, firstName);
 		fieldGroup.bind(lastName, lastName);
@@ -61,14 +60,14 @@ public class PatientForm  extends FormLayout {
 		fieldGroup.bind(phone, phone);
 		fieldGroup.bind(age, age);
 		fieldGroup.bind(doctorId, doctorId);
-		
+
 		doctorId.addValidator(CustomValidators.idValidator());
 		CustomValidators.stringValidator(firstName);
-		
+
 		streetNumber.addValidator(CustomValidators.streetNumber());
-		
+		streetNumber.addValidator(new NullValidator("Street Number cannot be null", false));
 		CustomValidators.stringValidator(lastName);
-		
+
 		CustomValidators.stringValidator(town);
 
 		CustomValidators.stringValidator(postalCode);
@@ -78,8 +77,6 @@ public class PatientForm  extends FormLayout {
 
 		age.addValidator(CustomValidators.ageValidator());
 
-
-
 		this.myUI = myUI;
 
 		// Set input prompts
@@ -88,68 +85,79 @@ public class PatientForm  extends FormLayout {
 		town.setInputPrompt("Town");
 		streetName.setInputPrompt("Street");
 		streetNumber.setConverter(Integer.class);
-		streetNumber.setInputPrompt("0");
+		streetNumber.setInputPrompt("1");
 		postalCode.setInputPrompt("Postal Code");
 		phone.setInputPrompt("Phone Number");
 		age.setConverter(Integer.class);
 		doctorId.setConverter(Integer.class);
-		
+
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
+
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
-		
+
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
-		
+
 		buttons.setSpacing(true);
 		addComponents(firstName, lastName, town, streetName, streetNumber, postalCode, phone, age, doctorId, buttons);
 	}
-	
+
 	public void setPatient(Patient patient, boolean insert) {
 		this.patient = patient;
 		this.insert = insert;
 		BeanFieldGroup.bindFieldsUnbuffered(patient, this);
 
-
-		
-		
 		// Show delete button only for persisted clients
 		delete.setVisible(true);
 		setVisible(true);
 		firstName.selectAll();
 	}
-	
-	private void save() {
-		if (insert) {
-			delete.setVisible(false);
-			try {
-				for(Field<?> field : fieldGroup.getFields())
-					((AbstractField<String>) field).setValidationVisible(true);
-				this.fieldGroup.commit();
-			 } catch (CommitException e) {
-		            // Show all the validate errors:
-		         Notification.show("Input errors");
 
-		            return;
-		        }
-			patientDao.insert(patient);
+	@SuppressWarnings("unchecked")
+	private void save() {
+
+		delete.setVisible(false);
+		try {
+			for (Field<?> field : fieldGroup.getFields())
+				((AbstractField<String>) field).setValidationVisible(true);
+			this.fieldGroup.commit();
+		} catch (CommitException e) {
+			// Show all the validate errors:
+			Notification.show("Invalid input", Notification.Type.WARNING_MESSAGE);
+
+			return;
 		}
-		else
-			patientDao.update(patient);
-		myUI.updateList();
-		setVisible(false);
+		if (insert) {
+
+			try {
+				patientDao.insert(patient);
+				myUI.updateList();
+				setVisible(false);
+			} catch (SQLIntegrityConstraintViolationException e) {
+				Notification.show("ADD FAILED", "Add with Invalid ID", Notification.Type.WARNING_MESSAGE);
+			}
+		} else
+			try {
+				patientDao.update(patient);
+				myUI.updateList();
+				setVisible(false);
+			} catch (SQLIntegrityConstraintViolationException e) {
+				Notification.show("UPDATE FAILED", "Update with Invalid ID", Notification.Type.WARNING_MESSAGE);
+			}
+
 	}
-	
+
 	private void delete() {
 		patientDao.delete(patient.getPatientId());
 		myUI.updateList();
 		setVisible(false);
 	}
-	
-	public void initiate() {
-		for(Field<?> field : fieldGroup.getFields())
+
+	@SuppressWarnings("unchecked")
+	public void init() {
+		for (Field<?> field : fieldGroup.getFields())
 			((AbstractField<String>) field).setValidationVisible(false);
 	}
 }

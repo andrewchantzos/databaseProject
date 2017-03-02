@@ -81,6 +81,8 @@ public class PrescriptionView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				insertForm.setPrescription(new Prescription(), true);
+				insertForm.init();
+				updateForm.init();
 			}
 		});
 
@@ -88,6 +90,23 @@ public class PrescriptionView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPrescription);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+
+
+	}
+
+	public void updateList() {
+		List<Prescription> prescriptions = prescriptionDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Prescription.class, prescriptions));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Prescription Table");
+		
+		insertForm.init();
+		updateForm.init();
 
 		setMargin(true);
 		setSpacing(true);
@@ -107,18 +126,6 @@ public class PrescriptionView extends VerticalLayout implements View {
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<Prescription> prescriptions = prescriptionDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Prescription.class, prescriptions));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Prescription Table");
 	}
 
 	public Navigator getNavigator() {

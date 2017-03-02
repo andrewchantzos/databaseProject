@@ -18,7 +18,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import queryModels.DoctorWithOldPatients;
-import queryModels.PharmacyWithAllDrugsInCity;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
@@ -82,6 +81,7 @@ public class DoctorsWithOldPatientsView extends VerticalLayout implements View {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
 		List<DoctorWithOldPatients> doctorList = queries.doctorsWithOldPatients();
 

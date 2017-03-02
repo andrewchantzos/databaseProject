@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class PharmaceuticalCompanyDAOImpl implements PharmaceuticalCompanyDAO {
 	}
 	
 	@Override
-	public void insert(PharmaceuticalCompany pharmaceuticalCompany) {
+	public void insert(PharmaceuticalCompany pharmaceuticalCompany) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `companies` (`name`, `phone_number`) VALUES (?,?)";
 			PreparedStatement preparedStatement = conn.prepareStatement(query, new String[]{"company_id"});
@@ -31,6 +32,8 @@ public class PharmaceuticalCompanyDAOImpl implements PharmaceuticalCompanyDAO {
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +56,7 @@ public class PharmaceuticalCompanyDAOImpl implements PharmaceuticalCompanyDAO {
 	}
 
 	@Override
-	public void update(PharmaceuticalCompany pharmaceuticalCompany) {
+	public void update(PharmaceuticalCompany pharmaceuticalCompany) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update companies set name=?, phone_number=? where company_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -62,6 +65,8 @@ public class PharmaceuticalCompanyDAOImpl implements PharmaceuticalCompanyDAO {
 			preparedStatement.setInt(3, pharmaceuticalCompany.getPharmaceuticalCompanyId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

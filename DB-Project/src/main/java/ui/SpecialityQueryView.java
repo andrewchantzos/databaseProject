@@ -33,6 +33,7 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SpecialityQueryView(Navigator navigator) {
 		this.setNavigator(navigator);	
 		grid.setContainerDataSource(new BeanItemContainer(Doctor.class));

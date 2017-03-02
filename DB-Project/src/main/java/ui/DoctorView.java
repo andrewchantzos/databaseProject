@@ -8,9 +8,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
@@ -24,7 +22,6 @@ import daoImpl.DoctorDAOImpl;
 import form.DoctorForm;
 import model.Doctor;
 import uiComponents.MyComponents;
-import uiComponents.Views;
 
 @Theme("mytheme")
 public class DoctorView extends VerticalLayout implements View {
@@ -88,6 +85,7 @@ public class DoctorView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				form.setDoctor(new Doctor(), true);
+				form.init();
 			}
 		});
 
@@ -95,6 +93,22 @@ public class DoctorView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+
+	}
+
+	public void updateList() {
+		List<Doctor> doctors = doctorDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Doctor Table");
+		
+		form.init();
+		
 
 		setMargin(true);
 		setSpacing(true);
@@ -111,18 +125,6 @@ public class DoctorView extends VerticalLayout implements View {
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<Doctor> doctors = doctorDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor Table");
 	}
 
 	public Navigator getNavigator() {

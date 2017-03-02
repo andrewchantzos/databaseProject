@@ -78,6 +78,7 @@ public class DrugView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				form.setDrug(new Drug(), true);
+				form.init();
 			}
 		});
 
@@ -86,6 +87,22 @@ public class DrugView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+		
+	}
+
+	public void updateList() {
+		List<Drug> drugs = drugDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Drug.class, drugs));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Drug Table");
+		
+		form.init();
+		
 		setMargin(true);
 		setSpacing(true);
 
@@ -101,18 +118,6 @@ public class DrugView extends VerticalLayout implements View {
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<Drug> drugs = drugDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Drug.class, drugs));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Drug Table");
 	}
 
 	public Navigator getNavigator() {

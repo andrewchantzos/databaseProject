@@ -2,6 +2,7 @@ package db;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class PatientDaoTest {
 	PatientDAO patientDao = new PatientDAOImpl();
 	
 	@Test
-	public void insertTest() {
+	public void insertTest() throws SQLIntegrityConstraintViolationException {
 		Patient patient = new Patient();
 		patient.setAge(21);
 		patient.setFirstName("Andreas");
@@ -33,7 +34,7 @@ public class PatientDaoTest {
 	}
 	
 	@Test
-	public void updateTest() {
+	public void updateTest() throws SQLIntegrityConstraintViolationException {
 		Patient patient = new Patient();
 		patient.setAge(31);
 		patient.setFirstName("Andreas");

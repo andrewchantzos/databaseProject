@@ -76,6 +76,7 @@ public class PatientView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				form.setPatient(new Patient(), true);
+				form.init();
 			}
 		});
 
@@ -96,7 +97,7 @@ public class PatientView extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Patient Table");
 
-		form.initiate();
+		form.init();
 		
 		setMargin(true);
 		setSpacing(true);

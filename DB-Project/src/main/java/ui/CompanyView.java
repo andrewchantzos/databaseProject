@@ -79,6 +79,7 @@ public class CompanyView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				form.setCompany(new PharmaceuticalCompany(), true);
+				form.init();
 			}
 		});
 
@@ -87,6 +88,14 @@ public class CompanyView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+		}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Company Table");
+		
+		form.init();
+		
 		setMargin(true);
 		setSpacing(true);
 
@@ -109,11 +118,7 @@ public class CompanyView extends VerticalLayout implements View {
 
 		// Set list
 		grid.setContainerDataSource(new BeanItemContainer<>(PharmaceuticalCompany.class, companies));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Company Table");
+	
 	}
 
 	public Navigator getNavigator() {

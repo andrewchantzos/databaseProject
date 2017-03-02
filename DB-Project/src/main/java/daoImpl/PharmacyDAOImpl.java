@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class PharmacyDAOImpl implements PharmacyDAO {
 	}
 	
 	@Override
-	public void insert(Pharmacy pharmacy) {
+	public void insert(Pharmacy pharmacy) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `pharmacies` (`name`, `town`, `street`, `str_num`, `postal_code`, `phone`) values (?,?,?,?,?,?)";
 
@@ -34,6 +35,8 @@ public class PharmacyDAOImpl implements PharmacyDAO {
 			preparedStatement.setString(6, pharmacy.getPhoneNumber());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +63,7 @@ public class PharmacyDAOImpl implements PharmacyDAO {
 	}
 
 	@Override
-	public void update(Pharmacy pharmacy) {
+	public void update(Pharmacy pharmacy) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update pharmacies set name=?, town=?, street=?, str_num=?, postal_code=?, phone=? where pharmacy_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -73,6 +76,8 @@ public class PharmacyDAOImpl implements PharmacyDAO {
 			preparedStatement.setInt(7, pharmacy.getPharmacyId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

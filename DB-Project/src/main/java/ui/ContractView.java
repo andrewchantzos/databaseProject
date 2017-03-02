@@ -81,6 +81,8 @@ public class ContractView extends VerticalLayout implements View {
 			} else {
 				grid.select(null);
 				insertForm.setContract(new Contract(), true);
+				insertForm.init();
+				updateForm.init();
 			}
 		});
 
@@ -88,6 +90,21 @@ public class ContractView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewContract);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+	}
+
+	public void updateList() {
+		List<Contract> contracts = contractDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Contract.class, contracts));
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Notification.show("Welcome to Contract Table");
+		
+		insertForm.init();
+		updateForm.init();
 
 		setMargin(true);
 		setSpacing(true);
@@ -107,18 +124,7 @@ public class ContractView extends VerticalLayout implements View {
 			}
 		});
 
-	}
 
-	public void updateList() {
-		List<Contract> contracts = contractDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Contract.class, contracts));
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Contract Table");
 	}
 
 	public Navigator getNavigator() {

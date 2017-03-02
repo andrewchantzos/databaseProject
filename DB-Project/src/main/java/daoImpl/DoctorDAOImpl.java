@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 	}
 
 	@Override
-	public void insert(Doctor doctor) {
+	public void insert(Doctor doctor) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "insert into `doctors` (`firstname`, `lastname`, `speciality`, `experience_years`) values (?,?,?,?)";
 
@@ -32,6 +33,8 @@ public class DoctorDAOImpl implements DoctorDAO {
 			preparedStatement.setInt(4, doctor.getExperience());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -56,7 +59,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 	}
 
 	@Override
-	public void update(Doctor doctor) {
+	public void update(Doctor doctor) throws SQLIntegrityConstraintViolationException {
 		try {
 			String query = "update doctors set firstname=?, lastname=?, speciality=?, experience_years=? where doctor_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -67,6 +70,8 @@ public class DoctorDAOImpl implements DoctorDAO {
 			preparedStatement.setInt(5, doctor.getDoctorId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
