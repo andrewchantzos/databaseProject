@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Doctor;
+import model.Patient;
 import queryModels.DoctorWithOldPatients;
 import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
@@ -340,7 +341,7 @@ public class Queries {
 		}
 		return list;
 	}
-	
+
 	public List<DrugPrescriptionCount> drugPrescriptionCountFilter(String filter) {
 		List<DrugPrescriptionCount> list = new ArrayList<DrugPrescriptionCount>();
 
@@ -357,7 +358,7 @@ public class Queries {
 				drug.setCount(resultSet.getInt(3));
 				if (drug.toString().toLowerCase().contains(filter.toLowerCase()))
 					list.add(drug);
-			}			
+			}
 			resultSet.close();
 			statement.close();
 		} catch (SQLException e) {
@@ -365,6 +366,68 @@ public class Queries {
 		}
 		return list;
 	}
-	
+
+	public List<Patient> doctorPatients(int doctorId) {
+		List<Patient> patients = new ArrayList<Patient>();
+
+		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  " + doctorId + " "
+				+ "ORDER BY pa.FIRSTNAME";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				Patient patient = new Patient();
+				patient.setDoctorId(resultSet.getInt("doctor_doctor_id"));
+				patient.setFirstName(resultSet.getString("firstname"));
+				patient.setLastName(resultSet.getString("lastname"));
+				patient.setAge(resultSet.getInt("age"));
+				patient.setPhone(resultSet.getString("phone"));
+				patient.setPatientId(resultSet.getInt("patient_id"));
+				patient.setTown(resultSet.getString("town"));
+				patient.setStreetName(resultSet.getString("street"));
+				patient.setStreetNumber(resultSet.getInt("str_num"));
+				patient.setPostalCode(resultSet.getString("postal_code"));
+				patients.add(patient);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return patients;
+	}
+
+	public List<Patient> doctorPatientsFilter(int doctorId, String filter) {
+		List<Patient> patients = new ArrayList<Patient>();
+
+		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  " + doctorId + " "
+				+ "ORDER BY pa.FIRSTNAME";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				Patient patient = new Patient();
+				patient.setDoctorId(resultSet.getInt("doctor_doctor_id"));
+				patient.setFirstName(resultSet.getString("firstname"));
+				patient.setLastName(resultSet.getString("lastname"));
+				patient.setAge(resultSet.getInt("age"));
+				patient.setPhone(resultSet.getString("phone"));
+				patient.setPatientId(resultSet.getInt("patient_id"));
+				patient.setTown(resultSet.getString("town"));
+				patient.setStreetName(resultSet.getString("street"));
+				patient.setStreetNumber(resultSet.getInt("str_num"));
+				patient.setPostalCode(resultSet.getString("postal_code"));
+				if (patient.toString().toLowerCase().contains(filter.toLowerCase()))
+					patients.add(patient);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return patients;
+	}
 
 }

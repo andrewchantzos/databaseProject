@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Test;
 
 import model.Doctor;
+import model.Patient;
 import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
@@ -42,6 +43,12 @@ public class QueriesTest {
 	@Test
 	public void drugPrescriptionCount() {
 		List<DrugPrescriptionCount> l = queries.drugPrescriptionCount();
+		System.out.println(l);
+	}
+	
+	@Test
+	public void patientDoctor() {
+		List<Patient> l = queries.doctorPatients(2);
 		System.out.println(l);
 	}
 }

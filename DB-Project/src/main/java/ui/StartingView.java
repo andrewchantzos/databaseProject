@@ -119,6 +119,17 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 		
+		MenuBar.Command patientsOfDoctorCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.PatientsOfDoctor.toString());
+			}
+		};
+		
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
 		tables.addItem("Patient", mycommand);
@@ -136,7 +147,8 @@ public class StartingView extends VerticalLayout implements View {
 		queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
 		queries.addItem("Doctors with average Patient age over 60", doctorWithOldPatientCommand);
 		queries.addItem("Drugs sorted by prescription count", drugPrescriptionCountCommand);
-		
+		queries.addItem("Show Patients of Doctor", patientsOfDoctorCommand);
+
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
 				
 		/* 

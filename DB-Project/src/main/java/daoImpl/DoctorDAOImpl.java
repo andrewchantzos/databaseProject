@@ -145,6 +145,8 @@ public class DoctorDAOImpl implements DoctorDAO {
 		try {
 			String query = "select * from doctors where doctor_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, doctorId);
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				doctor.setDoctorId(resultSet.getInt("doctor_id"));
