@@ -27,11 +27,9 @@ public class SelectDoctorForm extends FormLayout {
 	private PatientsOfDoctorView myUI;
 	private DoctorDAO doctorDao = new DoctorDAOImpl();
 	private List<Doctor> doctorList;
-	private Doctor doctor;
 	
-	public SelectDoctorForm(PatientsOfDoctorView myUI, Doctor doctor) {
+	public SelectDoctorForm(PatientsOfDoctorView myUI) {
 		this.myUI = myUI;
-		this.doctor = doctor;
 		click.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		click.setClickShortcut(KeyCode.ENTER);
 
@@ -64,10 +62,8 @@ public class SelectDoctorForm extends FormLayout {
 		//this.doctor = doctor;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void click() {
 		int id = (int) doctorId.getValue();
-		doctor = doctorDao.findById(id);
 		myUI.setVisible(true);
 		myUI.updateList(id);
 		setVisible(false);

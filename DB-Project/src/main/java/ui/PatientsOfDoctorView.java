@@ -18,7 +18,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import form.SelectDoctorForm;
-import model.Doctor;
 import model.Patient;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
@@ -34,7 +33,6 @@ public class PatientsOfDoctorView extends VerticalLayout implements View {
 	private Queries queries = new Queries();
 	private Grid grid = new Grid();
 	private Navigator navigator;
-	private Doctor doctor;
 	private int doctorId;
 	private List<Patient> patients;
 
@@ -44,9 +42,9 @@ public class PatientsOfDoctorView extends VerticalLayout implements View {
 	}
 
 	private TextField filterText = new TextField();
-	private SelectDoctorForm form = new SelectDoctorForm(this, doctor);
+	private SelectDoctorForm form = new SelectDoctorForm(this);
 
-	HorizontalLayout toolbar;
+	private HorizontalLayout toolbar;
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -120,14 +118,6 @@ public class PatientsOfDoctorView extends VerticalLayout implements View {
 
 	public void setGrid(Grid grid) {
 		this.grid = grid;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
 	}
 
 	public TextField getFilterText() {

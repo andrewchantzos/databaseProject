@@ -10,6 +10,7 @@ import java.util.List;
 import model.Doctor;
 import model.Patient;
 import queryModels.DoctorWithOldPatients;
+import queryModels.DrugCountPharmacy;
 import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
@@ -430,4 +431,65 @@ public class Queries {
 		return patients;
 	}
 
+	public List<DrugCountPharmacy> drugCountOfPharmacy() {
+		List<DrugCountPharmacy> list = new ArrayList<DrugCountPharmacy>();
+
+		String query = "SELECT ph.*, count(*) as number_of_drugs " + "FROM pharmacies as ph, sells as s, drugs as d "
+				+ "where ph.PHARMACY_ID = s.PHARMACY_ID and s.DRUG_ID = d.DRUG_ID " + "GROUP BY ph.PHARMACY_ID";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DrugCountPharmacy pharmacy = new DrugCountPharmacy();
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				pharmacy.setNumberOfDrugs(resultSet.getInt("number_of_drugs"));
+				list.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	
+	public List<DrugCountPharmacy> drugCountOfPharmacyFilter(String filter) {
+		List<DrugCountPharmacy> list = new ArrayList<DrugCountPharmacy>();
+
+		String query = "SELECT ph.*, count(*) as number_of_drugs " + "FROM pharmacies as ph, sells as s, drugs as d "
+				+ "where ph.PHARMACY_ID = s.PHARMACY_ID and s.DRUG_ID = d.DRUG_ID " + "GROUP BY ph.PHARMACY_ID";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				DrugCountPharmacy pharmacy = new DrugCountPharmacy();
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				pharmacy.setNumberOfDrugs(resultSet.getInt("number_of_drugs"));
+				if (pharmacy.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(pharmacy);			
+				}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

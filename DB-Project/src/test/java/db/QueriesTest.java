@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import model.Doctor;
 import model.Patient;
+import queryModels.DrugCountPharmacy;
 import queryModels.DrugPrescriptionCount;
 import queryModels.DrugPriceInfo;
 import queryModels.PharmacyWithAllDrugsInCity;
@@ -49,6 +50,12 @@ public class QueriesTest {
 	@Test
 	public void patientDoctor() {
 		List<Patient> l = queries.doctorPatients(2);
+		System.out.println(l);
+	}
+	
+	@Test
+	public void countOfDrugsInPharm() {
+		List<DrugCountPharmacy> l = queries.drugCountOfPharmacy();
 		System.out.println(l);
 	}
 }

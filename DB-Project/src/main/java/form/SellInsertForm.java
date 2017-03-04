@@ -20,15 +20,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 import dao.DrugDAO;
-import dao.PharmaceuticalCompanyDAO;
 import dao.PharmacyDAO;
 import dao.SellDAO;
 import daoImpl.DrugDAOImpl;
-import daoImpl.PharmaceuticalCompanyDAOImpl;
 import daoImpl.PharmacyDAOImpl;
 import daoImpl.SellDAOImpl;
 import model.Drug;
-import model.PharmaceuticalCompany;
 import model.Pharmacy;
 import model.Sell;
 import ui.SellView;
@@ -51,9 +48,7 @@ public class SellInsertForm extends FormLayout {
 
 	private PharmacyDAO pharmacyDao = new PharmacyDAOImpl();
 	private DrugDAO drugDAO = new DrugDAOImpl();
-	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
 
-	private List<PharmaceuticalCompany> companyList;
 	private List<Drug> drugList;
 	private List<Pharmacy> pharmacyList;
 

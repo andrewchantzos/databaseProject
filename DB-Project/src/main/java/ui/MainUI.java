@@ -52,7 +52,8 @@ public class MainUI extends UI {
         navigator.addView(Views.PharmaciesWithDrugsCityView.toString(), new PharmaciesWithDrugsCity(navigator));
         navigator.addView(Views.DoctorsWithOldPatientsView.toString(), new DoctorsWithOldPatientsView(navigator));
         navigator.addView(Views.DrugCountPrescriptionView.toString(), new DrugCountPrescriptionView(navigator));
-        navigator.addView(Views.PatientsOfDoctor.toString(), new PatientsOfDoctorView(navigator));
+        navigator.addView(Views.PatientsOfDoctorView.toString(), new PatientsOfDoctorView(navigator));
+        navigator.addView(Views.DrugCountPharmacyView.toString(), new DrugCountPharmacyView(navigator));
         navigator.navigateTo(Views.StartingView.toString());
 
     }
