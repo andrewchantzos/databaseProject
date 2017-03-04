@@ -13,18 +13,16 @@ public class Sell {
 	
 	private int price;
 
-	private int companyId;
 	
 	public Sell(){}
 
 	
 	
-	public Sell(int pharmacyId, int drugId, int price, int companyId) {
+	public Sell(int pharmacyId, int drugId, int price) {
 		super();
 		this.pharmacyId = pharmacyId;
 		this.drugId = drugId;
 		this.price = price;
-		this.companyId = companyId;
 	}
 
 
@@ -53,17 +51,10 @@ public class Sell {
 		this.price = price;
 	}
 
-	public int getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
-	}
 
 	@Override
 	public String toString() {
-		return  pharmacyId + " " + drugId + " " + price + " " + companyId;
+		return  pharmacyId + " " + drugId + " " + price;
 	}
 	
 	

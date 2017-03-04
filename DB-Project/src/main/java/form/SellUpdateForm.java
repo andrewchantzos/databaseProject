@@ -94,7 +94,7 @@ public class SellUpdateForm extends FormLayout {
 	}
 
 	private void delete() {
-		sellDao.delete(sell.getPharmacyId(), sell.getDrugId(), sell.getCompanyId());
+		sellDao.delete(sell.getPharmacyId(), sell.getDrugId());
 		myUI.updateList();
 		setVisible(false);
 	}

@@ -38,7 +38,6 @@ public class SellInsertForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
 	private TextField price = new TextField("Price");
-	private ComboBox companyId = new ComboBox("Company");
 	private ComboBox drugId = new ComboBox("Drug");
 	private ComboBox pharmacyId = new ComboBox("Pharmacy");
 
@@ -64,10 +63,8 @@ public class SellInsertForm extends FormLayout {
 		fieldGroup = new FieldGroup();
 		fieldGroup.bind(pharmacyId, pharmacyId);
 		fieldGroup.bind(price, price);
-		fieldGroup.bind(companyId, companyId);
 		fieldGroup.bind(drugId, drugId);
 
-		companyId.addValidator(CustomValidators.idValidator());
 		pharmacyId.addValidator(CustomValidators.idValidator());
 		drugId.addValidator(CustomValidators.idValidator());
 		price.addValidator(CustomValidators.priceValidator());
@@ -102,27 +99,9 @@ public class SellInsertForm extends FormLayout {
 			}
 		});
 
-		companyId.addFocusListener(new FocusListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void focus(FocusEvent event) {
-				companyList = companyDao.findAll();
-				for (PharmaceuticalCompany company : companyList) {
-					companyId.addItem(company.getPharmaceuticalCompanyId());
-					String companyCaption = company.getPharmaceuticalCompanyId() + ": " + company.getName();
-					companyId.setItemCaption(company.getPharmaceuticalCompanyId(), companyCaption);
-				}
-			}
-		});
 
 		price.setConverter(Integer.class);
 		price.setInputPrompt("Price");
-		companyId.setConverter(Integer.class);
 		drugId.setConverter(Integer.class);
 		pharmacyId.setConverter(Integer.class);
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -135,7 +114,7 @@ public class SellInsertForm extends FormLayout {
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 
 		buttons.setSpacing(true);
-		addComponents(companyId, drugId, pharmacyId, price, buttons);
+		addComponents(drugId, pharmacyId, price, buttons);
 
 	}
 
@@ -175,7 +154,7 @@ public class SellInsertForm extends FormLayout {
 	}
 
 	private void delete() {
-		sellDao.delete(sell.getPharmacyId(), sell.getDrugId(), sell.getCompanyId());
+		sellDao.delete(sell.getPharmacyId(), sell.getDrugId());
 		myUI.updateList();
 		setVisible(false);
 	}

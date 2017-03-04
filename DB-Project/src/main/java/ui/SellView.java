@@ -47,7 +47,7 @@ public class SellView extends VerticalLayout implements View {
 		// setup grid
 		grid.setContainerDataSource(new BeanItemContainer(Sell.class, sells));
 
-		grid.setColumnOrder("drugId", "companyId", "pharmacyId", "price");
+		grid.setColumnOrder("drugId", "pharmacyId", "price");
 
 		filterText.setInputPrompt("Search");
 

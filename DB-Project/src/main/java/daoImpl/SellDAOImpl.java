@@ -28,13 +28,12 @@ public class SellDAOImpl implements SellDAO {
 	public void insert(Sell sell) throws SQLIntegrityConstraintViolationException
 	{
 		try {
-			String query = "insert into `sells` (`pharmacy_id`, `drug_id`, `drug_company_id`, `price`) values (?,?,?,?)";
+			String query = "insert into `sells` (`pharmacy_id`, `drug_id`,`price`) values (?,?,?,?)";
 
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, sell.getPharmacyId());
 			preparedStatement.setInt(2, sell.getDrugId());
-			preparedStatement.setInt(3, sell.getCompanyId());
-			preparedStatement.setInt(4, sell.getPrice());
+			preparedStatement.setInt(3, sell.getPrice());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLIntegrityConstraintViolationException e) {
@@ -50,12 +49,11 @@ public class SellDAOImpl implements SellDAO {
 	public void update(Sell sell) throws SQLIntegrityConstraintViolationException
 	{
 		try {
-			String query = "update sells set price=? where pharmacy_id=? and drug_id=? and drug_company_id=?";
+			String query = "update sells set price=? where pharmacy_id=? and drug_id=? ";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, sell.getPrice());
 			preparedStatement.setInt(2, sell.getPharmacyId());
 			preparedStatement.setInt(3, sell.getDrugId());
-			preparedStatement.setInt(4, sell.getCompanyId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLIntegrityConstraintViolationException e) {
@@ -66,13 +64,12 @@ public class SellDAOImpl implements SellDAO {
 	}
 
 	@Override
-	public void delete(int pharmacyId, int drugId, int companyId) {
+	public void delete(int pharmacyId, int drugId) {
 		try {
-			String query = "delete from sells where pharmacy_id=? and drug_id=? and drug_company_id=?";
+			String query = "delete from sells where pharmacy_id=? and drug_id=? ";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, pharmacyId);
 			preparedStatement.setInt(2, drugId);
-			preparedStatement.setInt(3, companyId);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLException e) {
@@ -89,7 +86,6 @@ public class SellDAOImpl implements SellDAO {
 			while(resultSet.next()) {
 				Sell sell = new Sell();
 				sell.setPrice(resultSet.getInt("price"));
-				sell.setCompanyId(resultSet.getInt("drug_company_id"));
 				sell.setDrugId(resultSet.getInt("drug_id"));
 				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
 				sells.add(sell);
@@ -111,7 +107,6 @@ public class SellDAOImpl implements SellDAO {
 			while(resultSet.next()) {
 				Sell sell = new Sell();
 				sell.setPrice(resultSet.getInt("price"));
-				sell.setCompanyId(resultSet.getInt("drug_company_id"));
 				sell.setDrugId(resultSet.getInt("drug_id"));
 				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
 				if (sell.toString().toLowerCase().contains(search.toLowerCase()))
@@ -126,15 +121,14 @@ public class SellDAOImpl implements SellDAO {
 	}
 	
 	@Override
-	public Sell findById(int pharmacyId, int drugId, int companyId) {
+	public Sell findById(int pharmacyId, int drugId) {
 		Sell sell = new Sell();
 		try {
-			String query = "select * from sells where pharmacy_id=? and drug_id=? and drug_company_id=?";
+			String query = "select * from sells where pharmacy_id=? and drug_id=?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				sell.setPrice(resultSet.getInt("price"));
-				sell.setCompanyId(resultSet.getInt("drug_company_id"));
 				sell.setDrugId(resultSet.getInt("drug_id"));
 				sell.setPharmacyId(resultSet.getInt("pharmacy_id"));
 			}

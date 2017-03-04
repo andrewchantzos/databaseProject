@@ -18,7 +18,6 @@ public class SellDaoTest {
 	@Test
 	public void insertTest() throws SQLIntegrityConstraintViolationException {
 		Sell sell = new Sell();
-		sell.setCompanyId(1);
 		sell.setDrugId(1);
 		sell.setPharmacyId(2);
 		sell.setPrice(45);
@@ -28,7 +27,6 @@ public class SellDaoTest {
 	@Test
 	public void updateTest() throws SQLIntegrityConstraintViolationException {
 		Sell sell = new Sell();
-		sell.setCompanyId(1);
 		sell.setDrugId(1);
 		sell.setPharmacyId(2);
 		sell.setPrice(50);
@@ -45,7 +43,7 @@ public class SellDaoTest {
 	
 	@Test
 	public void deleteTest() {
-		sellDao.delete(2,1,1);
+		sellDao.delete(2,1);
 	}
 
 

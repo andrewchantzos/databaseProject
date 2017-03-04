@@ -10,9 +10,9 @@ public interface SellDAO {
 	
 	public void update(Sell sell)throws SQLIntegrityConstraintViolationException;
 	
-	public void delete(int pharmacyId, int drugId, int companyId);
+	public void delete(int pharmacyId, int drugId);
 	public List<Sell> findAll();
-	public Sell findById(int pharmacyId, int drugId, int companyId);
+	public Sell findById(int pharmacyId, int drugId);
 	public List<Sell> findAllFilter(String filter);
 
 }
