@@ -28,7 +28,7 @@ public class SellDAOImpl implements SellDAO {
 	public void insert(Sell sell) throws SQLIntegrityConstraintViolationException
 	{
 		try {
-			String query = "insert into `sells` (`pharmacy_id`, `drug_id`,`price`) values (?,?,?,?)";
+			String query = "insert into `sells` (`pharmacy_id`, `drug_id`,`price`) values (?,?,?)";
 
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, sell.getPharmacyId());

@@ -58,18 +58,15 @@ public class SelectDoctorForm extends FormLayout {
 		addComponents(doctorId, buttons);
 	}
 
-	public void setDoctor(Doctor doctor) {
-		//this.doctor = doctor;
-	}
 
 	private void click() {
 		int id = (int) doctorId.getValue();
+		myUI.setDoctorId(id);
 		myUI.setVisible(true);
 		myUI.updateList(id);
 		setVisible(false);
 		myUI.getGrid().setVisible(true);
 		myUI.getToolbar().setVisible(true);
-		myUI.setDoctorId(id);
 	}
 	
 	public void init() {

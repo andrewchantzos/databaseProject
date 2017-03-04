@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.Doctor;
 import model.Patient;
+import model.Pharmacy;
 import queryModels.DoctorWithOldPatients;
 import queryModels.DrugCountPharmacy;
 import queryModels.DrugPrescriptionCount;
@@ -461,7 +462,6 @@ public class Queries {
 		return list;
 	}
 
-	
 	public List<DrugCountPharmacy> drugCountOfPharmacyFilter(String filter) {
 		List<DrugCountPharmacy> list = new ArrayList<DrugCountPharmacy>();
 
@@ -483,8 +483,88 @@ public class Queries {
 				pharmacy.setPhoneNumber(resultSet.getString("phone"));
 				pharmacy.setNumberOfDrugs(resultSet.getInt("number_of_drugs"));
 				if (pharmacy.toString().toLowerCase().contains(filter.toLowerCase()))
-					list.add(pharmacy);			
-				}
+					list.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Pharmacy> pharmaciesWithDrugInCity(int drugId, String town) {
+		List<Pharmacy> list = new ArrayList<Pharmacy>();
+
+		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = '" + town +"'"
+				+ " AND d.DRUG_ID = " + drugId;
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				Pharmacy pharmacy = new Pharmacy();
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				list.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Pharmacy> pharmaciesWithDrugInCityFilter(int drugId, String town, String filter) {
+		List<Pharmacy> list = new ArrayList<Pharmacy>();
+
+		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = '" + town +"'"
+				+ " AND d.DRUG_ID = " + drugId;
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+
+			while (resultSet.next()) {
+				Pharmacy pharmacy = new Pharmacy();
+
+				pharmacy.setPharmacyId(resultSet.getInt("pharmacy_id"));
+				pharmacy.setName(resultSet.getString("name"));
+				pharmacy.setTown(resultSet.getString("town"));
+				pharmacy.setStreetName(resultSet.getString("street"));
+				pharmacy.setStreetNumber(resultSet.getInt("str_num"));
+				pharmacy.setPostalCode(resultSet.getString("postal_code"));
+				pharmacy.setPhoneNumber(resultSet.getString("phone"));
+				if (pharmacy.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(pharmacy);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<String> findTowns() {
+		List<String> list = new ArrayList<String>();
+
+		String query = "select DISTINCT town FROM PHARMACIES as PA";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				String town = resultSet.getString("town");
+				list.add(town);
+			}
 			resultSet.close();
 			statement.close();
 		} catch (SQLException e) {

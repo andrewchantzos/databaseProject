@@ -54,8 +54,10 @@ public class MainUI extends UI {
         navigator.addView(Views.DrugCountPrescriptionView.toString(), new DrugCountPrescriptionView(navigator));
         navigator.addView(Views.PatientsOfDoctorView.toString(), new PatientsOfDoctorView(navigator));
         navigator.addView(Views.DrugCountPharmacyView.toString(), new DrugCountPharmacyView(navigator));
-        navigator.navigateTo(Views.StartingView.toString());
+        navigator.addView(Views.PharmaciesWithDrugInCityView.toString(), new PharmaciesWithDrugInCityView(navigator));
 
+        navigator.navigateTo(Views.StartingView.toString());
+        
     }
 
 	@WebServlet(urlPatterns = "/*", name = "MainUIServlet", asyncSupported = true)

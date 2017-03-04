@@ -19,5 +19,6 @@ public enum Views {
 	DoctorsWithOldPatientsView,
 	DrugCountPrescriptionView,
 	PatientsOfDoctorView,
-	DrugCountPharmacyView
+	DrugCountPharmacyView,
+	PharmaciesWithDrugInCityView
 }
