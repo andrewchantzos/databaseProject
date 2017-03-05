@@ -86,7 +86,6 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// set speciality
@@ -94,10 +93,8 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 		Notification.show("Welcome to " + speciality + " Table");
 		
 		
-		List<Doctor> doctors = queries.findDoctorsBySpeciality(speciality);
+		updateList();
 
-		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
 
 	}
 

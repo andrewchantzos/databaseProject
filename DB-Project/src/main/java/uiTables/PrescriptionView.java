@@ -104,7 +104,8 @@ public class PrescriptionView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Prescription Table");
-		
+		updateList();
+
 		insertForm.init();
 		updateForm.init();
 

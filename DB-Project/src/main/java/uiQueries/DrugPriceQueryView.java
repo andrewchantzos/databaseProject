@@ -93,6 +93,7 @@ public class DrugPriceQueryView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Drug Info Table");
+		updateList();
 	}
 
 	public Navigator getNavigator() {

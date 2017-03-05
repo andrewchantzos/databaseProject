@@ -93,6 +93,8 @@ public class PharmaciesWithAllDrugsSameCityView extends VerticalLayout implement
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Pharmacy With all Drugs for a Patient Table");
+		updateList();
+
 	}
 
 	public Navigator getNavigator() {

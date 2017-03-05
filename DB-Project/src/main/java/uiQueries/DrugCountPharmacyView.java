@@ -93,6 +93,8 @@ public class DrugCountPharmacyView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Drug Count of Pharmacy Table");
+		updateList();
+
 	}
 
 	public Navigator getNavigator() {

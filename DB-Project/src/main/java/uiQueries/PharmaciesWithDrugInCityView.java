@@ -13,7 +13,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -93,7 +92,6 @@ public class PharmaciesWithDrugInCityView extends VerticalLayout implements View
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("");
 		form.init();
 		grid.setVisible(false);
 		toolbar.setVisible(false);

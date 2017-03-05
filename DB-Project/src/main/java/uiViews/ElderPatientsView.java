@@ -92,6 +92,7 @@ public class ElderPatientsView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Elder Patients Table");
+		updateList();
 	}
 
 	public Navigator getNavigator() {

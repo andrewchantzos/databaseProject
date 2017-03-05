@@ -104,7 +104,8 @@ public class SellView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Sell Table");
-		
+		updateList();
+
 		insertForm.init();
 		updateForm.init();
 		

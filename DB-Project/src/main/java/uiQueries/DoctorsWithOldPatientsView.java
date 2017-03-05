@@ -93,7 +93,9 @@ public class DoctorsWithOldPatientsView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Doctor with old Patients Table");
+		updateList();
 	}
+	
 
 	public Navigator getNavigator() {
 		return navigator;

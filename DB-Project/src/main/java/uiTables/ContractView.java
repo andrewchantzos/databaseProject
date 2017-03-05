@@ -102,7 +102,8 @@ public class ContractView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Contract Table");
-		
+		updateList();
+
 		insertForm.init();
 		updateForm.init();
 

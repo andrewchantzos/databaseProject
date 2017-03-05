@@ -93,7 +93,8 @@ public class CompanyView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Company Table");
-		
+		updateList();
+
 		form.init();
 		
 		setMargin(true);

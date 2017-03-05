@@ -96,6 +96,7 @@ public class PatientView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Patient Table");
+		updateList();
 
 		form.init();
 		

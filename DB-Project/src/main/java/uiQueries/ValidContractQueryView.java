@@ -95,6 +95,8 @@ public class ValidContractQueryView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Valid Contract Table");
+		updateList();
+
 	}
 
 	public Navigator getNavigator() {

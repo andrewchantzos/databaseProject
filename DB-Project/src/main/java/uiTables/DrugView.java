@@ -100,7 +100,8 @@ public class DrugView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Drug Table");
-		
+		updateList();
+
 		form.init();
 		
 		setMargin(true);

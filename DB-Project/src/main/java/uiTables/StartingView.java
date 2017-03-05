@@ -14,6 +14,7 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
+import uiComponents.Descriptions;
 import uiComponents.Views;
 
 /**
@@ -178,19 +179,30 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuItem queries = menu.addItem("Queries", null);
 		
-		queries.addItem("Valid Contracts", validContractCommand);
-		queries.addItem("Drug Price Info", drugPriceInfoCommand);
-		queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
-		queries.addItem("Doctors with average Patient age over 60", doctorWithOldPatientCommand);
-		queries.addItem("Drugs sorted by prescription count", drugPrescriptionCountCommand);
-		queries.addItem("Show Number Of Drugs in Pharmacies", drugCountCommand);
-		queries.addItem("Show Patients of Doctor", patientsOfDoctorCommand);
-		queries.addItem("Show Pharmacies with Drug in City", pharmaciesWithDrugInCity);
+		MenuItem validContracts = queries.addItem("Valid Contracts", validContractCommand);
+		MenuItem drugPriceInfo = queries.addItem("Drug Price Info", drugPriceInfoCommand);
+		MenuItem pharmaciesWithAllDrugs = queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
+		MenuItem doctorsWithHighAverage = queries.addItem("Doctors with average Patient age over 60", doctorWithOldPatientCommand);
+		MenuItem drugsSortedPrescCount = queries.addItem("Drugs sorted by prescription count", drugPrescriptionCountCommand);
+		MenuItem drugCountInPharmacies = queries.addItem("Show Number Of Drugs in Pharmacies", drugCountCommand);
+		MenuItem patientsOfDoctor = queries.addItem("Show Patients of Doctor", patientsOfDoctorCommand);
+		MenuItem pharmaciesWithDrugInCityItem = queries.addItem("Show Pharmacies with Drug in City", pharmaciesWithDrugInCity);
 		
+		validContracts.setDescription(Descriptions.validContracts);
+		drugPriceInfo.setDescription(Descriptions.drugPriceInfo);
+		pharmaciesWithAllDrugs.setDescription(Descriptions.pharmaciesWithAllDrugs);
+		doctorsWithHighAverage.setDescription(Descriptions.doctorsWithHighAverage);
+		drugsSortedPrescCount.setDescription(Descriptions.drugsSortedPrescCount);
+		drugCountInPharmacies.setDescription(Descriptions.drugCountInPharmacies);
+		pharmaciesWithDrugInCityItem.setDescription(Descriptions.pharmaciesWithDrugInCityItem);
+		patientsOfDoctor.setDescription(Descriptions.patientsOfDoctor);
+
+
 		
 
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
-				
+		doctorsBySpeciality.setDescription(Descriptions.doctorsBySpeciality);
+	
 		/* 
 		 * Add doctors to doctorBySpeciality
 		 */

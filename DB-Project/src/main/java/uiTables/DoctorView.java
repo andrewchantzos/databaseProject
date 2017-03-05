@@ -106,7 +106,8 @@ public class DoctorView extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		Notification.show("Welcome to Doctor Table");
-		
+		updateList();
+
 		form.init();
 		
 
