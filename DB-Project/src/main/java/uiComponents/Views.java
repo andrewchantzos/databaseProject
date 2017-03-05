@@ -15,10 +15,12 @@ public enum Views {
 	ValidContractQueryView,
 	SpecialityQueryView,
 	DrugPriceQueryView,
-	PharmaciesWithDrugsCityView,
+	PharmaciesWithAllDrugsSameCityView,
 	DoctorsWithOldPatientsView,
 	DrugCountPrescriptionView,
 	PatientsOfDoctorView,
 	DrugCountPharmacyView,
-	PharmaciesWithDrugInCityView
+	PharmaciesWithDrugInCityView,
+	
+	ElderPatientsView
 }

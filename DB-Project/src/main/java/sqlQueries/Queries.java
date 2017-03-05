@@ -10,12 +10,12 @@ import java.util.List;
 import model.Doctor;
 import model.Patient;
 import model.Pharmacy;
-import queryModels.DoctorWithOldPatients;
-import queryModels.DrugCountPharmacy;
-import queryModels.DrugPrescriptionCount;
-import queryModels.DrugPriceInfo;
-import queryModels.PharmacyWithAllDrugsInCity;
-import queryModels.ValidContract;
+import modelQueries.DoctorWithOldPatients;
+import modelQueries.DrugCountPharmacy;
+import modelQueries.DrugPrescriptionCount;
+import modelQueries.DrugPriceInfo;
+import modelQueries.PharmacyWithAllDrugsInCity;
+import modelQueries.ValidContract;
 import util.DBUtil;
 
 public class Queries {
@@ -84,11 +84,12 @@ public class Queries {
 	public List<Doctor> findDoctorsBySpeciality(String speciality) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
-		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = '"
-				+ speciality + "' " + "ORDER BY experience_years DESC";
+		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = ? ORDER BY experience_years DESC";
+
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, speciality);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
 
 			while (resultSet.next()) {
 				Doctor doctor = new Doctor();
@@ -98,7 +99,7 @@ public class Queries {
 				list.add(doctor);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -108,11 +109,11 @@ public class Queries {
 	public List<Doctor> findDoctorsBySpecialityFilter(String speciality, String filter) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
-		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = '"
-				+ speciality + "' " + "ORDER BY experience_years DESC";
+		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = ? ORDER BY experience_years DESC";
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, speciality);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
 
 			while (resultSet.next()) {
 				Doctor doctor = new Doctor();
@@ -124,7 +125,7 @@ public class Queries {
 					list.add(doctor);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -373,11 +374,12 @@ public class Queries {
 		List<Patient> patients = new ArrayList<Patient>();
 
 		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
-				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  " + doctorId + " "
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  ?"
 				+ "ORDER BY pa.FIRSTNAME";
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, doctorId);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
 			while (resultSet.next()) {
 				Patient patient = new Patient();
 				patient.setDoctorId(resultSet.getInt("doctor_doctor_id"));
@@ -393,7 +395,7 @@ public class Queries {
 				patients.add(patient);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -404,11 +406,13 @@ public class Queries {
 		List<Patient> patients = new ArrayList<Patient>();
 
 		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
-				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  " + doctorId + " "
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID =  ?"
 				+ "ORDER BY pa.FIRSTNAME";
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setInt(1, doctorId);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
+
 			while (resultSet.next()) {
 				Patient patient = new Patient();
 				patient.setDoctorId(resultSet.getInt("doctor_doctor_id"));
@@ -425,7 +429,7 @@ public class Queries {
 					patients.add(patient);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -497,11 +501,13 @@ public class Queries {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
 		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
-				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = '" + town +"'"
-				+ " AND d.DRUG_ID = " + drugId;
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?" 
+				+ " AND d.DRUG_ID = ?";
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, town);
+			preparedStatement.setInt(2, drugId);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
 
 			while (resultSet.next()) {
 				Pharmacy pharmacy = new Pharmacy();
@@ -516,7 +522,7 @@ public class Queries {
 				list.add(pharmacy);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -527,11 +533,13 @@ public class Queries {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
 		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
-				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = '" + town +"'"
-				+ " AND d.DRUG_ID = " + drugId;
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?" 
+				+ " AND d.DRUG_ID = ?";
 		try {
-			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, town);
+			preparedStatement.setInt(2, drugId);
+			ResultSet resultSet = preparedStatement.executeQuery(query);
 
 			while (resultSet.next()) {
 				Pharmacy pharmacy = new Pharmacy();
@@ -547,7 +555,7 @@ public class Queries {
 					list.add(pharmacy);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

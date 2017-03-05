@@ -1,5 +1,5 @@
 
-package form;
+package formSelect;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.DoctorDAO;
 import daoImpl.DoctorDAOImpl;
 import model.Doctor;
-import ui.PatientsOfDoctorView;
+import uiQueries.PatientsOfDoctorView;
 
 public class SelectDoctorForm extends FormLayout {
 

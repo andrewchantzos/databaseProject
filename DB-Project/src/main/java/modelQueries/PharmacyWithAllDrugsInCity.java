@@ -1,4 +1,4 @@
-package queryModels;
+package modelQueries;
 
 public class PharmacyWithAllDrugsInCity {
 

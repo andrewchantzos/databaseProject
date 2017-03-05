@@ -18,7 +18,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.SellDAO;
 import daoImpl.SellDAOImpl;
 import model.Sell;
-import ui.SellView;
+import uiTables.SellView;
 import validators.CustomValidators;
 
 public class SellUpdateForm extends FormLayout {

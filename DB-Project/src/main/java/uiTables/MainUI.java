@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -12,6 +12,16 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import uiComponents.Views;
+import uiQueries.DoctorsWithOldPatientsView;
+import uiQueries.DrugCountPharmacyView;
+import uiQueries.DrugCountPrescriptionView;
+import uiQueries.DrugPriceQueryView;
+import uiQueries.PatientsOfDoctorView;
+import uiQueries.PharmaciesWithAllDrugsSameCityView;
+import uiQueries.PharmaciesWithDrugInCityView;
+import uiQueries.SpecialityQueryView;
+import uiQueries.ValidContractQueryView;
+import uiViews.ElderPatientsView;
 
 @Theme("mytheme")
 public class MainUI extends UI {
@@ -49,12 +59,14 @@ public class MainUI extends UI {
         navigator.addView(Views.SpecialityQueryView.toString(), new SpecialityQueryView(navigator));
         navigator.addView(Views.ValidContractQueryView.toString(), new ValidContractQueryView(navigator));
         navigator.addView(Views.DrugPriceQueryView.toString(), new DrugPriceQueryView(navigator));
-        navigator.addView(Views.PharmaciesWithDrugsCityView.toString(), new PharmaciesWithDrugsCity(navigator));
+        navigator.addView(Views.PharmaciesWithAllDrugsSameCityView.toString(), new PharmaciesWithAllDrugsSameCityView(navigator));
         navigator.addView(Views.DoctorsWithOldPatientsView.toString(), new DoctorsWithOldPatientsView(navigator));
         navigator.addView(Views.DrugCountPrescriptionView.toString(), new DrugCountPrescriptionView(navigator));
         navigator.addView(Views.PatientsOfDoctorView.toString(), new PatientsOfDoctorView(navigator));
         navigator.addView(Views.DrugCountPharmacyView.toString(), new DrugCountPharmacyView(navigator));
         navigator.addView(Views.PharmaciesWithDrugInCityView.toString(), new PharmaciesWithDrugInCityView(navigator));
+
+        navigator.addView(Views.ElderPatientsView.toString(), new ElderPatientsView(navigator));
 
         navigator.navigateTo(Views.StartingView.toString());
         

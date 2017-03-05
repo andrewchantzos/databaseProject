@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,41 +17,41 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.PharmaceuticalCompanyDAO;
-import daoImpl.PharmaceuticalCompanyDAOImpl;
-import form.CompanyForm;
-import model.PharmaceuticalCompany;
+import dao.PharmacyDAO;
+import daoImpl.PharmacyDAOImpl;
+import form.PharmacyForm;
+import model.Pharmacy;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class CompanyView extends VerticalLayout implements View {
+public class PharmacyView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
+	private PharmacyDAO pharmacyDao = new PharmacyDAOImpl();
 	private Grid grid = new Grid();
-	private TextField filterText = new TextField();
-	private CompanyForm form = new CompanyForm(this);
+	private PharmacyForm form = new PharmacyForm(this);
 	private Navigator navigator;
+	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public CompanyView(Navigator navigator) {
+	public PharmacyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<PharmaceuticalCompany> companies = companyDao.findAll();
+		List<Pharmacy> pharmacies = pharmacyDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(PharmaceuticalCompany.class, companies));
+		grid.setContainerDataSource(new BeanItemContainer(Pharmacy.class, pharmacies));
 		// Order firstName, lastName first
-		grid.setColumnOrder("pharmaceuticalCompanyId");
+		grid.setColumnOrder("pharmacyId");
 
 		filterText.setInputPrompt("Search");
 
 		filterText.addTextChangeListener(e -> {
 			grid.setContainerDataSource(
-					new BeanItemContainer<>(PharmaceuticalCompany.class, companyDao.findAllFilter(e.getText())));
+					new BeanItemContainer<>(Pharmacy.class, pharmacyDao.findAllFilter(e.getText())));
 		});
 		CssLayout filtering = new CssLayout();
 
@@ -71,14 +71,14 @@ public class CompanyView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		Button addNewDoctor = new Button("Add new Company");
+		Button addNewDoctor = new Button("Add new Pharmacy");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
 			if (form.isVisible()) {
 				form.setVisible(false);
 			} else {
 				grid.select(null);
-				form.setCompany(new PharmaceuticalCompany(), true);
+				form.setPharmacy(new Pharmacy(), true);
 				form.init();
 			}
 		});
@@ -88,11 +88,19 @@ public class CompanyView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
-		}
+
+	}
+
+	public void updateList() {
+		List<Pharmacy> pharmacies = pharmacyDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(Pharmacy.class, pharmacies));
+	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Company Table");
+		Notification.show("Welcome to Pharmacy Table");
 		
 		form.init();
 		
@@ -106,19 +114,11 @@ public class CompanyView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
 			} else {
-				PharmaceuticalCompany company = (PharmaceuticalCompany) e.getSelected().iterator().next();
-				form.setCompany(company, false);
+				Pharmacy Pharmacy = (Pharmacy) e.getSelected().iterator().next();
+				form.setPharmacy(Pharmacy, false);
 			}
 		});
 
-	}
-
-	public void updateList() {
-		List<PharmaceuticalCompany> companies = companyDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(PharmaceuticalCompany.class, companies));
-	
 	}
 
 	public Navigator getNavigator() {

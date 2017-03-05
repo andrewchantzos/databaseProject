@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,40 +17,46 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import queryModels.DrugPrescriptionCount;
-import sqlQueries.Queries;
+import dao.DoctorDAO;
+import daoImpl.DoctorDAOImpl;
+import form.DoctorForm;
+import model.Doctor;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class DrugCountPrescriptionView extends VerticalLayout implements View {
+public class DoctorView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Queries queries = new Queries();
+	private DoctorDAO doctorDao = new DoctorDAOImpl();
 	private Grid grid = new Grid();
+	private DoctorForm form = new DoctorForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DrugCountPrescriptionView(Navigator navigator) {
+	public DoctorView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<DrugPrescriptionCount> list = queries.drugPrescriptionCount();
+		List<Doctor> doctors = doctorDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(DrugPrescriptionCount.class, list));
-		grid.setColumnOrder("drugId", "drugName", "count");
+		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
+		// Order firstName, lastName first
+		grid.setColumnOrder("doctorId", "firstName", "lastName");
 
-		
+
+		// setup grid
+		// Order firstName, lastName first
+		grid.setColumnOrder("firstName", "lastName");
+
 		filterText.setInputPrompt("Search");
-		
-		
+
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(DrugPrescriptionCount.class, queries.drugPrescriptionCountFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctorDao.findAllFilter(e.getText())));
 		});
-		
 		CssLayout filtering = new CssLayout();
 		
 		
@@ -63,36 +69,62 @@ public class DrugCountPrescriptionView extends VerticalLayout implements View {
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 
-		HorizontalLayout main = new HorizontalLayout(grid);
+		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
-		main.setSpacing(true);
-		main.setSizeFull();
+
 		main.setExpandRatio(grid, 1);
-		
+
+
+		Button addNewDoctor = new Button("Add new doctor");
+		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewDoctor.addClickListener(e -> {
+			if (form.isVisible()) {
+				form.setVisible(false);
+			} else {
+				grid.select(null);
+				form.setDoctor(new Doctor(), true);
+				form.init();
+			}
+		});
+
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
-		setMargin(true);
-		setSpacing(true);
-
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
-		List<DrugPrescriptionCount> list = queries.drugPrescriptionCount();
+		List<Doctor> doctors = doctorDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer(DrugPrescriptionCount.class, list));
-	
+		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Drug Prescription Count Table");
+		Notification.show("Welcome to Doctor Table");
+		
+		form.init();
+		
+
+		setMargin(true);
+		setSpacing(true);
+
+		form.setVisible(false);
+
+		// form management
+		grid.addSelectionListener(e -> {
+			if (e.getSelected().isEmpty()) {
+				form.setVisible(false);
+			} else {
+				Doctor doctor = (Doctor) e.getSelected().iterator().next();
+				form.setDoctor(doctor, false);
+			}
+		});
+
 	}
 
 	public Navigator getNavigator() {

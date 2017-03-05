@@ -1,4 +1,4 @@
-package ui;
+package uiQueries;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import queryModels.PharmacyWithAllDrugsInCity;
+import modelQueries.DoctorWithOldPatients;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class PharmaciesWithDrugsCity extends VerticalLayout implements View {
+public class DoctorsWithOldPatientsView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
@@ -33,22 +33,22 @@ public class PharmaciesWithDrugsCity extends VerticalLayout implements View {
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PharmaciesWithDrugsCity(Navigator navigator) {
+	public DoctorsWithOldPatientsView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<PharmacyWithAllDrugsInCity> pharmaciesList = queries.pharmaciesWithAllDrugsInSameCity();
+		List<DoctorWithOldPatients> doctorList = queries.doctorsWithOldPatients();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(PharmacyWithAllDrugsInCity.class, pharmaciesList));
-		grid.setColumnOrder("patientId", "patientFirstName", "patientLastName", "pharmacyId", "name");
+		grid.setContainerDataSource(new BeanItemContainer(DoctorWithOldPatients.class, doctorList));
+		grid.setColumnOrder("doctorId", "firstName", "lastName");
 
 		
 		filterText.setInputPrompt("Search");
 		
 		
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(PharmacyWithAllDrugsInCity.class, queries.pharmaciesWithAllDrugsInSameCityFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(DoctorWithOldPatients.class, queries.doctorsWithOldPatientsFilter(e.getText())));
 		});
 		
 		CssLayout filtering = new CssLayout();
@@ -83,16 +83,16 @@ public class PharmaciesWithDrugsCity extends VerticalLayout implements View {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
-		List<PharmacyWithAllDrugsInCity> pharmaciesList = queries.pharmaciesWithAllDrugsInSameCity();
+		List<DoctorWithOldPatients> doctorList = queries.doctorsWithOldPatients();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer(PharmacyWithAllDrugsInCity.class, pharmaciesList));
+		grid.setContainerDataSource(new BeanItemContainer(DoctorWithOldPatients.class, doctorList));
 	
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Pharmacy With all Drugs for a Patient Table");
+		Notification.show("Welcome to Doctor with old Patients Table");
 	}
 
 	public Navigator getNavigator() {

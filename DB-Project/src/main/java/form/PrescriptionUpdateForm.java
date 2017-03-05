@@ -20,7 +20,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.PrescriptionDAO;
 import daoImpl.PrescriptionDAOImpl;
 import model.Prescription;
-import ui.PrescriptionView;
+import uiTables.PrescriptionView;
 import validators.CustomValidators;
 
 public class PrescriptionUpdateForm extends FormLayout {

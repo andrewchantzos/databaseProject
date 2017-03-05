@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,43 +17,38 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.PrescriptionDAO;
-import daoImpl.PrescriptionDAOImpl;
-import form.PrescriptionInsertForm;
-import form.PrescriptionUpdateForm;
-import model.Prescription;
+import dao.PatientDAO;
+import daoImpl.PatientDAOImpl;
+import form.PatientForm;
+import model.Patient;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class PrescriptionView extends VerticalLayout implements View {
+public class PatientView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private PrescriptionDAO prescriptionDao = new PrescriptionDAOImpl();
+	private PatientDAO patientDao = new PatientDAOImpl();
 	private Grid grid = new Grid();
-	private PrescriptionInsertForm insertForm = new PrescriptionInsertForm(this);
-	private PrescriptionUpdateForm updateForm = new PrescriptionUpdateForm(this);
+	private PatientForm form = new PatientForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PrescriptionView(Navigator navigator) {
+	public PatientView(Navigator navigator) {
 
 		this.setNavigator(navigator);
-
-		List<Prescription> prescriptions = prescriptionDao.findAll();
+		List<Patient> patients = patientDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Prescription.class, prescriptions));
-
-		grid.setColumnOrder("patientId", "doctorId", "drugId", "quantity");
+		grid.setContainerDataSource(new BeanItemContainer(Patient.class, patients));
+		grid.setColumnOrder("patientId", "firstName", "lastName");
 
 		filterText.setInputPrompt("Search");
 
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(
-					new BeanItemContainer<>(Prescription.class, prescriptionDao.findAllFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patientDao.findAllFilter(e.getText())));
 		});
 		CssLayout filtering = new CssLayout();
 
@@ -65,7 +60,7 @@ public class PrescriptionView extends VerticalLayout implements View {
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
-		HorizontalLayout main = new HorizontalLayout(grid, insertForm, updateForm);
+		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
@@ -73,56 +68,48 @@ public class PrescriptionView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		Button addNewPrescription = new Button("Add new prescription");
-		addNewPrescription.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		addNewPrescription.addClickListener(e -> {
-			if (insertForm.isVisible()) {
-				insertForm.setVisible(false);
+		Button addNewPatient = new Button("Add new patient");
+		addNewPatient.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewPatient.addClickListener(e -> {
+			if (form.isVisible()) {
+				form.setVisible(false);
 			} else {
 				grid.select(null);
-				insertForm.setPrescription(new Prescription(), true);
-				insertForm.init();
-				updateForm.init();
+				form.setPatient(new Patient(), true);
+				form.init();
 			}
 		});
 
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPrescription);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPatient);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
-
-
 	}
 
 	public void updateList() {
-		List<Prescription> prescriptions = prescriptionDao.findAll();
+		List<Patient> patients = patientDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Prescription.class, prescriptions));
+		grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patients));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Prescription Table");
-		
-		insertForm.init();
-		updateForm.init();
+		Notification.show("Welcome to Patient Table");
 
+		form.init();
+		
 		setMargin(true);
 		setSpacing(true);
 
-		insertForm.setVisible(false);
-		updateForm.setVisible(false);
-		
-		// form management
+		form.setVisible(false);
+
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
-				updateForm.setVisible(false);
+				form.setVisible(false);
 			} else {
-				if (insertForm.isVisible())
-					insertForm.setVisible(false);
-				Prescription prescription = (Prescription) e.getSelected().iterator().next();
-				updateForm.setPrescription(prescription);
+				Patient patient = (Patient) e.getSelected().iterator().next();
+				form.setPatient(patient, false);
 			}
 		});
 

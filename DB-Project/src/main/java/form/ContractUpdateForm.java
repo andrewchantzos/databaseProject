@@ -21,7 +21,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.ContractDAO;
 import daoImpl.ContractDAOImpl;
 import model.Contract;
-import ui.ContractView;
+import uiTables.ContractView;
 import validators.CustomValidators;
 
 public class ContractUpdateForm extends FormLayout {

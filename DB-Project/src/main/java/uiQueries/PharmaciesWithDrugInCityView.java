@@ -1,5 +1,5 @@
 
-package ui;
+package uiQueries;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import form.SelectDrugTown;
+import formSelect.SelectDrugTown;
 import model.Pharmacy;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;

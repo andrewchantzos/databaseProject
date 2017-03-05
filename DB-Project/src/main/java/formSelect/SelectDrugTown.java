@@ -1,5 +1,5 @@
 
-package form;
+package formSelect;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import dao.DrugDAO;
 import daoImpl.DrugDAOImpl;
 import model.Drug;
 import sqlQueries.Queries;
-import ui.PharmaciesWithDrugInCityView;
+import uiQueries.PharmaciesWithDrugInCityView;
 
 public class SelectDrugTown extends FormLayout {
 

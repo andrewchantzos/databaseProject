@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,41 +17,43 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.PharmacyDAO;
-import daoImpl.PharmacyDAOImpl;
-import form.PharmacyForm;
-import model.Pharmacy;
+import dao.ContractDAO;
+import daoImpl.ContractDAOImpl;
+import form.ContractInsertForm;
+import form.ContractUpdateForm;
+import model.Contract;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class PharmacyView extends VerticalLayout implements View {
+public class ContractView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private PharmacyDAO pharmacyDao = new PharmacyDAOImpl();
+	private ContractDAO contractDao = new ContractDAOImpl();
 	private Grid grid = new Grid();
-	private PharmacyForm form = new PharmacyForm(this);
+	private ContractInsertForm insertForm = new ContractInsertForm(this);
+	private ContractUpdateForm updateForm = new ContractUpdateForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PharmacyView(Navigator navigator) {
+	public ContractView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<Pharmacy> pharmacies = pharmacyDao.findAll();
+		List<Contract> contracts = contractDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Pharmacy.class, pharmacies));
-		// Order firstName, lastName first
-		grid.setColumnOrder("pharmacyId");
+		grid.setContainerDataSource(new BeanItemContainer(Contract.class, contracts));
+
+		grid.setColumnOrder("pharmacyId", "pharmaceuticalCopmanyId", "supervisor", "startDate", "endDate");
 
 		filterText.setInputPrompt("Search");
 
 		filterText.addTextChangeListener(e -> {
 			grid.setContainerDataSource(
-					new BeanItemContainer<>(Pharmacy.class, pharmacyDao.findAllFilter(e.getText())));
+					new BeanItemContainer<>(Contract.class, contractDao.findAllFilter(e.getText())));
 		});
 		CssLayout filtering = new CssLayout();
 
@@ -63,7 +65,7 @@ public class PharmacyView extends VerticalLayout implements View {
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
-		HorizontalLayout main = new HorizontalLayout(grid, form);
+		HorizontalLayout main = new HorizontalLayout(grid, insertForm, updateForm);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
@@ -71,53 +73,57 @@ public class PharmacyView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		Button addNewDoctor = new Button("Add new Pharmacy");
-		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		addNewDoctor.addClickListener(e -> {
-			if (form.isVisible()) {
-				form.setVisible(false);
+		Button addNewContract = new Button("Add new contract");
+		addNewContract.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewContract.addClickListener(e -> {
+			if (insertForm.isVisible()) {
+				insertForm.setVisible(false);
 			} else {
 				grid.select(null);
-				form.setPharmacy(new Pharmacy(), true);
-				form.init();
+				insertForm.setContract(new Contract(), true);
+				insertForm.init();
+				updateForm.init();
 			}
 		});
 
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewContract);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
-
-
 	}
 
 	public void updateList() {
-		List<Pharmacy> pharmacies = pharmacyDao.findAll();
+		List<Contract> contracts = contractDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Pharmacy.class, pharmacies));
+		grid.setContainerDataSource(new BeanItemContainer<>(Contract.class, contracts));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Pharmacy Table");
+		Notification.show("Welcome to Contract Table");
 		
-		form.init();
-		
+		insertForm.init();
+		updateForm.init();
+
 		setMargin(true);
 		setSpacing(true);
 
-		form.setVisible(false);
-
+		insertForm.setVisible(false);
+		updateForm.setVisible(false);
+		
 		// form management
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
-				form.setVisible(false);
+				updateForm.setVisible(false);
 			} else {
-				Pharmacy Pharmacy = (Pharmacy) e.getSelected().iterator().next();
-				form.setPharmacy(Pharmacy, false);
+				if (insertForm.isVisible())
+					insertForm.setVisible(false);
+				Contract contract = (Contract) e.getSelected().iterator().next();
+				updateForm.setContract(contract);
 			}
 		});
+
 
 	}
 

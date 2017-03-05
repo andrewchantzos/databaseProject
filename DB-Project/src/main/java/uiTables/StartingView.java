@@ -1,5 +1,6 @@
-package ui;
+package uiTables;
 
+import com.sun.nio.sctp.Notification;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -36,6 +37,7 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuBar menu = new MenuBar();
 
+		
 		ThemeResource resource = new ThemeResource("images/pill3.png");
 		Image image = new Image("",resource);
 
@@ -81,7 +83,7 @@ public class StartingView extends VerticalLayout implements View {
 			private static final long serialVersionUID = 1L;
 
 			public void menuSelected(MenuItem selectedItem) {
-				navigator.navigateTo(Views.PharmaciesWithDrugsCityView.toString());
+				navigator.navigateTo(Views.PharmaciesWithAllDrugsSameCityView.toString());
 			}
 		};
 		
@@ -152,6 +154,18 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 		
+		MenuBar.Command elderPatientsCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.ElderPatientsView.toString());
+			}
+		};
+		
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
 		tables.addItem("Patient", mycommand);
@@ -163,7 +177,7 @@ public class StartingView extends VerticalLayout implements View {
 		tables.addItem("Company", mycommand);
 
 		MenuItem queries = menu.addItem("Queries", null);
-				
+		
 		queries.addItem("Valid Contracts", validContractCommand);
 		queries.addItem("Drug Price Info", drugPriceInfoCommand);
 		queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
@@ -172,7 +186,8 @@ public class StartingView extends VerticalLayout implements View {
 		queries.addItem("Show Number Of Drugs in Pharmacies", drugCountCommand);
 		queries.addItem("Show Patients of Doctor", patientsOfDoctorCommand);
 		queries.addItem("Show Pharmacies with Drug in City", pharmaciesWithDrugInCity);
-
+		
+		
 
 		MenuItem doctorsBySpeciality = menu.addItem("Find Doctors", null);
 				
@@ -193,6 +208,9 @@ public class StartingView extends VerticalLayout implements View {
 		doctorsBySpeciality.addItem("Psychiatry", specialityCommand);
 		doctorsBySpeciality.addItem("Urology", specialityCommand);
 
+		MenuItem views = menu.addItem("Views", null);
+		views.addItem("Elder Patients", elderPatientsCommand);
+
 		
 		addComponent(menu);
 		setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
@@ -206,7 +224,5 @@ public class StartingView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-
 	}
 }

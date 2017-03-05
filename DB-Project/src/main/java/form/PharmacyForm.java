@@ -19,7 +19,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.PharmacyDAO;
 import daoImpl.PharmacyDAOImpl;
 import model.Pharmacy;
-import ui.PharmacyView;
+import uiTables.PharmacyView;
 import validators.CustomValidators;
 
 public class PharmacyForm extends FormLayout {

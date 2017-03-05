@@ -31,7 +31,7 @@ import daoImpl.PharmacyDAOImpl;
 import model.Contract;
 import model.PharmaceuticalCompany;
 import model.Pharmacy;
-import ui.ContractView;
+import uiTables.ContractView;
 import validators.CustomValidators;
 
 public class ContractInsertForm extends FormLayout {

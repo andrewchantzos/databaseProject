@@ -1,4 +1,4 @@
-package queryModels;
+package modelQueries;
 
 import java.sql.Date;
 

@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import model.Doctor;
 import model.Patient;
-import queryModels.DrugCountPharmacy;
-import queryModels.DrugPrescriptionCount;
-import queryModels.DrugPriceInfo;
-import queryModels.PharmacyWithAllDrugsInCity;
-import queryModels.ValidContract;
+import modelQueries.DrugCountPharmacy;
+import modelQueries.DrugPrescriptionCount;
+import modelQueries.DrugPriceInfo;
+import modelQueries.PharmacyWithAllDrugsInCity;
+import modelQueries.ValidContract;
 import sqlQueries.Queries;
 
 public class QueriesTest {

@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,43 +17,43 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.ContractDAO;
-import daoImpl.ContractDAOImpl;
-import form.ContractInsertForm;
-import form.ContractUpdateForm;
-import model.Contract;
+import dao.PrescriptionDAO;
+import daoImpl.PrescriptionDAOImpl;
+import form.PrescriptionInsertForm;
+import form.PrescriptionUpdateForm;
+import model.Prescription;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class ContractView extends VerticalLayout implements View {
+public class PrescriptionView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ContractDAO contractDao = new ContractDAOImpl();
+	private PrescriptionDAO prescriptionDao = new PrescriptionDAOImpl();
 	private Grid grid = new Grid();
-	private ContractInsertForm insertForm = new ContractInsertForm(this);
-	private ContractUpdateForm updateForm = new ContractUpdateForm(this);
+	private PrescriptionInsertForm insertForm = new PrescriptionInsertForm(this);
+	private PrescriptionUpdateForm updateForm = new PrescriptionUpdateForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ContractView(Navigator navigator) {
+	public PrescriptionView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<Contract> contracts = contractDao.findAll();
+		List<Prescription> prescriptions = prescriptionDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Contract.class, contracts));
+		grid.setContainerDataSource(new BeanItemContainer(Prescription.class, prescriptions));
 
-		grid.setColumnOrder("pharmacyId", "pharmaceuticalCopmanyId", "supervisor", "startDate", "endDate");
+		grid.setColumnOrder("patientId", "doctorId", "drugId", "quantity");
 
 		filterText.setInputPrompt("Search");
 
 		filterText.addTextChangeListener(e -> {
 			grid.setContainerDataSource(
-					new BeanItemContainer<>(Contract.class, contractDao.findAllFilter(e.getText())));
+					new BeanItemContainer<>(Prescription.class, prescriptionDao.findAllFilter(e.getText())));
 		});
 		CssLayout filtering = new CssLayout();
 
@@ -73,35 +73,37 @@ public class ContractView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		Button addNewContract = new Button("Add new contract");
-		addNewContract.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		addNewContract.addClickListener(e -> {
+		Button addNewPrescription = new Button("Add new prescription");
+		addNewPrescription.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewPrescription.addClickListener(e -> {
 			if (insertForm.isVisible()) {
 				insertForm.setVisible(false);
 			} else {
 				grid.select(null);
-				insertForm.setContract(new Contract(), true);
+				insertForm.setPrescription(new Prescription(), true);
 				insertForm.init();
 				updateForm.init();
 			}
 		});
 
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewContract);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPrescription);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+
+
 	}
 
 	public void updateList() {
-		List<Contract> contracts = contractDao.findAll();
+		List<Prescription> prescriptions = prescriptionDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Contract.class, contracts));
+		grid.setContainerDataSource(new BeanItemContainer<>(Prescription.class, prescriptions));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Contract Table");
+		Notification.show("Welcome to Prescription Table");
 		
 		insertForm.init();
 		updateForm.init();
@@ -119,11 +121,10 @@ public class ContractView extends VerticalLayout implements View {
 			} else {
 				if (insertForm.isVisible())
 					insertForm.setVisible(false);
-				Contract contract = (Contract) e.getSelected().iterator().next();
-				updateForm.setContract(contract);
+				Prescription prescription = (Prescription) e.getSelected().iterator().next();
+				updateForm.setPrescription(prescription);
 			}
 		});
-
 
 	}
 

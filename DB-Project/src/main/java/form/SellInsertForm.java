@@ -28,7 +28,7 @@ import daoImpl.SellDAOImpl;
 import model.Drug;
 import model.Pharmacy;
 import model.Sell;
-import ui.SellView;
+import uiTables.SellView;
 import validators.CustomValidators;
 
 public class SellInsertForm extends FormLayout {

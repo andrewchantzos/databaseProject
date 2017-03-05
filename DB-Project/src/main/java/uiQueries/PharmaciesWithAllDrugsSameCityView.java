@@ -1,4 +1,4 @@
-package ui;
+package uiQueries;
 
 import java.util.List;
 
@@ -17,13 +17,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import queryModels.ValidContract;
+import modelQueries.PharmacyWithAllDrugsInCity;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
-
 @Theme("mytheme")
-public class ValidContractQueryView extends VerticalLayout implements View {
+public class PharmaciesWithAllDrugsSameCityView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
@@ -34,24 +33,22 @@ public class ValidContractQueryView extends VerticalLayout implements View {
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ValidContractQueryView(Navigator navigator) {
+	public PharmaciesWithAllDrugsSameCityView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<ValidContract> validContracts = queries.findValidContracts();
+		List<PharmacyWithAllDrugsInCity> pharmaciesList = queries.pharmaciesWithAllDrugsInSameCity();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(ValidContract.class, validContracts));
+		grid.setContainerDataSource(new BeanItemContainer(PharmacyWithAllDrugsInCity.class, pharmaciesList));
+		grid.setColumnOrder("patientId", "patientFirstName", "patientLastName", "pharmacyId", "name");
 
-		// setup grid
-		// Order firstName, lastName first
-		grid.setColumnOrder("companyName", "pharmacyName");
-
+		
 		filterText.setInputPrompt("Search");
 		
 		
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(ValidContract.class, queries.findValidContractsFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(PharmacyWithAllDrugsInCity.class, queries.pharmaciesWithAllDrugsInSameCityFilter(e.getText())));
 		});
 		
 		CssLayout filtering = new CssLayout();
@@ -73,8 +70,7 @@ public class ValidContractQueryView extends VerticalLayout implements View {
 		main.setSpacing(true);
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
-
-
+		
 		Button home = MyComponents.homeButton(navigator);
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering);
 		toolbar.setSpacing(true);
@@ -85,16 +81,18 @@ public class ValidContractQueryView extends VerticalLayout implements View {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
-		List<ValidContract> validContracts = queries.findValidContracts();
+		List<PharmacyWithAllDrugsInCity> pharmaciesList = queries.pharmaciesWithAllDrugsInSameCity();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(ValidContract.class, validContracts));
+		grid.setContainerDataSource(new BeanItemContainer(PharmacyWithAllDrugsInCity.class, pharmaciesList));
+	
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Valid Contract Table");
+		Notification.show("Welcome to Pharmacy With all Drugs for a Patient Table");
 	}
 
 	public Navigator getNavigator() {

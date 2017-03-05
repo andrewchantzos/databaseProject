@@ -18,7 +18,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.PharmaceuticalCompanyDAO;
 import daoImpl.PharmaceuticalCompanyDAOImpl;
 import model.PharmaceuticalCompany;
-import ui.CompanyView;
+import uiTables.CompanyView;
 import validators.CustomValidators;
 
 public class CompanyForm extends FormLayout {

@@ -24,7 +24,7 @@ import daoImpl.DoctorDAOImpl;
 import daoImpl.PatientDAOImpl;
 import model.Doctor;
 import model.Patient;
-import ui.PatientView;
+import uiTables.PatientView;
 import validators.CustomValidators;
 
 public class PatientForm extends FormLayout {

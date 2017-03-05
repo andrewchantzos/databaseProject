@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,43 +17,43 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import queryModels.DoctorWithOldPatients;
-import sqlQueries.Queries;
+import dao.DrugDAO;
+import daoImpl.DrugDAOImpl;
+import form.DrugForm;
+import model.Drug;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class DoctorsWithOldPatientsView extends VerticalLayout implements View {
+public class DrugView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Queries queries = new Queries();
+	private DrugDAO drugDao = new DrugDAOImpl();
 	private Grid grid = new Grid();
+	private DrugForm form = new DrugForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoctorsWithOldPatientsView(Navigator navigator) {
+	public DrugView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<DoctorWithOldPatients> doctorList = queries.doctorsWithOldPatients();
+		List<Drug> drugs = drugDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(DoctorWithOldPatients.class, doctorList));
-		grid.setColumnOrder("doctorId", "firstName", "lastName");
+		grid.setContainerDataSource(new BeanItemContainer(Drug.class, drugs));
+		// Order firstName, lastName first
+		grid.setColumnOrder("drugId", "name");
 
-		
 		filterText.setInputPrompt("Search");
-		
-		
+
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(DoctorWithOldPatients.class, queries.doctorsWithOldPatientsFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(Drug.class, drugDao.findAllFilter(e.getText())));
 		});
-		
 		CssLayout filtering = new CssLayout();
-		
-		
+
 		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
 		clearFilterTextBtn.addClickListener(e -> {
 			filterText.clear();
@@ -62,37 +62,62 @@ public class DoctorsWithOldPatientsView extends VerticalLayout implements View {
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
-
-		HorizontalLayout main = new HorizontalLayout(grid);
+		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
 		main.setSpacing(true);
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
-		
+
+		Button addNewDrug = new Button("Add new drug");
+		addNewDrug.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addNewDrug.addClickListener(e -> {
+			if (form.isVisible()) {
+				form.setVisible(false);
+			} else {
+				grid.select(null);
+				form.setDrug(new Drug(), true);
+				form.init();
+			}
+		});
+
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDrug);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
-		setMargin(true);
-		setSpacing(true);
-
+		
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
-		List<DoctorWithOldPatients> doctorList = queries.doctorsWithOldPatients();
+		List<Drug> drugs = drugDao.findAll();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer(DoctorWithOldPatients.class, doctorList));
-	
+		grid.setContainerDataSource(new BeanItemContainer<>(Drug.class, drugs));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor with old Patients Table");
+		Notification.show("Welcome to Drug Table");
+		
+		form.init();
+		
+		setMargin(true);
+		setSpacing(true);
+
+		form.setVisible(false);
+
+		// form management
+		grid.addSelectionListener(e -> {
+			if (e.getSelected().isEmpty()) {
+				form.setVisible(false);
+			} else {
+				Drug drug = (Drug) e.getSelected().iterator().next();
+				form.setDrug(drug, false);
+			}
+		});
+
 	}
 
 	public Navigator getNavigator() {

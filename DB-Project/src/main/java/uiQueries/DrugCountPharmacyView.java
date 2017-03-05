@@ -1,4 +1,5 @@
-package ui;
+
+package uiQueries;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import queryModels.DrugPriceInfo;
+import modelQueries.DrugCountPharmacy;
 import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class DrugPriceQueryView extends VerticalLayout implements View {
+public class DrugCountPharmacyView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
@@ -33,22 +34,21 @@ public class DrugPriceQueryView extends VerticalLayout implements View {
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DrugPriceQueryView(Navigator navigator) {
+	public DrugCountPharmacyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<DrugPriceInfo> drugPriceInfoList = queries.drugMinAndAVG();
+		List<DrugCountPharmacy> pharmaciesList = queries.drugCountOfPharmacy();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(DrugPriceInfo.class, drugPriceInfoList));
-		grid.setColumnOrder("drugName", "averagePrice", "pharmacyId", "pharmacyName");
-		
+		grid.setContainerDataSource(new BeanItemContainer(DrugCountPharmacy.class, pharmaciesList));
+		grid.setColumnOrder("pharmacyId", "numberOfDrugs");
+
 		
 		filterText.setInputPrompt("Search");
 		
-		
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(DrugPriceInfo.class, queries.drugMinAndAVGFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(DrugCountPharmacy.class, queries.drugCountOfPharmacyFilter(e.getText())));
 		});
 		
 		CssLayout filtering = new CssLayout();
@@ -83,16 +83,16 @@ public class DrugPriceQueryView extends VerticalLayout implements View {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updateList() {
-		List<DrugPriceInfo> drugPriceInfoList = queries.drugMinAndAVG();
+		List<DrugCountPharmacy> pharmaciesList = queries.drugCountOfPharmacy();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer(DrugPriceInfo.class, drugPriceInfoList));
+		grid.setContainerDataSource(new BeanItemContainer(DrugCountPharmacy.class, pharmaciesList));
 	
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Drug Info Table");
+		Notification.show("Welcome to Drug Count of Pharmacy Table");
 	}
 
 	public Navigator getNavigator() {

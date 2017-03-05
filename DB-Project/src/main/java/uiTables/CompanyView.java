@@ -1,4 +1,4 @@
-package ui;
+package uiTables;
 
 import java.util.List;
 
@@ -17,49 +17,44 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.DoctorDAO;
-import daoImpl.DoctorDAOImpl;
-import form.DoctorForm;
-import model.Doctor;
+import dao.PharmaceuticalCompanyDAO;
+import daoImpl.PharmaceuticalCompanyDAOImpl;
+import form.CompanyForm;
+import model.PharmaceuticalCompany;
 import uiComponents.MyComponents;
 
 @Theme("mytheme")
-public class DoctorView extends VerticalLayout implements View {
+public class CompanyView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DoctorDAO doctorDao = new DoctorDAOImpl();
+	private PharmaceuticalCompanyDAO companyDao = new PharmaceuticalCompanyDAOImpl();
 	private Grid grid = new Grid();
-	private DoctorForm form = new DoctorForm(this);
-	private Navigator navigator;
 	private TextField filterText = new TextField();
+	private CompanyForm form = new CompanyForm(this);
+	private Navigator navigator;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoctorView(Navigator navigator) {
+	public CompanyView(Navigator navigator) {
 
 		this.setNavigator(navigator);
 
-		List<Doctor> doctors = doctorDao.findAll();
+		List<PharmaceuticalCompany> companies = companyDao.findAll();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Doctor.class, doctors));
+		grid.setContainerDataSource(new BeanItemContainer(PharmaceuticalCompany.class, companies));
 		// Order firstName, lastName first
-		grid.setColumnOrder("doctorId", "firstName", "lastName");
-
-
-		// setup grid
-		// Order firstName, lastName first
-		grid.setColumnOrder("firstName", "lastName");
+		grid.setColumnOrder("pharmaceuticalCompanyId");
 
 		filterText.setInputPrompt("Search");
 
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctorDao.findAllFilter(e.getText())));
+			grid.setContainerDataSource(
+					new BeanItemContainer<>(PharmaceuticalCompany.class, companyDao.findAllFilter(e.getText())));
 		});
 		CssLayout filtering = new CssLayout();
-		
-		
+
 		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
 		clearFilterTextBtn.addClickListener(e -> {
 			filterText.clear();
@@ -68,23 +63,22 @@ public class DoctorView extends VerticalLayout implements View {
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
-
 		HorizontalLayout main = new HorizontalLayout(grid, form);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
-
+		main.setSpacing(true);
+		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-
-		Button addNewDoctor = new Button("Add new doctor");
+		Button addNewDoctor = new Button("Add new Company");
 		addNewDoctor.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		addNewDoctor.addClickListener(e -> {
 			if (form.isVisible()) {
 				form.setVisible(false);
 			} else {
 				grid.select(null);
-				form.setDoctor(new Doctor(), true);
+				form.setCompany(new PharmaceuticalCompany(), true);
 				form.init();
 			}
 		});
@@ -94,22 +88,14 @@ public class DoctorView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
-	}
-
-	public void updateList() {
-		List<Doctor> doctors = doctorDao.findAll();
-
-		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Doctor.class, doctors));
-	}
+		}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Doctor Table");
+		Notification.show("Welcome to Company Table");
 		
 		form.init();
 		
-
 		setMargin(true);
 		setSpacing(true);
 
@@ -120,11 +106,19 @@ public class DoctorView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 				form.setVisible(false);
 			} else {
-				Doctor doctor = (Doctor) e.getSelected().iterator().next();
-				form.setDoctor(doctor, false);
+				PharmaceuticalCompany company = (PharmaceuticalCompany) e.getSelected().iterator().next();
+				form.setCompany(company, false);
 			}
 		});
 
+	}
+
+	public void updateList() {
+		List<PharmaceuticalCompany> companies = companyDao.findAll();
+
+		// Set list
+		grid.setContainerDataSource(new BeanItemContainer<>(PharmaceuticalCompany.class, companies));
+	
 	}
 
 	public Navigator getNavigator() {

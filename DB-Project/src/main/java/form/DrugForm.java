@@ -26,7 +26,7 @@ import daoImpl.DrugDAOImpl;
 import daoImpl.PharmaceuticalCompanyDAOImpl;
 import model.Drug;
 import model.PharmaceuticalCompany;
-import ui.DrugView;
+import uiTables.DrugView;
 import validators.CustomValidators;
 
 public class DrugForm extends FormLayout {

@@ -1,4 +1,4 @@
-package ui;
+package uiQueries;
 
 import java.util.List;
 
@@ -17,41 +17,46 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import dao.PatientDAO;
-import daoImpl.PatientDAOImpl;
-import form.PatientForm;
-import model.Patient;
+import modelQueries.ValidContract;
+import sqlQueries.Queries;
 import uiComponents.MyComponents;
 
+
 @Theme("mytheme")
-public class PatientView extends VerticalLayout implements View {
+public class ValidContractQueryView extends VerticalLayout implements View {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private PatientDAO patientDao = new PatientDAOImpl();
+	private Queries queries = new Queries();
 	private Grid grid = new Grid();
-	private PatientForm form = new PatientForm(this);
 	private Navigator navigator;
 	private TextField filterText = new TextField();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PatientView(Navigator navigator) {
+	public ValidContractQueryView(Navigator navigator) {
 
 		this.setNavigator(navigator);
-		List<Patient> patients = patientDao.findAll();
+
+		List<ValidContract> validContracts = queries.findValidContracts();
 
 		// setup grid
-		grid.setContainerDataSource(new BeanItemContainer(Patient.class, patients));
-		grid.setColumnOrder("patientId", "firstName", "lastName");
+		grid.setContainerDataSource(new BeanItemContainer(ValidContract.class, validContracts));
+
+		// setup grid
+		// Order firstName, lastName first
+		grid.setColumnOrder("companyName", "pharmacyName");
 
 		filterText.setInputPrompt("Search");
-
+		
+		
 		filterText.addTextChangeListener(e -> {
-			grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patientDao.findAllFilter(e.getText())));
+			grid.setContainerDataSource(new BeanItemContainer<>(ValidContract.class, queries.findValidContractsFilter(e.getText())));
 		});
+		
 		CssLayout filtering = new CssLayout();
-
+		
+		
 		Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
 		clearFilterTextBtn.addClickListener(e -> {
 			filterText.clear();
@@ -60,7 +65,8 @@ public class PatientView extends VerticalLayout implements View {
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
-		HorizontalLayout main = new HorizontalLayout(grid, form);
+
+		HorizontalLayout main = new HorizontalLayout(grid);
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
@@ -68,51 +74,27 @@ public class PatientView extends VerticalLayout implements View {
 		main.setSizeFull();
 		main.setExpandRatio(grid, 1);
 
-		Button addNewPatient = new Button("Add new patient");
-		addNewPatient.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		addNewPatient.addClickListener(e -> {
-			if (form.isVisible()) {
-				form.setVisible(false);
-			} else {
-				grid.select(null);
-				form.setPatient(new Patient(), true);
-				form.init();
-			}
-		});
 
 		Button home = MyComponents.homeButton(navigator);
-		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPatient);
+		HorizontalLayout toolbar = new HorizontalLayout(home, filtering);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+
+		setMargin(true);
+		setSpacing(true);
+
 	}
 
 	public void updateList() {
-		List<Patient> patients = patientDao.findAll();
+		List<ValidContract> validContracts = queries.findValidContracts();
 
 		// Set list
-		grid.setContainerDataSource(new BeanItemContainer<>(Patient.class, patients));
+		grid.setContainerDataSource(new BeanItemContainer<>(ValidContract.class, validContracts));
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("Welcome to Patient Table");
-
-		form.init();
-		
-		setMargin(true);
-		setSpacing(true);
-
-		form.setVisible(false);
-
-		grid.addSelectionListener(e -> {
-			if (e.getSelected().isEmpty()) {
-				form.setVisible(false);
-			} else {
-				Patient patient = (Patient) e.getSelected().iterator().next();
-				form.setPatient(patient, false);
-			}
-		});
-
+		Notification.show("Welcome to Valid Contract Table");
 	}
 
 	public Navigator getNavigator() {

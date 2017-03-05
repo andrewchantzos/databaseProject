@@ -19,7 +19,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import dao.DoctorDAO;
 import daoImpl.DoctorDAOImpl;
 import model.Doctor;
-import ui.DoctorView;
+import uiTables.DoctorView;
 import validators.CustomValidators;
 
 public class DoctorForm extends FormLayout {

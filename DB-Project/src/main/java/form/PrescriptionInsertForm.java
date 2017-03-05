@@ -32,7 +32,7 @@ import model.Doctor;
 import model.Drug;
 import model.Patient;
 import model.Prescription;
-import ui.PrescriptionView;
+import uiTables.PrescriptionView;
 import validators.CustomValidators;
 
 public class PrescriptionInsertForm extends FormLayout {
