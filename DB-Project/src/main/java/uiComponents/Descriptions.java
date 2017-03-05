@@ -11,4 +11,5 @@ public class Descriptions {
 	public static String patientsOfDoctor = "Pick a doctor and show all of their patients sorted by their first name";
 	public static String pharmaciesWithDrugInCityItem = "Pick a city and a drug and show where can I find it in this city";
 	public static String doctorsBySpeciality = "Find doctors by speciality sorted by experience years";
+	public static String pharmacyTownPercentage = "Find for each city, the count and percentage of pharmacies it has";
 }

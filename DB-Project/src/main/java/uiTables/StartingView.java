@@ -1,6 +1,5 @@
 package uiTables;
 
-import com.sun.nio.sctp.Notification;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -167,6 +166,18 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 		
+		MenuBar.Command pharmacyTownPercentageCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.PharmacyTownPercentageView.toString());
+			}
+		};
+		
 		MenuItem tables = menu.addItem("Tables", null);
 		tables.addItem("Doctor", mycommand);
 		tables.addItem("Patient", mycommand);
@@ -184,9 +195,10 @@ public class StartingView extends VerticalLayout implements View {
 		MenuItem pharmaciesWithAllDrugs = queries.addItem("Pharmacies in City with all Drugs", pharmacyPatientCommand);
 		MenuItem doctorsWithHighAverage = queries.addItem("Doctors with average Patient age over 60", doctorWithOldPatientCommand);
 		MenuItem drugsSortedPrescCount = queries.addItem("Drugs sorted by prescription count", drugPrescriptionCountCommand);
-		MenuItem drugCountInPharmacies = queries.addItem("Show Number Of Drugs in Pharmacies", drugCountCommand);
-		MenuItem patientsOfDoctor = queries.addItem("Show Patients of Doctor", patientsOfDoctorCommand);
-		MenuItem pharmaciesWithDrugInCityItem = queries.addItem("Show Pharmacies with Drug in City", pharmaciesWithDrugInCity);
+		MenuItem drugCountInPharmacies = queries.addItem("Number Of Drugs in Pharmacies", drugCountCommand);
+		MenuItem patientsOfDoctor = queries.addItem("Patients of Doctor", patientsOfDoctorCommand);
+		MenuItem pharmaciesWithDrugInCityItem = queries.addItem("Pharmacies with Drug in City", pharmaciesWithDrugInCity);
+		MenuItem pharmacyTownPercentageView = queries.addItem("Percentage of Pharmacies in City", pharmacyTownPercentageCommand);
 		
 		validContracts.setDescription(Descriptions.validContracts);
 		drugPriceInfo.setDescription(Descriptions.drugPriceInfo);
@@ -196,7 +208,7 @@ public class StartingView extends VerticalLayout implements View {
 		drugCountInPharmacies.setDescription(Descriptions.drugCountInPharmacies);
 		pharmaciesWithDrugInCityItem.setDescription(Descriptions.pharmaciesWithDrugInCityItem);
 		patientsOfDoctor.setDescription(Descriptions.patientsOfDoctor);
-
+		pharmacyTownPercentageView.setDescription(Descriptions.pharmacyTownPercentage);
 
 		
 

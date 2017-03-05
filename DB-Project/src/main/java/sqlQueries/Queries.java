@@ -16,6 +16,7 @@ import modelQueries.DrugCountPharmacy;
 import modelQueries.DrugPrescriptionCount;
 import modelQueries.DrugPriceInfo;
 import modelQueries.PharmacyWithAllDrugsInCity;
+import modelQueries.TownPharmacyPercentage;
 import modelQueries.ValidContract;
 import util.DBUtil;
 
@@ -85,7 +86,8 @@ public class Queries {
 	public List<Doctor> findDoctorsBySpeciality(String speciality) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
-		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = ? ORDER BY experience_years DESC";
+		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors "
+				+ "where speciality = ? ORDER BY experience_years DESC";
 
 		try {
 			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -110,7 +112,8 @@ public class Queries {
 	public List<Doctor> findDoctorsBySpecialityFilter(String speciality, String filter) {
 		List<Doctor> list = new ArrayList<Doctor>();
 
-		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors " + "where speciality = ? ORDER BY experience_years DESC";
+		String query = "SELECT firstname, lastname, experience_years " + "FROM doctors "
+				+ "where speciality = ? ORDER BY experience_years DESC";
 		try {
 			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setString(1, speciality);
@@ -375,8 +378,7 @@ public class Queries {
 		List<Patient> patients = new ArrayList<Patient>();
 
 		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
-				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID=?"
-				+ " ORDER BY pa.FIRSTNAME";
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID=?" + " ORDER BY pa.FIRSTNAME";
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, doctorId);
@@ -407,8 +409,7 @@ public class Queries {
 		List<Patient> patients = new ArrayList<Patient>();
 
 		String query = "SELECT pa.* " + "FROM PATIENTS AS pa, DOCTORS AS d "
-				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID=?"
-				+ " ORDER BY pa.FIRSTNAME";
+				+ "WHERE pa.DOCTOR_DOCTOR_ID = d.DOCTOR_ID and d.DOCTOR_ID=?" + " ORDER BY pa.FIRSTNAME";
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, doctorId);
@@ -502,7 +503,7 @@ public class Queries {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
 		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
-				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?" 
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?"
 				+ " AND d.DRUG_ID = ?";
 		try {
 			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -534,7 +535,7 @@ public class Queries {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
 		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
-				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?" 
+				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?"
 				+ " AND d.DRUG_ID = ?";
 		try {
 			java.sql.PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -562,7 +563,58 @@ public class Queries {
 		}
 		return list;
 	}
-	
+
+	public List<TownPharmacyPercentage> pharmacyTownPercentage() {
+		List<TownPharmacyPercentage> list = new ArrayList<TownPharmacyPercentage>();
+
+		String query = "select town, count, count/total as percent from  ( select town, count(town) as count from pharmacies group by town) as C JOIN ( select count(*) total from pharmacies ) as T;";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				TownPharmacyPercentage townPharmacyPercentage = new TownPharmacyPercentage();
+				townPharmacyPercentage.setTown(resultSet.getString("town"));
+				townPharmacyPercentage.setCount(resultSet.getInt("count"));
+				Double percent = (100* resultSet.getDouble("percent"));
+				String result = String.format("%.2f", percent);
+				townPharmacyPercentage.setPercentage(result + " %");
+				list.add(townPharmacyPercentage);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<TownPharmacyPercentage> pharmacyTownPercentage(String filter) {
+		List<TownPharmacyPercentage> list = new ArrayList<TownPharmacyPercentage>();
+
+		String query = "select town, count, count/total as percent from  ( select town, count(town) as count from pharmacies group by town) as C JOIN ( select count(*) total from pharmacies ) as T;";
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				TownPharmacyPercentage townPharmacyPercentage = new TownPharmacyPercentage();
+				townPharmacyPercentage.setTown(resultSet.getString("town"));
+				townPharmacyPercentage.setCount(resultSet.getInt("count"));
+				Double percent = (100* resultSet.getDouble("percent"));
+				String result = String.format("%.2f", percent);
+				townPharmacyPercentage.setPercentage(result + " %");
+				if (townPharmacyPercentage.toString().toLowerCase().contains(filter.toLowerCase()))
+					list.add(townPharmacyPercentage);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 	public List<String> findTowns() {
 		List<String> list = new ArrayList<String>();
 

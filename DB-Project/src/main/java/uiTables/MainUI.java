@@ -19,6 +19,7 @@ import uiQueries.DrugPriceQueryView;
 import uiQueries.PatientsOfDoctorView;
 import uiQueries.PharmaciesWithAllDrugsSameCityView;
 import uiQueries.PharmaciesWithDrugInCityView;
+import uiQueries.PharmacyTownPercentageView;
 import uiQueries.SpecialityQueryView;
 import uiQueries.ValidContractQueryView;
 import uiViews.ElderPatientsView;
@@ -65,7 +66,9 @@ public class MainUI extends UI {
         navigator.addView(Views.PatientsOfDoctorView.toString(), new PatientsOfDoctorView(navigator));
         navigator.addView(Views.DrugCountPharmacyView.toString(), new DrugCountPharmacyView(navigator));
         navigator.addView(Views.PharmaciesWithDrugInCityView.toString(), new PharmaciesWithDrugInCityView(navigator));
+        navigator.addView(Views.PharmacyTownPercentageView.toString(), new PharmacyTownPercentageView(navigator));
 
+        
         navigator.addView(Views.ElderPatientsView.toString(), new ElderPatientsView(navigator));
 
         navigator.navigateTo(Views.StartingView.toString());
