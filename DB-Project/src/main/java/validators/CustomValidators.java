@@ -19,7 +19,7 @@ public class CustomValidators {
 	}
 
 	public static IntegerRangeValidator experienceValidator() {
-		return new IntegerRangeValidator("Experience must be between 0 and 70 years", 0, 70);
+		return new IntegerRangeValidator("Experience must be between 0 and 80 years", 0, 80);
 	}
 	
 	public static IntegerRangeValidator quantityValidator() {

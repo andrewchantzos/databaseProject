@@ -1,6 +1,5 @@
 package uiTables;
 
-import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -25,7 +24,6 @@ import uiComponents.Views;
  * intended to be overridden to add component to the user interface and
  * initialize non-component functionality.
  */
-@Theme("mytheme")
 public class StartingView extends VerticalLayout implements View {
 
 

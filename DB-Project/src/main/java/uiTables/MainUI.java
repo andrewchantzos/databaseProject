@@ -39,6 +39,8 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+    	
+
 		final VerticalLayout layout = new VerticalLayout();
 		//layout.setMargin(true);
 		layout.setSpacing(true);
