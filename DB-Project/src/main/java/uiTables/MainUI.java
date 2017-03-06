@@ -48,8 +48,8 @@ public class MainUI extends UI {
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		
-		
-        navigator.addView(Views.StartingView.toString(), new StartingView(navigator));
+
+		navigator.addView(Views.StartingView.toString(), new StartingView(navigator));
         navigator.addView(Views.DoctorView.toString(), new DoctorView(navigator));
         navigator.addView(Views.DrugView.toString(), new DrugView(navigator));
         navigator.addView(Views.PatientView.toString(), new PatientView(navigator));

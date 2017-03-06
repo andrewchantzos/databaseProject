@@ -32,6 +32,8 @@
 		</repository>
 	</repositories>
 
+
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -57,7 +59,11 @@
     		<artifactId>junit</artifactId>
    			 <version>4.12</version>
 		</dependency>
-		
+		<dependency>
+   <groupId>org.vaadin.addons</groupId>
+   <artifactId>BorderLayout</artifactId>
+   <version>0.7</version>
+</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

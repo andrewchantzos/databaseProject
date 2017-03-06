@@ -502,7 +502,7 @@ public class Queries {
 	public List<Pharmacy> pharmaciesWithDrugInCity(int drugId, String town) {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
-		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
+		String query = "SELECT DISTINCT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
 				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?"
 				+ " AND d.DRUG_ID = ?";
 		try {
@@ -534,7 +534,7 @@ public class Queries {
 	public List<Pharmacy> pharmaciesWithDrugInCityFilter(int drugId, String town, String filter) {
 		List<Pharmacy> list = new ArrayList<Pharmacy>();
 
-		String query = "SELECT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
+		String query = "SELECT DISTINCT ph.* " + "FROM PHARMACIES AS ph, SELLS AS s, DRUGS AS d "
 				+ "WHERE ph.PHARMACY_ID = s.PHARMACY_ID AND s.DRUG_ID = d.DRUG_ID AND ph.TOWN = ?"
 				+ " AND d.DRUG_ID = ?";
 		try {

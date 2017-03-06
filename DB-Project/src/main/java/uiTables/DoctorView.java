@@ -94,6 +94,7 @@ public class DoctorView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+
 	}
 
 	public void updateList() {
