@@ -90,6 +90,7 @@ public class PrescriptionView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPrescription);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		main.setHeight("15.5cm");
 
 
 	}

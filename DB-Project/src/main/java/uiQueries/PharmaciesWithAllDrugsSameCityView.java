@@ -78,6 +78,9 @@ public class PharmaciesWithAllDrugsSameCityView extends VerticalLayout implement
 
 		setMargin(true);
 		setSpacing(true);
+		
+		main.setHeight("15.5cm");
+
 
 	}
 

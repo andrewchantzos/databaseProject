@@ -39,7 +39,6 @@ public class DoctorView extends VerticalLayout implements View {
 	public DoctorView(Navigator navigator) {
 
 		this.setNavigator(navigator);
-
 		List<Doctor> doctors = doctorDao.findAll();
 
 		// setup grid
@@ -73,7 +72,7 @@ public class DoctorView extends VerticalLayout implements View {
 		main.setSpacing(true);
 		main.setSizeFull();
 		grid.setSizeFull();
-
+		grid.setHeightByRows(40);
 		main.setExpandRatio(grid, 1);
 
 
@@ -93,6 +92,7 @@ public class DoctorView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		main.setHeight("15.5cm");
 
 
 	}

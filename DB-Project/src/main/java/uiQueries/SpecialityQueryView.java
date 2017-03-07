@@ -77,6 +77,9 @@ public class SpecialityQueryView extends VerticalLayout implements View {
 
 		setMargin(true);
 		setSpacing(true);
+	
+		main.setHeight("15.5cm");
+
 	}
 
 	public void updateList() {

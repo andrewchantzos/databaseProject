@@ -87,6 +87,7 @@ public class CompanyView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewDoctor);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		main.setHeight("15.5cm");
 
 		}
 

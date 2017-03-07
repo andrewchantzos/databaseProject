@@ -86,6 +86,9 @@ public class PatientsOfDoctorView extends VerticalLayout implements View {
 		toolbar = new HorizontalLayout(home, filtering);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		
+		main.setHeight("15.5cm");
+
 	}
 
 	public void updateList(int id) {

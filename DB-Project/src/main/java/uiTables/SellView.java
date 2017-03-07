@@ -90,6 +90,7 @@ public class SellView extends VerticalLayout implements View {
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
 
+		main.setHeight("15.5cm");
 
 
 	}

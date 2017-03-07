@@ -90,6 +90,8 @@ public class ContractView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewContract);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		main.setHeight("15.5cm");
+
 	}
 
 	public void updateList() {

@@ -83,6 +83,9 @@ public class PatientsUpdatableView extends VerticalLayout implements View {
 		HorizontalLayout toolbar = new HorizontalLayout(home, filtering, addNewPatientsUpdatable);
 		toolbar.setSpacing(true);
 		addComponents(toolbar, main);
+		
+		main.setHeight("15.5cm");
+
 	}
 
 	public void updateList() {

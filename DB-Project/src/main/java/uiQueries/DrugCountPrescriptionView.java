@@ -79,6 +79,8 @@ public class DrugCountPrescriptionView extends VerticalLayout implements View {
 		setMargin(true);
 		setSpacing(true);
 
+		main.setHeight("15.5cm");
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
