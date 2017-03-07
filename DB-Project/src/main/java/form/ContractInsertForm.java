@@ -82,9 +82,6 @@ public class ContractInsertForm extends FormLayout {
 		
 		pharmaceuticalCompanyId.addFocusListener(new FocusListener() {
 			
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override

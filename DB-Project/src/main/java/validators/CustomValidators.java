@@ -50,7 +50,6 @@ public class CustomValidators {
 	public static TextField stringValidator(TextField field) {
 		field.setValidationVisible(false);
 
-		field.addBlurListener(event -> field.setValidationVisible(true));
 		field.addValidator(CustomValidators.nameValidator());
 		return field;
 	}
@@ -60,19 +59,7 @@ public class CustomValidators {
 		field.setValidationVisible(false);
 		field.addValidator(phoneRegexValidator());
 		field.addValidator(nameValidator());
-		field.addBlurListener(new BlurListener() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			public void blur(BlurEvent event) {
-				field.setValidationVisible(true);
-				
-			}
-		});
 
 		return field;
 	}
