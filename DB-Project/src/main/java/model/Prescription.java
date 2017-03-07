@@ -63,13 +63,7 @@ public class Prescription {
 	}
 
 	public void setDate(Date date) {
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-		try {
-			this.date = (Date) sdf1.parse(date.toString());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.date = date;
 	}
 
 	public int getQuantity() {
