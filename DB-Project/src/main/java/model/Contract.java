@@ -10,7 +10,7 @@ import java.sql.Date;
 public class Contract {
 
 	
-	private int pharmaceuticalCopmanyId;
+	private int pharmaceuticalCompanyId;
 	
 	private int pharmacyId;
 	
@@ -29,7 +29,7 @@ public class Contract {
 	public Contract(int pharmaceuticalCopmanyId, int pharmacyId, Date startDate, Date endDate, String text,
 			String supervisor) {
 		super();
-		this.pharmaceuticalCopmanyId = pharmaceuticalCopmanyId;
+		this.pharmaceuticalCompanyId = pharmaceuticalCopmanyId;
 		this.pharmacyId = pharmacyId;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -38,11 +38,11 @@ public class Contract {
 	}
 
 	public int getPharmaceuticalCopmanyId() {
-		return pharmaceuticalCopmanyId;
+		return pharmaceuticalCompanyId;
 	}
 
 	public void setPharmaceuticalCopmanyId(int pharmaceuticalCopmanyId) {
-		this.pharmaceuticalCopmanyId = pharmaceuticalCopmanyId;
+		this.pharmaceuticalCompanyId = pharmaceuticalCopmanyId;
 	}
 
 	public int getPharmacyId() {
@@ -88,7 +88,7 @@ public class Contract {
 
 	@Override
 	public String toString() {
-		return pharmaceuticalCopmanyId + " " + pharmacyId
+		return pharmaceuticalCompanyId + " " + pharmacyId
 				+ " " + startDate + " " + endDate + ", text=" + text + " " + supervisor;
 	}	
 	

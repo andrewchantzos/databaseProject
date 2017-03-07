@@ -203,7 +203,7 @@ public class StartingView extends VerticalLayout implements View {
 		tables.addItem("Sell", mycommand);
 		tables.addItem("Company", mycommand);
 
-		MenuItem queries = menu.addItem("Queries", null);
+		MenuItem queries = menu.addItem("Options", null);
 		
 		MenuItem validContracts = queries.addItem("Valid Contracts", validContractCommand);
 		MenuItem drugPriceInfo = queries.addItem("Drug Price Info", drugPriceInfoCommand);
@@ -248,8 +248,11 @@ public class StartingView extends VerticalLayout implements View {
 		doctorsBySpeciality.addItem("Urology", specialityCommand);
 
 		MenuItem views = menu.addItem("Views", null);
-		views.addItem("Elder Patients", elderPatientsCommand);
-		views.addItem("Patient Updatable View", patientViewCommand);
+		MenuItem elderPatients = views.addItem("Elder Patients", elderPatientsCommand);
+		elderPatients.setDescription(Descriptions.elderPatients);
+
+		MenuItem patientUpdatable = views.addItem("Patient Updatable View", patientViewCommand);
+		patientUpdatable.setDescription(Descriptions.patientsUpdatable);
 
 		
 		addComponent(menu);

@@ -12,4 +12,8 @@ public class Descriptions {
 	public static String pharmaciesWithDrugInCityItem = "Pick a city and a drug and show where can I find it in this city";
 	public static String doctorsBySpeciality = "Find doctors by speciality sorted by experience years";
 	public static String pharmacyTownPercentage = "Find for each city, the count and percentage of pharmacies it has";
+
+	public static String elderPatients = "View that finds all the patients with age higher than the average";
+	public static String patientsUpdatable = "Updatable View for Patients";
+
 }
