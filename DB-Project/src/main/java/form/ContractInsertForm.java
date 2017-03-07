@@ -75,7 +75,7 @@ public class ContractInsertForm extends FormLayout {
 		pharmaceuticalCompanyId.addValidator(CustomValidators.idValidator());
 		pharmacyId.addValidator(CustomValidators.idValidator());
 		text.addValidator(CustomValidators.textValidator());
-
+		
 		pharmaceuticalCompanyId.addFocusListener(new FocusListener() {
 			
 			/**
@@ -116,11 +116,14 @@ public class ContractInsertForm extends FormLayout {
 		pharmaceuticalCompanyId.setConverter(Integer.class);
 		pharmacyId.setConverter(Integer.class);
 
-		pharmaceuticalCompanyId.setInputPrompt("Company Id");
-		pharmacyId.setInputPrompt("Pharmacy Id");
+		
 		supervisor.setInputPrompt("Supervisor");
 		text.setCaption("Contract Description");
 
+		
+		pharmaceuticalCompanyId.setInputPrompt("Company Id");
+		pharmacyId.setInputPrompt("Pharmacy Id");
+		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
 
@@ -169,7 +172,7 @@ public class ContractInsertForm extends FormLayout {
 	}
 
 	private void delete() {
-		contractDao.delete(contract.getPharmacyId(), contract.getPharmaceuticalCopmanyId());
+		contractDao.delete(contract.getPharmacyId(), contract.getPharmaceuticalCompanyId());
 		myUI.updateList();
 		setVisible(false);
 	}

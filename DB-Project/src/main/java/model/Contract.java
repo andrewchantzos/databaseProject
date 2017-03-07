@@ -26,10 +26,10 @@ public class Contract {
 	public Contract(){}
 	
 	
-	public Contract(int pharmaceuticalCopmanyId, int pharmacyId, Date startDate, Date endDate, String text,
+	public Contract(int pharmaceuticalCompanyId, int pharmacyId, Date startDate, Date endDate, String text,
 			String supervisor) {
 		super();
-		this.pharmaceuticalCompanyId = pharmaceuticalCopmanyId;
+		this.pharmaceuticalCompanyId = pharmaceuticalCompanyId;
 		this.pharmacyId = pharmacyId;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -37,12 +37,12 @@ public class Contract {
 		this.supervisor = supervisor;
 	}
 
-	public int getPharmaceuticalCopmanyId() {
+	public int getPharmaceuticalCompanyId() {
 		return pharmaceuticalCompanyId;
 	}
 
-	public void setPharmaceuticalCopmanyId(int pharmaceuticalCopmanyId) {
-		this.pharmaceuticalCompanyId = pharmaceuticalCopmanyId;
+	public void setPharmaceuticalCompanyId(int pharmaceuticalCompanyId) {
+		this.pharmaceuticalCompanyId = pharmaceuticalCompanyId;
 	}
 
 	public int getPharmacyId() {

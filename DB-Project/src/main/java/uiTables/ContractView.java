@@ -47,7 +47,7 @@ public class ContractView extends VerticalLayout implements View {
 		// setup grid
 		grid.setContainerDataSource(new BeanItemContainer(Contract.class, contracts));
 
-		grid.setColumnOrder("pharmacyId", "pharmaceuticalCopmanyId", "supervisor", "startDate", "endDate");
+		grid.setColumnOrder("pharmacyId", "pharmaceuticalCompanyId", "supervisor", "startDate", "endDate");
 
 		filterText.setInputPrompt("Search");
 

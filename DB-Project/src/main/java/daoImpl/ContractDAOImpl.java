@@ -29,7 +29,7 @@ public class ContractDAOImpl implements ContractDAO {
 
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setInt(1, contract.getPharmacyId());
-			preparedStatement.setInt(2, contract.getPharmaceuticalCopmanyId());
+			preparedStatement.setInt(2, contract.getPharmaceuticalCompanyId());
 			preparedStatement.setDate(3, contract.getStartDate());
 			preparedStatement.setDate(4, contract.getEndDate());
 			preparedStatement.setString(5, contract.getSupervisor());
@@ -56,7 +56,7 @@ public class ContractDAOImpl implements ContractDAO {
 			preparedStatement.setString(3, contract.getSupervisor());
 			preparedStatement.setString(4, contract.getText());
 			preparedStatement.setInt(5, contract.getPharmacyId());
-			preparedStatement.setInt(6, contract.getPharmaceuticalCopmanyId());
+			preparedStatement.setInt(6, contract.getPharmaceuticalCompanyId());
 
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -94,7 +94,7 @@ public class ContractDAOImpl implements ContractDAO {
 				contract.setSupervisor(resultSet.getString("supervisor"));
 				contract.setText(resultSet.getString("text"));
 				contract.setPharmacyId(resultSet.getInt("pharmacy_id"));
-				contract.setPharmaceuticalCopmanyId(resultSet.getInt("company_id"));
+				contract.setPharmaceuticalCompanyId(resultSet.getInt("company_id"));
 				contracts.add(contract);
 			}
 			resultSet.close();
@@ -119,7 +119,7 @@ public class ContractDAOImpl implements ContractDAO {
 				contract.setSupervisor(resultSet.getString("supervisor"));
 				contract.setText(resultSet.getString("text"));
 				contract.setPharmacyId(resultSet.getInt("pharmacy_id"));
-				contract.setPharmaceuticalCopmanyId(resultSet.getInt("company_id"));
+				contract.setPharmaceuticalCompanyId(resultSet.getInt("company_id"));
 				if (contract.toString().toLowerCase().contains(search.toLowerCase()))
 						contracts.add(contract);
 			}
@@ -144,7 +144,7 @@ public class ContractDAOImpl implements ContractDAO {
 				contract.setSupervisor(resultSet.getString("supervisor"));
 				contract.setText(resultSet.getString("text"));
 				contract.setPharmacyId(resultSet.getInt("pharmacy_id"));
-				contract.setPharmaceuticalCopmanyId(resultSet.getInt("company_id"));
+				contract.setPharmaceuticalCompanyId(resultSet.getInt("company_id"));
 			}
 			resultSet.close();
 			preparedStatement.close();

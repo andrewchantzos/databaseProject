@@ -105,7 +105,7 @@ public class ContractUpdateForm extends FormLayout {
 	}
 
 	private void delete() {
-		contractDao.delete(contract.getPharmacyId(), contract.getPharmaceuticalCopmanyId());
+		contractDao.delete(contract.getPharmacyId(), contract.getPharmaceuticalCompanyId());
 		myUI.updateList();
 		setVisible(false);
 	}
