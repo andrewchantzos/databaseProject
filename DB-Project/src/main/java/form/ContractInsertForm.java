@@ -61,6 +61,8 @@ public class ContractInsertForm extends FormLayout {
 	
 	public ContractInsertForm(ContractView myUI) {
 		this.myUI = myUI;
+		
+		
 		fieldGroup = new FieldGroup();
 		fieldGroup.bind(pharmaceuticalCompanyId, pharmaceuticalCompanyId);
 		fieldGroup.bind(pharmacyId, pharmacyId);
@@ -72,6 +74,8 @@ public class ContractInsertForm extends FormLayout {
 		startDate.addValidator(new NullValidator("Date cannot be null", false));
 		endDate.addValidator(new NullValidator("Date cannot be null", false));
 
+
+		
 		pharmaceuticalCompanyId.addValidator(CustomValidators.idValidator());
 		pharmacyId.addValidator(CustomValidators.idValidator());
 		text.addValidator(CustomValidators.textValidator());
@@ -120,9 +124,7 @@ public class ContractInsertForm extends FormLayout {
 		supervisor.setInputPrompt("Supervisor");
 		text.setCaption("Contract Description");
 
-		
-		pharmaceuticalCompanyId.setInputPrompt("Company Id");
-		pharmacyId.setInputPrompt("Pharmacy Id");
+
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
