@@ -44,7 +44,7 @@ public class CustomValidators {
 	}
 	
 	public static RegexpValidator phoneRegexValidator() {
-		return new RegexpValidator("[^a-zA-Z]{3,15}","Invalid Phone Number");
+		return new RegexpValidator("[^a-zA-Z]{3,15}","Phone number must be 3-14 non characters");
 	}
 	
 	public static TextField stringValidator(TextField field) {

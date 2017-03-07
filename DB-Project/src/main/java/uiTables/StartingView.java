@@ -250,7 +250,7 @@ public class StartingView extends VerticalLayout implements View {
 		setMargin(new MarginInfo(false, true, true, true));
 		BorderLayout footer = new BorderLayout();
 		footer.setHeight("100%");
-		footer.setHeight(24, Sizeable.UNITS_PICAS);
+		footer.setHeight(27, Sizeable.UNITS_PICAS);
 		Label label = new Label("Developed by: Andreas Chantzos, Vasilis Goumas, George Stathis");
 		label.addStyleName(ValoTheme.LABEL_SMALL);
 		footer.addComponent(label, BorderLayout.Constraint.SOUTH);
