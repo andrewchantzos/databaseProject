@@ -23,6 +23,7 @@ import uiQueries.PharmacyTownPercentageView;
 import uiQueries.SpecialityQueryView;
 import uiQueries.ValidContractQueryView;
 import uiViews.ElderPatientsView;
+import uiViews.PatientsUpdatableView;
 
 @Theme("mytheme")
 public class MainUI extends UI {
@@ -72,7 +73,9 @@ public class MainUI extends UI {
 
         
         navigator.addView(Views.ElderPatientsView.toString(), new ElderPatientsView(navigator));
+        navigator.addView(Views.PatientsUpdatableView.toString(), new PatientsUpdatableView(navigator));
 
+        
         navigator.navigateTo(Views.StartingView.toString());
         
     }

@@ -22,8 +22,8 @@ public class ContractDaoTest {
 	@Test
 	public void insertTest() throws SQLIntegrityConstraintViolationException {
 		Contract contract = new Contract();
-		contract.setPharmaceuticalCopmanyId(2);
-		contract.setPharmacyId(2);
+		contract.setPharmaceuticalCopmanyId(1);
+		contract.setPharmacyId(1);
 		contract.setStartDate(java.sql.Date.valueOf("2013-10-19"));
 		contract.setEndDate(java.sql.Date.valueOf("2015-10-19"));
 		contract.setSupervisor("andrew");
@@ -34,8 +34,8 @@ public class ContractDaoTest {
 	@Test
 	public void updateTest() throws SQLIntegrityConstraintViolationException {
 		Contract contract = new Contract();
-		contract.setPharmaceuticalCopmanyId(2);
-		contract.setPharmacyId(2);
+		contract.setPharmaceuticalCopmanyId(1);
+		contract.setPharmacyId(1);
 		contract.setStartDate(java.sql.Date.valueOf("2013-10-19"));
 		contract.setEndDate(java.sql.Date.valueOf("2015-10-19"));
 		contract.setSupervisor("andrew");

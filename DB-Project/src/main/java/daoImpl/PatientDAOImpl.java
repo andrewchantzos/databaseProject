@@ -26,7 +26,10 @@ public class PatientDAOImpl implements PatientDAO {
 			String query = "insert into `patients` (`doctor_doctor_id`, `town`, `street`, `str_num`, `postal_code`, `phone`, `firstname`, `lastname`, `age`) values (?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement preparedStatement = conn.prepareStatement(query, new String[] { "patient_id"});
-			preparedStatement.setInt(1, patient.getDoctorId());
+			if (patient.getDoctorId() != 0)
+				preparedStatement.setInt(1, patient.getDoctorId());
+			else
+				preparedStatement.setNull(1, java.sql.Types.INTEGER);
 			preparedStatement.setString(2, patient.getTown());
 			preparedStatement.setString(3, patient.getStreetName());
 			preparedStatement.setInt(4, patient.getStreetNumber());

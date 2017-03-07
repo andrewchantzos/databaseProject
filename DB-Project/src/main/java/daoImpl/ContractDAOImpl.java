@@ -37,6 +37,8 @@ public class ContractDAOImpl implements ContractDAO {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 		} catch (SQLIntegrityConstraintViolationException e) {
+			e.printStackTrace();
+
 			throw new SQLIntegrityConstraintViolationException();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -37,7 +37,7 @@ import validators.CustomValidators;
 public class ContractInsertForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
-	private ComboBox pharmaceuticalCompanyId = new ComboBox("Company");
+	private ComboBox pharmaceuticalCopmanyId = new ComboBox("Company");
 	private ComboBox pharmacyId = new ComboBox("Pharmacy");
 	private PopupDateField startDate = new PopupDateField("Start Date");
 	private PopupDateField endDate = new PopupDateField("End Date");
@@ -62,7 +62,7 @@ public class ContractInsertForm extends FormLayout {
 	public ContractInsertForm(ContractView myUI) {
 		this.myUI = myUI;
 		fieldGroup = new FieldGroup();
-		fieldGroup.bind(pharmaceuticalCompanyId, pharmaceuticalCompanyId);
+		fieldGroup.bind(pharmaceuticalCopmanyId, pharmaceuticalCopmanyId);
 		fieldGroup.bind(pharmacyId, pharmacyId);
 		fieldGroup.bind(startDate, startDate);
 		fieldGroup.bind(endDate, endDate);
@@ -72,11 +72,11 @@ public class ContractInsertForm extends FormLayout {
 		startDate.addValidator(new NullValidator("Date cannot be null", false));
 		endDate.addValidator(new NullValidator("Date cannot be null", false));
 
-		pharmaceuticalCompanyId.addValidator(CustomValidators.idValidator());
+		pharmaceuticalCopmanyId.addValidator(CustomValidators.idValidator());
 		pharmacyId.addValidator(CustomValidators.idValidator());
 		text.addValidator(CustomValidators.textValidator());
 
-		pharmaceuticalCompanyId.addFocusListener(new FocusListener() {
+		pharmaceuticalCopmanyId.addFocusListener(new FocusListener() {
 			
 			/**
 			 * 
@@ -87,9 +87,9 @@ public class ContractInsertForm extends FormLayout {
 			public void focus(FocusEvent event) {
 				companyList = companyDao.findAll();	
 				for (PharmaceuticalCompany company: companyList) {
-					pharmaceuticalCompanyId.addItem(company.getPharmaceuticalCompanyId());
+					pharmaceuticalCopmanyId.addItem(company.getPharmaceuticalCompanyId());
 					String companyCaption = company.getPharmaceuticalCompanyId() + ": " + company.getName();
-					pharmaceuticalCompanyId.setItemCaption(company.getPharmaceuticalCompanyId(), companyCaption);
+					pharmaceuticalCopmanyId.setItemCaption(company.getPharmaceuticalCompanyId(), companyCaption);
 				}
 			}
 		});
@@ -112,9 +112,9 @@ public class ContractInsertForm extends FormLayout {
 		CustomValidators.stringValidator(supervisor);
 
 		// Set input prompts
-		pharmaceuticalCompanyId.setConverter(Integer.class);
+		pharmaceuticalCopmanyId.setConverter(Integer.class);
 		pharmacyId.setConverter(Integer.class);
-		pharmaceuticalCompanyId.setInputPrompt("Company Id");
+		pharmaceuticalCopmanyId.setInputPrompt("Company Id");
 		pharmacyId.setInputPrompt("Pharmacy Id");
 
 		supervisor.setInputPrompt("Supervisor");
@@ -130,7 +130,7 @@ public class ContractInsertForm extends FormLayout {
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 
 		buttons.setSpacing(true);
-		addComponents(pharmaceuticalCompanyId, pharmacyId, supervisor, startDate, endDate, text, buttons);
+		addComponents(pharmaceuticalCopmanyId, pharmacyId, supervisor, startDate, endDate, text, buttons);
 	}
 
 	public void setContract(Contract contract, boolean insert) {

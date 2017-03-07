@@ -2,6 +2,7 @@ package uiTables;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -29,10 +30,10 @@ import uiComponents.Views;
  * intended to be overridden to add component to the user interface and
  * initialize non-component functionality.
  */
+@Theme("mytheme")
 public class StartingView extends VerticalLayout implements View {
 
 
-	private static final long serialVersionUID = 1L;
 
 	protected static final String MAINVIEW = "main";
 
@@ -79,6 +80,16 @@ public class StartingView extends VerticalLayout implements View {
 			}
 		};
 		
+		MenuBar.Command patientViewCommand = new MenuBar.Command() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void menuSelected(MenuItem selectedItem) {
+				navigator.navigateTo(Views.PatientsUpdatableView.toString());
+			}
+		};
 		
 		MenuBar.Command pharmacyPatientCommand = new MenuBar.Command() {
 			/**
@@ -238,6 +249,7 @@ public class StartingView extends VerticalLayout implements View {
 
 		MenuItem views = menu.addItem("Views", null);
 		views.addItem("Elder Patients", elderPatientsCommand);
+		views.addItem("Patient Updatable View", patientViewCommand);
 
 		
 		addComponent(menu);

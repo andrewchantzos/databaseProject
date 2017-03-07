@@ -5,7 +5,6 @@ import java.util.List;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.validator.NullValidator;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -68,10 +67,7 @@ public class PatientForm extends FormLayout {
 		fieldGroup.bind(age, age);
 		fieldGroup.bind(doctorId, doctorId);
 
-		doctorId.addValidator(CustomValidators.idValidator());
-
 		doctorId.addFocusListener(new FocusListener() {
-
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -88,18 +84,9 @@ public class PatientForm extends FormLayout {
 
 		CustomValidators.stringValidator(firstName);
 
-		streetNumber.addValidator(CustomValidators.streetNumber());
-		streetNumber.addValidator(new NullValidator("Street Number cannot be null", false));
 		CustomValidators.stringValidator(lastName);
 
 		CustomValidators.stringValidator(town);
-
-		CustomValidators.stringValidator(postalCode);
-
-		CustomValidators.stringValidator(streetName);
-		CustomValidators.phoneValidator(phone);
-
-		age.addValidator(CustomValidators.ageValidator());
 
 		this.myUI = myUI;
 
