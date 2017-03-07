@@ -133,7 +133,7 @@ public class ContractInsertForm extends FormLayout {
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 
 		buttons.setSpacing(true);
-		addComponents(pharmaceuticalCompanyId, pharmacyId, supervisor, startDate, endDate, text, buttons);
+		addComponents(pharmacyId, pharmaceuticalCompanyId, supervisor, startDate, endDate, text, buttons);
 	}
 
 	public void setContract(Contract contract, boolean insert) {

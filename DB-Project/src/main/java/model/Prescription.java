@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * This class represents a Prescription in the database
@@ -61,7 +63,13 @@ public class Prescription {
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			this.date = (Date) sdf1.parse(date.toString());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getQuantity() {

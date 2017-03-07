@@ -20,7 +20,7 @@ public class DBUtil {
 		try {
 			properties.load( inputStream );
 			String driver = properties.getProperty( "driver" );
-			String url = properties.getProperty( "url" );
+			String url = properties.getProperty( "url");
 			String user = properties.getProperty( "user" );
 			String password = properties.getProperty( "password" );
 			Class.forName( driver );
