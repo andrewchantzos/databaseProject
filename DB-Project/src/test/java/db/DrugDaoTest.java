@@ -20,7 +20,7 @@ public class DrugDaoTest {
 		Drug drug = new Drug();
 		drug.setDrugId(5);
 		drug.setName("Tantum Verde");
-		drug.setFormula("2 stagones coke");
+		drug.setFormula("2 stagones coca cola");
 		drug.setPharmaceuticalCompanyId(1);
 		drugDao.insert(drug);
 	}
@@ -30,7 +30,7 @@ public class DrugDaoTest {
 		Drug drug = new Drug();
 		drug.setDrugId(2);
 		drug.setName("Tantum Verde");
-		drug.setFormula("4 stagones coke");
+		drug.setFormula("4 stagones coca cola");
 		drug.setPharmaceuticalCompanyId(1);
 		drugDao.update(drug);
 	}

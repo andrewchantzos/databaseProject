@@ -1,8 +1,6 @@
 package model;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**
  * This class represents a Prescription in the database

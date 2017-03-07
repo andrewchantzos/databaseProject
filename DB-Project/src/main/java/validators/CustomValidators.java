@@ -4,8 +4,6 @@ package validators;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents.BlurEvent;
-import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.ui.TextField;
 
 public class CustomValidators {

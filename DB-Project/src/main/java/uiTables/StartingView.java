@@ -35,6 +35,10 @@ public class StartingView extends VerticalLayout implements View {
 
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static final String MAINVIEW = "main";
 
 	@SuppressWarnings("deprecation")
